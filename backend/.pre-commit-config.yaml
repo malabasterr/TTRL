@@ -1,0 +1,28 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+    - id: check-added-large-files
+    - id: requirements-txt-fixer
+    - id: check-merge-conflict
+    - id: check-json
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+- repo: https://github.com/pycqa/isort
+  rev: 5.11.5
+  hooks:
+    - id: isort
+      name: isort (python)
+- repo: https://github.com/psf/black
+  rev: 23.7.0
+  hooks:
+    - id: black
+- repo: https://github.com/PyCQA/flake8
+  rev: 6.0.0
+  hooks:
+  - id: flake8
+    name: pflake8
+    entry: pflake8
+    additional_dependencies: [pyproject-flake8]
+    args: [--config, backend/pyproject.toml]

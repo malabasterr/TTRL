@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ttrl_api"
+authors = [
+    {name = "Will Parr", email = ""},
+]
+description = "My package description"
+readme = "README.rst"
+requires-python = ">=3.10"
+# license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Framework :: FastAPI",
+    "Programming Language :: Python :: 3",
+]
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dynamic = ["dev"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+dev = {file = ["dev-requirements.txt"]}
+
+[tool.black]
+line-length = 120
+
+[tool.flake8]
+max-line-length = 120
+ignore = []
+
+[tool.isort]
+profile = "black"
