@@ -1,5 +1,14 @@
-# Dev Container config
-.devcontainer
-
 # VS Code config
 .vscode
+
+# Terraform
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# Environment Variables
+.env
+
+# Scratchpad
+scratchpad.txt

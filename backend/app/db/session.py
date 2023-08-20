@@ -1,16 +1,38 @@
-from pathlib import Path
+import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.db.base_class import Base
 
-SQLITE_PATH = Path("ttrl.sqlite")
-DATABASE_URL = f"sqlite:///./{SQLITE_PATH.name}"
+
+def get_database_uri():
+    DB_DATA_KEYS = ["DB_USER", "DB_PASSWORD", "DB_HOST", "DB_PORT", "DB_NAME"]
+
+    template_string = "postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+    db_conn_data = {}
+    missing_keys = []
+    for key in DB_DATA_KEYS:
+        if not os.getenv(key):
+            missing_keys.append(key)
+        else:
+            db_conn_data[key] = os.getenv(key)
+
+    if missing_keys:
+        raise ValueError(f"Missing environment variables: {missing_keys}")
+
+    db_uri = template_string.format(**db_conn_data)
+
+    db_conn_data["DB_PASSWORD"] = "********"
+    print(f"Connecting to {template_string.format(**db_conn_data)}...")
+
+    return db_uri
 
 
 def get_db():
-    engine = create_engine(DATABASE_URL)
+    database_uri = get_database_uri()
+    engine = create_engine(database_uri)
     Base.metadata.create_all(bind=engine)
 
     SessionLocal = sessionmaker(bind=engine)
@@ -18,7 +40,8 @@ def get_db():
 
 
 def yield_db():
-    engine = create_engine(DATABASE_URL)
+    database_uri = get_database_uri()
+    engine = create_engine(database_uri)
     Base.metadata.create_all(bind=engine)
 
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

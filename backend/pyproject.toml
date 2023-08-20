@@ -22,7 +22,8 @@ dynamic = ["dev"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
-dev = {file = ["dev-requirements.txt"]}
+cicd = {file = ["requirements-cicd.txt"]}
+dev = {file = ["requirements-dev.txt"]}
 
 [tool.black]
 line-length = 120
