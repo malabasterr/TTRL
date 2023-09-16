@@ -20,9 +20,9 @@
 			"tflint": "latest",
 			"terragrunt": "latest"
 		},
-		"ghcr.io/devcontainers/features/node:1": {
-			"version": "lts"
-		}
+		// "ghcr.io/devcontainers/features/node:1": {
+		// 	"version": "lts"
+		// }
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
