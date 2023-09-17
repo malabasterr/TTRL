@@ -1,0 +1,25 @@
+.footer {
+    bottom: 0;
+    width: 100%;
+    background-color: #bdd8fe;
+    padding: 1rem 0;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; 
+  }
+  
+  .footerContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .textMuted {
+    margin-top: 10px;
+  }
+  .logo {
+    margin-bottom: 10px;
+  }
+  
