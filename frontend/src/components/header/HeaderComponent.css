@@ -1,5 +1,5 @@
 .background {
-    background-color: #bdd8fe;
+    background-color: #a4d0d2;
     width: 100%;
     font-family: 'Open Sans', sans-serif;
     display: flex;
@@ -24,7 +24,7 @@
     color: white;
     text-shadow: 0.5px 0.5px 0px rgb(255, 255, 255);
     letter-spacing: 1px;
-    background-color: #1d1bab;
+    background-color: #003399;
     border: 2px solid black ;
     box-shadow: 0 5px 0 black;
     border-radius: 15px;
@@ -38,15 +38,6 @@
 
 .specialnavButton:hover {
     color: white;
-    background-color: #4c82ef;
+    background-color: #98b9ab;
     transition: background-color 0.3s ease;
 }
-
-  .specialnavButton:active {
-    color: white;
-    background-color:  #4c82ef;
-    border: 2px solid black;
-    box-shadow: none;
-    transform: translateY(3px);
-    transition: transform 0.3s ease-in-out, box-shadow 0.1s ease-in-out;
-  }
