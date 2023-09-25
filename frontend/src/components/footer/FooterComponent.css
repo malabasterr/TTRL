@@ -18,11 +18,12 @@
   .textMuted {
     color: white;
     font-family: 'Open Sans', sans-serif;
+    font-size: 2vh;
   }
 
   .logoFT {
-    margin: 2%;
-    width: 10%;
-    height: 10%;
+      width: 13vw;
+      max-width: 80px;
+      margin: 2%;
   }
   

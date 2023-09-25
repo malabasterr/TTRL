@@ -18,7 +18,7 @@ function UnclaimRoutePage() {
         </div>
 
         <div className="mainButtonContainer">
-        <Link to="/"><button className="mainButton">UNCLAIM</button></Link>
+        <Link className="link-button" to="/"><button className="mainButton">UNCLAIM</button></Link>
         </div>
 
       </div>

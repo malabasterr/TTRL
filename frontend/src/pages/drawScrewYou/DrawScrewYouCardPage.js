@@ -30,13 +30,13 @@ function DrawScrewYouCardPage() {
   return (
     <div className='formBackgroundSY'>
       <div className="formContainerSY" >
-        <div className="claimRouteTitleContainer">
-          <label className='formTitle'>Draw a Screw You Card</label>
+        <div className="claimRouteTitleContainerSY">
+          <label className='formTitleSY'>Draw a Screw You Card</label>
         </div>
 
-        <div className="mainButtonContainer">
+        <div className="mainButtonContainerSY">
           {!showCard ? (
-            <button className="mainButton" onClick={handleDrawCard}>DRAW</button>
+            <button className="mainButtonSY" onClick={handleDrawCard}>DRAW</button>
           ) : (
             <>
             <div className='card'>
@@ -45,7 +45,7 @@ function DrawScrewYouCardPage() {
                 <p className='cardDescription'>{selectedCard.description}</p>
               </div>
               </div>
-              <Link to="/"><button className="mainButton">HOME</button></Link>
+              <Link className="link-buttonSY" to="/"><button className="mainButtonSY">HOME</button></Link>
             </>
           )}
         </div>

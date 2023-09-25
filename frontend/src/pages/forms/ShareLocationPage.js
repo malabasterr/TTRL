@@ -18,7 +18,7 @@ function ShareLocationPage() {
         </div>
 
         <div className="mainButtonContainer">
-        <Link to="/"><button className="mainButton">SHARE</button></Link>
+        <Link className="link-button" to="/"><button className="mainButton">SHARE</button></Link>
         </div>
 
       </div>

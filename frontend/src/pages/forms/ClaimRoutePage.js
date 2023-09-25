@@ -18,7 +18,7 @@ function ClaimRoutePage() {
         </div>
 
         <div className="mainButtonContainer">
-        <Link to="/"><button className="mainButton">CLAIM</button></Link>
+        <Link className="link-button" to="/"><button className="mainButton">CLAIM</button></Link>
         </div>
 
       </div>
