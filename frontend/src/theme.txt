@@ -1,5 +1,0 @@
-gold: CB9D45
-navy blue: 001F3E
-bright blue: 003399
-sage: a4d0d2
-yellow: FFCD00

@@ -1,0 +1,103 @@
+.formBackgroundSY{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #AAD3DF;
+}
+
+.formContainerSY{
+    width:90%;
+    margin: 2%;
+    height: 90vh;
+}
+
+.mainButton {
+    background-color: #ffcd00 ;
+    border-radius: 15px;
+    border: 2px solid black;
+    box-shadow: 0px 5px 0px black;
+    padding: 1.5%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+
+}
+
+.mainButton:hover {
+    background-color: #CB9D45;
+  }
+  
+  .mainButton:active {
+    background-color: #CB9D45;
+    border: 2px solid black;
+    box-shadow: none;
+    transform: translateY(3px);
+    transition: transform 0.4s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+
+.formTitle {
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom: 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffcd00;
+    -webkit-text-stroke: 2px black;
+    font-weight: 800;
+    font-size: 250%;
+}
+
+.formBox {
+    background-color: #F8F5FF;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #a4d0d2;
+}
+
+.cardContainer{
+    width: 80%;
+    height: 53vh;
+    background-color: white ;
+    border-radius: 15px;
+    border: 4px solid black;
+    box-shadow: 0px 8px 0px black;
+    padding: 5%;
+    margin: 5%;
+    margin-bottom: 7%;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cardTitle{
+    color: #CB9D45;
+    -webkit-text-stroke: 1.5px black;
+    font-weight: 800;
+    font-size: 200%;
+    margin: 2%;
+}
+
+.cardDescription{
+    font-weight: 100;
+    font-size: 120%;
+    margin: 2%;
+}

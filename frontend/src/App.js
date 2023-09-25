@@ -5,12 +5,12 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Im
 import HeaderComponent from './components/header/HeaderComponent';
 import FooterComponent from './components/footer/FooterComponent';
 import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import ClaimRoutePage from './pages/ClaimRoutePage';
-import UnclaimRoutePage from './pages/UnclaimRoutePage';
-import ClaimBonusSitePage from './pages/ClaimBonusSitePage';
-import ShareLocationPage from './pages/ShareLocationPage';
-import DrawScrewYouCardPage from './pages/DrawScrewYouCardPage';
+import HomePage from './pages/homepage/HomePage';
+import ClaimRoutePage from './pages/forms/ClaimRoutePage';
+import UnclaimRoutePage from './pages/forms/UnclaimRoutePage';
+import ClaimBonusSitePage from './pages/forms/ClaimBonusSitePage';
+import ShareLocationPage from './pages/forms/ShareLocationPage';
+import DrawScrewYouCardPage from './pages/drawScrewYou/DrawScrewYouCardPage';
 import Error from './pages/Error';
 
 function App() {

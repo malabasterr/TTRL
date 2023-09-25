@@ -6,15 +6,15 @@ class MapComponent extends Component {
   componentDidMount() {
     const container = L.DomUtil.get('map');
     if (!container._leaflet_id) {
-      const map = L.map('map').setView([48.505, 13.09], 4.5); // Set initial coordinates and zoom level
+      const map = L.map('map').setView([48.505, 13.09], 4); // Set initial coordinates and zoom level
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-      fetch('YOUR_CITY_API_URL') // Ask Will to create an endpoint of all cities
+      fetch('CITY-API-URL') // Ask Will to create an endpoint of all cities
         .then((response) => response.json())
         .then((cityData) => {
           this.setState({ cityData });
 
-          fetch('http://localhost:3000/routes/')
+          fetch('http://localhost:8000/routes/')
             .then((response) => response.json())
             .then((connectionData) => {
               this.setState({ connectionData });
@@ -50,7 +50,7 @@ class MapComponent extends Component {
   }
   
   render() {
-    return <div id="map" style={{ height: '500px' }}></div>;
+    return <div id="map" style={{ height: '35vh' }}></div>;
   }
 }
 

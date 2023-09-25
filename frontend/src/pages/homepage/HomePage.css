@@ -1,12 +1,16 @@
+.backgroundHP{
+  background-color: #AAD3DF;
+}
+
 .title{
   color: #CB9D45;
   -webkit-text-stroke: 2px black;
-  text-shadow: 0px 4px 0px black;
+  text-shadow: 0px 2px 0px black;
   font-family: 'Open Sans', sans-serif;
   font-weight: 800;
   text-align: center;
-  font-size: 400%;
-  margin: 2%;
+  font-size: 250%;
+  padding: 2%;
 }
 
 .mapContainer{
@@ -17,84 +21,91 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1%;
+  margin: 2%;
 }
 
 .teamOneDistanceContainer{
-  background-color: #ffffff ;
-  border-radius: 12px;
-  border: 4px solid #003399;
+  background-color: #d5e7cf ;
+  /* border-radius: 12px;
+  border: 3px solid #228900; */
   padding: 2%;
   margin: 2%;
-  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  font-size: 1.5rem;
   width: 30%;
+  height: 13vh;
 }
 
 .teamTwoDistanceContainer{
-  background-color: #ffffff ;
-  border-radius: 12px;
-  border: 4px solid #003399;
+  background-color: #c5eeee ;
+  /* border-radius: 12px;
+  border: 3px solid #00cdcd; */
   padding: 2%;
   margin: 2%;
-  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  font-size: 1.5rem;
   width: 30%;
+  height: 13vh;
 }
 
 .teamThreeDistanceContainer{
-  background-color: #ffffff ;
-  border-radius: 12px;
-  border: 4px solid #003399;
+  background-color: #efd1d1 ;
+  /* border-radius: 12px;
+  border: 3px solid #ff0000; */
   padding: 2%;
   margin: 2%;
-  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  font-size: 1.5rem;
   width: 30%;
+  height: 13vh;
 }
 
 .teamName{
+  font-family: 'Open Sans', sans-serif;
   display: flex;
+  flex: center;
   align-items: center;
   justify-content: center;
+  font-size: 100%;
 }
 
 .teamDistance{
+  font-family: 'Open Sans', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 100%;
 }
 
 .topLineButtons{
   display: flex;
+  margin: 2%;
+  margin-bottom: 3%;
 }
 
 .bottomLineButtons{
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 2%;
 }
 
 .claimRouteButtonContainer{
-  width: 75%;
-  margin-left: 1%;
-  margin-right: 1%;
+  width: 65%;
+  margin-left: 1.25%;
+  margin-right: 1.25%;
 }
 
 .claimRouteButton {
   background-color: #FFCD00 ;
   border-radius: 15px;
   border: 2px solid black;
-  box-shadow: 0px 5px 0px black;
+  box-shadow: 0px 4px 0px black;
   padding: 3%;
   width: 100%;
-  height: 150px;
+  height: 8vh;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  font-size: 2rem;
+  font-size: 100%;
   transition: background-color 0.3s ease;
 }
 
@@ -103,22 +114,22 @@
   }
 
 .unclaimRouteButtonContainer{
-  width: 20%;
-  margin-left: 1%;
-  margin-right: 1%;
+  width: 30%;
+  margin-left: 1.25%;
+  margin-right: 1.25%;
 }
 
   .unclaimRouteButton {
     background-color: #FFCD00 ;
     border-radius: 15px;
     border: 2px solid black;
-    box-shadow: 0px 5px 0px black;
+    box-shadow: 0px 4px 0px black;
     padding: 3%;
     width: 100%;
-    height: 150px;
+    height: 8vh;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 80%;
     transition: background-color 0.3s ease;
 }
 
@@ -127,23 +138,22 @@
   }
 
 .claimBonusSiteButtonContainer{
-  margin-left: 1%;
-  margin-right: 1%;
-  width: 30%;
+  margin-left: 1.17%;
+  margin-right: 1.17%;
+  width: 31%;
 }
 
   .claimBonusSiteButton {
     background-color: #FFCD00 ;
     border-radius: 15px;
     border: 2px solid black;
-    box-shadow: 0px 5px 0px black;
-    padding: 5px;
-    margin: 20px auto;
+    box-shadow: 0px 4px 0px black;
+    padding: 3%;
     width: 100%;
-    height: 100px;
+    height: 8vh;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 80%;
     transition: background-color 0.3s ease;
 }
 
@@ -152,23 +162,22 @@
   }
 
   .shareLocationButtonContainer{
-    margin-left: 1%;
-    margin-right: 1%;
-    width: 30%;
+    margin-left: 1.17%;
+    margin-right: 1.17%;
+    width: 31%;
   }
 
   .shareLocationButton {
     background-color: #FFCD00 ;
     border-radius: 15px;
     border: 2px solid black;
-    box-shadow: 0px 5px 0px black;
-    padding: 5px;
-    margin: 20px auto;
+    box-shadow: 0px 4px 0px black;
+    padding: 3%;
     width: 100%;
-    height: 100px;
+    height: 8vh;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 80%;
     transition: background-color 0.3s ease;
 }
 
@@ -177,23 +186,22 @@
   }
 
   .drawScrewYouCardButtonContainer{
-    margin-left: 1%;
-    margin-right: 1%;
-    width: 30%;
+    margin-left: 1.17%;
+    margin-right: 1.17%;
+    width: 31%;
   }
 
   .drawScrewYouCardButton {
     background-color: #FFCD00 ;
     border-radius: 15px;
     border: 2px solid black;
-    box-shadow: 0px 5px 0px black;
-    padding: 5px;
-    margin: 20px auto;
+    box-shadow: 0px 4px 0px black;
+    padding: 3%;
     width: 100%;
-    height: 100px;
+    height: 8vh;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 80%;
     transition: background-color 0.3s ease;
 }
 

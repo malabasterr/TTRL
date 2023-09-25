@@ -1,25 +1,28 @@
 .footer {
     bottom: 0;
     width: 100%;
-    background-color: #a4d0d2;
-    padding: 1rem 0;
-    justify-content: space-between;
+    background-color: #AAD3DF;
+    padding: 2%;
+    justify-content: center;
     align-items: center;
-    margin-top: auto; 
   }
   
   .footerContainer {
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
 
   .textMuted {
-    margin-top: 10px;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
   }
-  .logo {
-    margin-bottom: 10px;
+
+  .logoFT {
+    margin: 2%;
+    width: 10%;
+    height: 10%;
   }
   
