@@ -7,7 +7,7 @@ function ShareLocationPage() {
     <div className='formBackground'>
       <div className="formContainer" >
         <div className="claimRouteTitleContainer">
-          <label className='formTitle'>Share Location with...</label>
+          <label className='formTitle'>Which team are you tracking?</label>
         </div>
   
         <div className="formBoxContainer">
