@@ -19,9 +19,7 @@ docker compose -p ttrl -f docker-compose.yaml down
 
 # TO DO
 User authentication stuff - follow links Will sent. Remember the ID has changed
-Store images of Screw You cards and write code to draw one at random and it appear
 Add dropdowns to all forms
-Bring all themes and styles in line
 
 API stuff:
    Add cities to map
@@ -32,5 +30,3 @@ API stuff:
    Prep the claim a route and unclaim route button with changing colour function
 
 # To mention to will
-The 'delete a route' screw you card....
-The 'reserve a route' screw you card
