@@ -6,11 +6,11 @@ function HeaderComponent() {
   return (
     <header className="backgroundHD">
       <div className="containerHD">
-            <a href="/">
+            <a href="/Home">
               <img src={Logo} alt="Brand Logo" className="logo" />
             </a>
             <nav className="navbarRight">
-              <a href="/" className="navButton">HOME</a>
+              <a href="/Home" className="navButton">HOME</a>
               <a href="/ClaimRoute" className="specialnavButton">CLAIM ROUTE</a>
             </nav>
       </div>

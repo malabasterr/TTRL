@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './DrawScrewYouCardPage.css';
 import { Link } from 'react-router-dom';
+import HeaderComponent from '../../components/header/HeaderComponent';
 
 function DrawScrewYouCardPage() {
   const CardList = [
@@ -28,8 +29,9 @@ function DrawScrewYouCardPage() {
   };
 
   return (
+    <><HeaderComponent />
     <div className='formBackgroundSY'>
-      <div className="formContainerSY" >
+      <div className="formContainerSY">
         <div className="claimRouteTitleContainerSY">
           <label className='formTitleSY'>Draw a Screw You Card</label>
         </div>
@@ -39,18 +41,18 @@ function DrawScrewYouCardPage() {
             <button className="mainButtonSY" onClick={handleDrawCard}>DRAW</button>
           ) : (
             <>
-            <div className='card'>
-              <div className='cardContainer'>
-                <h2 className='cardTitle'>{selectedCard.title}</h2>
-                <p className='cardDescription'>{selectedCard.description}</p>
+              <div className='card'>
+                <div className='cardContainer'>
+                  <h2 className='cardTitle'>{selectedCard.title}</h2>
+                  <p className='cardDescription'>{selectedCard.description}</p>
+                </div>
               </div>
-              </div>
-              <Link className="link-buttonSY" to="/"><button className="mainButtonSY">HOME</button></Link>
+              <Link className="link-buttonSY" to="/Home"><button className="mainButtonSY">HOME</button></Link>
             </>
           )}
         </div>
       </div>
-    </div>
+    </div></>
   );
 }
 

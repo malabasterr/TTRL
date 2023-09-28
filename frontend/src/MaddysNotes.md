@@ -18,7 +18,7 @@ docker compose -p ttrl -f docker-compose.yaml up -d
 docker compose -p ttrl -f docker-compose.yaml down
 
 # TO DO
-User authentication stuff - follow links Will sent. Remember the ID has changed
+User authentication stuff - SCENARIO 20
 Add dropdowns to all forms
 
 API stuff:
