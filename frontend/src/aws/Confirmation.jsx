@@ -1,56 +1,58 @@
-// Confirmation.jsx
-import React, { useState } from "react";
-import { CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
-import { useParams, useNavigate } from "react-router-dom";
+// THIS FILE IS NO LONGER REQUIRED AS WE ARE USING THE PRE-MADE SIGN IN UI
 
-const Confirmation = () => {
-  const navigate = useNavigate();
-  const [confirmationCode, setConfirmationCode] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const { email } = useParams();
+// Confirmation.jsx 
+// import React, { useState } from "react";
+// import { CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
+// import { useParams, useNavigate } from "react-router-dom";
 
-  const handleConfirmation = () => {
-    const poolData = {
-      UserPoolId: 'eu-west-2_tCIJ3cao1', // Your user pool id here
-      ClientId: '7k34uusaan17621r0tkud0ojt6', // Your client id here
-    };
+// const Confirmation = () => {
+//   const navigate = useNavigate();
+//   const [confirmationCode, setConfirmationCode] = useState("");
+//   const [errorMessage, setErrorMessage] = useState("");
+//   const { email } = useParams();
 
-    const userPool = new CognitoUserPool(poolData);
+//   const handleConfirmation = () => {
+//     const poolData = {
+//       UserPoolId: 'eu-west-2_tCIJ3cao1', // Your user pool id here
+//       ClientId: '7k34uusaan17621r0tkud0ojt6', // Your client id here
+//     };
 
-    const userData = {
-      Username: email, // Replace with the user's email
-      Pool: userPool,
-    };
+//     const userPool = new CognitoUserPool(poolData);
 
-    const cognitoUser = new CognitoUser(userData);
+//     const userData = {
+//       Username: email, // Replace with the user's email
+//       Pool: userPool,
+//     };
 
-    cognitoUser.confirmRegistration(confirmationCode, true, (err, result) => {
-      if (err) {
-        setErrorMessage(err.message || JSON.stringify(err));
-        return;
-      }
+//     const cognitoUser = new CognitoUser(userData);
 
-      console.log("Confirmation result: ", result);
-      navigate("/"); // Redirect the user to the login page after successful confirmation
-    });
-  };
+//     cognitoUser.confirmRegistration(confirmationCode, true, (err, result) => {
+//       if (err) {
+//         setErrorMessage(err.message || JSON.stringify(err));
+//         return;
+//       }
 
-  return (
-    <div>
-      <h1>Confirmation</h1>
-      <div>
-        <label htmlFor="confirmationCode">Confirmation Code</label>
-        <input
-          type="text"
-          id="confirmationCode"
-          value={confirmationCode}
-          onChange={(e) => setConfirmationCode(e.target.value)}
-        />
-      </div>
-      {errorMessage && <div className="error">{errorMessage}</div>}
-      <button onClick={handleConfirmation}>Confirm</button>
-    </div>
-  );
-};
+//       console.log("Confirmation result: ", result);
+//       navigate("/"); // Redirect the user to the login page after successful confirmation
+//     });
+//   };
 
-export default Confirmation;
+//   return (
+//     <div>
+//       <h1>Confirmation</h1>
+//       <div>
+//         <label htmlFor="confirmationCode">Confirmation Code</label>
+//         <input
+//           type="text"
+//           id="confirmationCode"
+//           value={confirmationCode}
+//           onChange={(e) => setConfirmationCode(e.target.value)}
+//         />
+//       </div>
+//       {errorMessage && <div className="error">{errorMessage}</div>}
+//       <button onClick={handleConfirmation}>Confirm</button>
+//     </div>
+//   );
+// };
+
+// export default Confirmation;
