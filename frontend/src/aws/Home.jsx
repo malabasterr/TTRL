@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 import HeaderComponent from "../components/header/HeaderComponent";
 
 const userPool = new CognitoUserPool({
-  UserPoolId: process.env.REACT_APP_USERPOOL_ID,
-  ClientId: process.env.REACT_APP_APPCLIENT_ID,
+  UserPoolId: 'eu-west-2_tCIJ3cao1',
+  ClientId: '7k34uusaan17621r0tkud0ojt6',
 });
 
 const WelcomeScreen = () => {
