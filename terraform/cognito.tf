@@ -1,13 +1,32 @@
 resource "aws_cognito_user_pool" "this" {
-  name = "${var.app_name}-user-pool"
+  name = "${local.app_name}-user-pool"
 
   username_attributes      = ["email"]
   auto_verified_attributes = ["email"]
 
   #   deletion_protection = "ACTIVE"
 
+  schema {
+    attribute_data_type = "String"
+    mutable             = true
+    name                = "given_name"
+    required            = true
+  }
+
+  schema {
+    attribute_data_type = "String"
+    mutable             = true
+    name                = "family_name"
+    required            = true
+  }
+
   admin_create_user_config {
     allow_admin_create_user_only = true
+    invite_message_template {
+      email_subject = "TTRL Live App User Account"
+      email_message = file("templates/cognito_email.txt")
+      sms_message   = file("templates/cognito_sms.txt")
+    }
   }
 
   account_recovery_setting {
@@ -15,21 +34,23 @@ resource "aws_cognito_user_pool" "this" {
       name     = "verified_email"
       priority = 1
     }
+
+
   }
 
   email_configuration {
-    reply_to_email_address = var.email_address
+    reply_to_email_address = var.cognito_email_address
   }
 }
 
 resource "aws_cognito_user_pool_domain" "this" {
-  domain       = var.app_name
+  domain       = local.app_name
   user_pool_id = aws_cognito_user_pool.this.id
 }
 
 
 resource "aws_cognito_user_pool_client" "this" {
-  name = "${var.app_name}-pool-client"
+  name = "${local.app_name}-pool-client"
 
   user_pool_id = aws_cognito_user_pool.this.id
 

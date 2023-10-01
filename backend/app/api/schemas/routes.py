@@ -1,17 +1,14 @@
-from typing import Optional
+from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict
-
-
-class RouteBase(BaseModel):
-    route_name: str
-    distance: float
-    start_city_id: int
-    end_city_id: int
-    claimed_by_team_id: Optional[int]
+from app.api.schemas.base import TTRLBase
+from app.api.schemas.generic import ClaimInfo
 
 
-class Route(RouteBase):
-    model_config = ConfigDict(from_attributes=True)
+class Route(TTRLBase):
+    name: str
+    distance: int
 
-    id: int
+    start_city_id: UUID
+    end_city_id: UUID
+
+    team_claims: list[ClaimInfo] = []

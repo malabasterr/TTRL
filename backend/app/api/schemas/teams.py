@@ -1,30 +1,18 @@
-from pydantic import BaseModel, ConfigDict
+from uuid import UUID
+
+from app.api.schemas.base import TTRLBase
 
 
 # Team
-class TeamBase(BaseModel):
+class Team(TTRLBase):
     name: str
-
-
-class TeamCreate(TeamBase):
-    pass
-
-
-class Team(TeamBase):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
+    claimed_routes: list[UUID]
+    claimed_bonus_sites: list[UUID]
 
 
 # User
-class UserBase(BaseModel):
-    email: str
-    firstname: str
-    surname: str
-    team_id: int
-
-
-class User(UserBase):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
+class User(TTRLBase):
+    # email: str
+    given_name: str
+    family_name: str
+    team_id: UUID

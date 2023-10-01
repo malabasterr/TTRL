@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+from mangum import Mangum
 
+from app.api.routes.cities import router as cities_router
 from app.api.routes.claimed_distance import router as claimed_distance_router
 from app.api.routes.routes import router as routes_router
 from app.api.routes.sites import router as sites_router
@@ -10,10 +12,14 @@ app = FastAPI()
 
 app.include_router(teams_router, tags=["Teams"])
 app.include_router(routes_router, tags=["Routes"])
-app.include_router(sites_router, tags=["Routes"])
+app.include_router(sites_router, tags=["Sites"])
+app.include_router(cities_router, tags=["Cities"])
 app.include_router(claimed_distance_router, tags=["Claimed Distance"])
 
 
 @app.get("/")
 async def root():
     return {"message": "Hello World!"}
+
+
+handler = Mangum(app, lifespan="off")

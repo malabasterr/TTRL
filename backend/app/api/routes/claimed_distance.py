@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -39,7 +41,7 @@ def get_claimed_distance(db: Session = Depends(yield_db)):
 
 
 @router.get("/claimed-distance/{team_id}/", response_model=schemas.ClaimedDistance)
-def get_team_claimed_distance(team_id: int, db: Session = Depends(yield_db)):
+def get_team_claimed_distance(team_id: UUID, db: Session = Depends(yield_db)):
     team = db.query(models.Team).get(team_id)
 
     if team is None:
