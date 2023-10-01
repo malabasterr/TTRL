@@ -30,9 +30,11 @@ def get_database_uri():
     return db_uri
 
 
-def get_db():
+def get_db(drop_existing=False):
     database_uri = get_database_uri()
     engine = create_engine(database_uri)
+    if drop_existing:
+        Base.metadata.drop_all(engine)
     Base.metadata.create_all(bind=engine)
 
     SessionLocal = sessionmaker(bind=engine)
