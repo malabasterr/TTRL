@@ -3,12 +3,10 @@ import json
 import os
 import uuid
 
-from sqlalchemy import Column, DateTime, Float, ForeignKey, create_engine
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-Base = declarative_base()
+from models import UserLocation
 
 
 def get_database_uri():
@@ -33,18 +31,6 @@ def get_database_uri():
     print(f"Connecting to {template_string.format(**db_conn_data)}...")
 
     return db_uri
-
-
-class UserLocation(Base):
-    __tablename__ = "user_location_log"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    latitude = Column(Float, nullable=False)
-    longitude = Column(Float, nullable=False)
-    altitude = Column(Float, nullable=False)
-    velocity = Column(Float, nullable=False)
-    accuracy = Column(Float, nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    logged_time = Column(DateTime, nullable=False)
 
 
 # Set up the database connection

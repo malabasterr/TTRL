@@ -5,3 +5,4 @@
 !.gitignore
 !location_lambda.py
 !requirements.txt
+!models

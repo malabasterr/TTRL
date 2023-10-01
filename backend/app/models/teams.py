@@ -2,8 +2,8 @@ from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Numeric, String, f
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from app.db.base_class import Base
-from app.models.utils import get_utc_time
+from models.base import Base
+from models.utils import get_utc_time
 
 
 class RouteClaim(Base):
