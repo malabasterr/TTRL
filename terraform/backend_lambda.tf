@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "backend_lambda_assume_policy" {
+data "aws_iam_policy_document" "lambda_assume_policy" {
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -9,7 +9,6 @@ data "aws_iam_policy_document" "backend_lambda_assume_policy" {
 
   }
 }
-
 
 data "aws_secretsmanager_secret" "rds_password" {
   arn = resource.aws_db_instance.rds_instance.master_user_secret[0].secret_arn
@@ -56,7 +55,7 @@ resource "aws_iam_policy" "backend_lambda" {
 resource "aws_iam_role" "backend_lambda" {
   name = "${local.app_name}-lambda-role"
 
-  assume_role_policy  = data.aws_iam_policy_document.backend_lambda_assume_policy.json
+  assume_role_policy  = data.aws_iam_policy_document.lambda_assume_policy.json
   managed_policy_arns = [resource.aws_iam_policy.backend_lambda.arn]
 }
 
