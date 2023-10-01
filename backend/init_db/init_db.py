@@ -8,7 +8,7 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.models import BonusSite, City, Route, Team, User
+from app.models import BonusSite, City, Route, ScrewCard, Team, User
 
 
 def seed_data_generic(db: Session, model_cls, data_list, row_parse_function=None, model_cls_kwargs={}):
@@ -99,6 +99,10 @@ if __name__ == "__main__":
             bonus_site_data,
             parse_site_row,
         )
+
+        # Seed screw cards
+        screw_card_data = read_csv_data(data_dir / "screw_cards.csv")
+        seed_data_generic(db, ScrewCard, screw_card_data)
 
         db.commit()
     except Exception as e:
