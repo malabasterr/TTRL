@@ -1,19 +1,51 @@
 # Create IAM role for EC2 instance
+resource "aws_iam_policy" "ec2_policy" {
+  name        = "maintainer-ec2-policy"
+  description = "Policy for EC2"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "s3:*Object",
+        "s3:ListBucket",
+      ]
+      Resource = [
+        resource.aws_s3_bucket.static_data_bucket.arn,
+        "${resource.aws_s3_bucket.static_data_bucket.arn}/*"
+      ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:ListBuckets",
+        ]
+        Resource = ["*"]
+      }
+    ]
+
+  })
+}
+
 resource "aws_iam_role" "ec2_role" {
   name = "EC2_SSM_Role"
-
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
+        Action = "sts:AssumeRole"
         Effect = "Allow"
+        Sid    = ""
         Principal = {
           Service = "ec2.amazonaws.com"
         }
-        Action = "sts:AssumeRole"
-      }
+      },
     ]
   })
+  managed_policy_arns = [resource.aws_iam_policy.ec2_policy.arn, "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
 }
 
 resource "aws_security_group" "maintainer" {
@@ -36,12 +68,6 @@ resource "aws_security_group" "maintainer" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-# Attach AmazonSSMManagedInstanceCore policy to the IAM role
-resource "aws_iam_role_policy_attachment" "ec2_role_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-  role       = aws_iam_role.ec2_role.name
 }
 
 # Create an instance profile for the EC2 instance and associate the IAM role
