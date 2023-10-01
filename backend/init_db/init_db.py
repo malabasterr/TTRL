@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append("..")
+
 import csv
 from pathlib import Path
 
@@ -7,12 +11,20 @@ from app.db.session import get_db
 from app.models import BonusSite, City, Route, Team, User
 
 
-def seed_data_generic(db: Session, model_cls, data_list, model_cls_kwargs={}):
+def seed_data_generic(db: Session, model_cls, data_list, row_parse_function=None, model_cls_kwargs={}):
     try:
         for data in data_list:
+            if "int_id" in data.keys():
+                del data["int_id"]
+
+            if row_parse_function:
+                data = row_parse_function(data)
+
             data.update(model_cls_kwargs)
             obj = model_cls(**data)
-            db.add(obj)
+
+            if not db.query(model_cls).filter(model_cls.id == obj.id).first():
+                db.add(obj)
 
         db.commit()
     except Exception as e:
@@ -31,6 +43,27 @@ if __name__ == "__main__":
 
     data_dir = Path(__file__).parent / "data"
 
+    def parse_route_row(row):
+        del row["start_city_int_id"]
+        del row["end_city_int_id"]
+        del row["start_latitude"]
+        del row["start_longitude"]
+        del row["end_latitude"]
+        del row["end_longitude"]
+
+        return row
+
+    def parse_city_row(row):
+        row["is_starter_city"] = row["is_starter_city"] == "True"
+        return row
+
+    def parse_site_row(row):
+        row["site_name"] = row.pop("location_name")
+        row["city"] = row.pop("name")
+
+        del row["is_starter_city"]
+        return row
+
     try:
         # Seed teams
         team_data = read_csv_data(data_dir / "teams.csv")
@@ -42,15 +75,30 @@ if __name__ == "__main__":
 
         # Seed cities
         city_data = read_csv_data(data_dir / "cities.csv")
-        seed_data_generic(db, City, city_data)
+        seed_data_generic(
+            db,
+            City,
+            city_data,
+            parse_city_row,
+        )
 
         # Seed routes
         route_data = read_csv_data(data_dir / "routes.csv")
-        seed_data_generic(db, Route, route_data, model_cls_kwargs={"session": db})
+        seed_data_generic(
+            db,
+            Route,
+            route_data,
+            row_parse_function=parse_route_row,
+        )
 
         # Seed bonus sites
         bonus_site_data = read_csv_data(data_dir / "bonus_sites.csv")
-        seed_data_generic(db, BonusSite, bonus_site_data)
+        seed_data_generic(
+            db,
+            BonusSite,
+            bonus_site_data,
+            parse_site_row,
+        )
 
         db.commit()
     except Exception as e:

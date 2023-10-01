@@ -1,14 +1,12 @@
-from typing import Optional
+from app.api.schemas.base import TTRLBase
+from app.api.schemas.generic import ClaimInfo
 
-from pydantic import BaseModel, ConfigDict
 
-
-class BonusSiteBase(BaseModel):
+class BonusSite(TTRLBase):
     site_name: str
-    claimed_by_team_id: Optional[int]
-
-
-class BonusSite(BonusSiteBase):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
+    city: str
+    country: str
+    latitude: float
+    longitude: float
+    site_value: int
+    team_claims: list[ClaimInfo] = []

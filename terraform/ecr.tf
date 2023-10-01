@@ -1,20 +1,21 @@
 module "ecr" {
-  source = "terraform-aws-modules/ecr/aws"
+  source  = "terraform-aws-modules/ecr/aws"
+  version = "1.6.0"
 
-  repository_name = var.app_name
+  repository_name = "${local.app_name}-backend"
 
   registry_scan_type                = "BASIC"
-  repository_read_write_access_arns = ["arn:aws:iam::012345678901:role/terraform"]
+  repository_read_write_access_arns = ["arn:aws:iam::${local.account_id}:root"]
+
   repository_lifecycle_policy = jsonencode({
     rules = [
       {
         rulePriority = 1,
         description  = "Keep last 30 images",
         selection = {
-          tagStatus     = "tagged",
-          tagPrefixList = ["v"],
-          countType     = "imageCountMoreThan",
-          countNumber   = 30
+          tagStatus   = "any",
+          countType   = "imageCountMoreThan",
+          countNumber = 30
         },
         action = {
           type = "expire"
@@ -23,8 +24,5 @@ module "ecr" {
     ]
   })
 
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-  }
+  attach_repository_policy = true
 }

@@ -1,8 +1,10 @@
+from uuid import UUID
+
 from pydantic import BaseModel, ConfigDict
 
 
 class ClaimedDistanceBase(BaseModel):
-    team_id: int
+    team_id: UUID
     team_name: str
     claimed_distance: int
 

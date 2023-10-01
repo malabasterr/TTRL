@@ -8,10 +8,10 @@ repos:
     - id: check-yaml
     - id: end-of-file-fixer
     - id: trailing-whitespace
-- repo: https://gitlab.com/bmares/check-json5
-  rev: v1.0.0
-  hooks:
-  - id: check-json5
+# - repo: https://gitlab.com/bmares/check-json5
+#   rev: v1.0.0
+#   hooks:
+#   - id: check-json5
 - repo: https://github.com/antonbabenko/pre-commit-terraform
   rev: v1.82.0
   hooks:

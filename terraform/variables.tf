@@ -1,8 +1,7 @@
-variable "email_address" {
+variable "cognito_email_address" {
   type = string
 }
 
-variable "app_name" {
-  type    = string
-  default = "ttrl-app"
-}
+# variable "domain_name" {
+#   type = string
+# }
