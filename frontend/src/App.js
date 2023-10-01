@@ -16,6 +16,8 @@ import SignUp from './aws/SignUp';
 import Home from './aws/Home';
 import store from './redux/store';
 import { Provider } from "react-redux";
+import ChangePassword from './aws/ChangePasswords';
+import Confirmation from './aws/Confirmation';
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
           <Route path="/ClaimBonusSite" element={<ClaimBonusSitePage />} />
           <Route path="/ShareLocation" element={<ShareLocationPage />} />
           <Route path="/DrawScrewYouCard" element={<DrawScrewYouCardPage />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path= "/confirmation/:email" element={<Confirmation />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <FooterComponent />

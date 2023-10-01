@@ -1,6 +1,7 @@
 // modules
 import React, { useEffect } from "react";
 import {
+  CognitoUser,
   CognitoUserPool,
   CognitoUserAttribute,
 } from "amazon-cognito-identity-js";
@@ -30,28 +31,38 @@ export const SignUp = () => {
         Value: email,
       }),
       new CognitoUserAttribute({
-        Name: "name",
+        Name: "given_name",
         Value: values.name,
       }),
       new CognitoUserAttribute({
-        Name: "custom:telnum",
-        Value: values.telnum,
+        Name: "family_name",
+        Value: values.surname,
       }),
+      // new CognitoUserAttribute({
+      //   Name: "custom:telnum",
+      //   Value: values.telnum,
+      // }),
     ];
+
+    const cognitoUser = new CognitoUser({
+      Username: email,
+      Pool: userPool,
+    });
+
     userPool.signUp(email, password, attributeList, null, (err, result) => {
       if (err) {
         console.log(err);
         return;
       }
       console.log("call result: ", result);
-      navigate("/");
+      navigate(`/confirmation/${email}`);
     });
   };
 
   const formik = useFormik({
     initialValues: {
       name: "",
-      telnum: "",
+      surname: "",
       email: "",
       password: "",
     },
@@ -59,9 +70,12 @@ export const SignUp = () => {
       name: Yup.string()
         .max(30, "Must be 15 characters or less")
         .required("Required"),
-      telnum: Yup.string()
-        .max(10, "Must be 10 characters or less")
+      surname: Yup.string()
+        .max(30, "Must be 15 characters or less")
         .required("Required"),
+      // telnum: Yup.string()
+      //   .max(10, "Must be 10 characters or less")
+      //   .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()
         .required("No password provided.")
@@ -97,7 +111,22 @@ export const SignUp = () => {
             <div className="signup__error">{formik.errors.name}</div>
           ) : null}
 
-          <div className="signup__fieldName" htmlFor="telnum">
+          <div className="signup__fieldName" htmlFor="surname">
+            Surname
+          </div>
+          <input
+            className="signup__inputField"
+            name="surname"
+            type="text"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.surname}
+          />
+          {formik.touched.surname && formik.errors.surname ? (
+            <div className="signup__error">{formik.errors.surname}</div>
+          ) : null}
+
+          {/* <div className="signup__fieldName" htmlFor="telnum">
             Telephone Number
           </div>
           <input
@@ -110,7 +139,7 @@ export const SignUp = () => {
           />
           {formik.touched.telnum && formik.errors.telnum ? (
             <div className="signup__error">{formik.errors.telnum}</div>
-          ) : null}
+          ) : null} */}
 
           <div className="signup__fieldName" htmlFor="email">
             Email Address

@@ -48,7 +48,7 @@ const Login = () => {
               email: values.email,
             })
           );
-          navigate("/welcome");
+          navigate("/home");
         });
       },
       onFailure: (err) => {
