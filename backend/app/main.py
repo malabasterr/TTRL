@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from mangum import Mangum
 
 from app.api.routes.cities import router as cities_router
 from app.api.routes.claimed_distance import router as claimed_distance_router
@@ -19,3 +20,6 @@ app.include_router(claimed_distance_router, tags=["Claimed Distance"])
 @app.get("/")
 async def root():
     return {"message": "Hello World!"}
+
+
+handler = Mangum(app, lifespan="off")
