@@ -1,0 +1,59 @@
+.backgroundHD {
+    background-color: #AAD3DF;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.containerHD{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.logo {
+    width: 13vw;
+    max-width: 80px;
+    margin: 8%;
+}
+
+.navbarRight{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin: 3%;
+    width: 100%;
+}
+
+.navButton {
+    font-size: 2vh;
+    color: black;
+    margin-right: 6%;
+    text-decoration: none;
+}
+
+.navButton:hover {
+    text-shadow: 0.7px 0.7px 0px rgba(0, 0, 0);
+}
+
+.specialnavButton {
+    color: white;
+    text-shadow: 0.3px 0.3px 0px rgb(255, 255, 255);
+    background-color: #003399;
+    border: 2px solid black ;
+    box-shadow: 0 4px 0 black;
+    border-radius: 15px;
+    padding: 3%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    font-size: 2vh;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.specialnavButton:hover {
+    color: white;
+    background-color: #ffcd00;
+    transition: background-color 0.3s ease;
+}

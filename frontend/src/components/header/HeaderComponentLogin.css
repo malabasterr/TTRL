@@ -1,0 +1,18 @@
+.backgroundHDL {
+    background-color: #AAD3DF;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.containerHDL{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.logoL {
+    width: 13vw;
+    max-width: 80px;
+    margin: 8%;
+}
