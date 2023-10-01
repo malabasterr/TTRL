@@ -56,11 +56,25 @@ resource "aws_cognito_user_pool_client" "this" {
 
   callback_urls = ["http://localhost"]
 
+  explicit_auth_flows = [
+    "ALLOW_CUSTOM_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH",
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_USER_SRP_AUTH",
+    "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+  ]
+
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["openid", "email"]
   supported_identity_providers         = ["COGNITO"]
 
   access_token_validity   = 12
+  refresh_token_validity  = 30
   enable_token_revocation = true
+  token_validity_units {
+    access_token  = "hours"
+    id_token      = "minutes"
+    refresh_token = "days"
+  }
 }
