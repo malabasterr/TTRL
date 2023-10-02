@@ -8,7 +8,6 @@ from app.models.teams import BonusSiteClaim, RouteClaim
 
 
 class ClaimRequest(BaseModel):
-    team_id: UUID
     user_id: UUID
 
 

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app.api import schemas
-from app.api.routes.teams import get_team_from_db
+from app.api.routes.teams import get_user_from_db
 from app.db.session import yield_db
 
 router = APIRouter()
@@ -43,7 +43,7 @@ def get_screw_card(screw_card_id: UUID, db: Session = Depends(yield_db)):
 
 @router.post("/screw-cards/draw", response_model=schemas.ScrewCardDraw)
 def draw_screw_cards(draw_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    team = get_team_from_db(draw_request.team_id, db)
+    user = get_user_from_db(draw_request.user_id, db)
 
     screw_cards = get_all_screw_cards_from_db(db)
 
@@ -51,7 +51,7 @@ def draw_screw_cards(draw_request: schemas.ClaimRequest, db: Session = Depends(y
 
     new_draw = models.ScrewCardDraw(
         screw_card_id=drawn_card.id,
-        team_id=team.id,
+        team_id=user.team_id,
         last_updated_user_id=draw_request.user_id,
     )
     db.add(new_draw)

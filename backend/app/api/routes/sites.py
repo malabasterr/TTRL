@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app.api import schemas
-from app.api.routes.teams import get_team_from_db
+from app.api.routes.teams import get_user_from_db
 from app.db.session import yield_db
 
 router = APIRouter()
@@ -37,19 +37,19 @@ def get_bonus_site(site_id: UUID, db: Session = Depends(yield_db)):
 
 @router.post("/bonus-sites/{site_id}/claim/")
 def claim_bonus_site(site_id: UUID, claim_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    team = get_team_from_db(claim_request.team_id, db)
+    user = get_user_from_db(claim_request.user_id, db)
 
     site = get_site_from_db(site_id, db)
 
-    existing_claim = db.query(models.BonusSiteClaim).filter_by(site_id=site_id, team_id=claim_request.team_id).first()
+    existing_claim = db.query(models.BonusSiteClaim).filter_by(site_id=site_id, team_id=user.team_id).first()
 
     if existing_claim and existing_claim.is_active:
         raise HTTPException(status_code=400, detail="Bonus site already claimed by the team")
     elif existing_claim and existing_claim.is_active is False:
         existing_claim.is_active = True
-        existing_claim.last_updated_user_id = claim_request.user_id
+        existing_claim.last_updated_user_id = user.id
     else:
-        new_claim = models.BonusSiteClaim(site_id=site.id, team_id=team.id, last_updated_user_id=claim_request.user_id)
+        new_claim = models.BonusSiteClaim(site_id=site.id, team_id=user.team_id, last_updated_user_id=user.id)
         db.add(new_claim)
 
     db.commit()
@@ -58,15 +58,17 @@ def claim_bonus_site(site_id: UUID, claim_request: schemas.ClaimRequest, db: Ses
 
 @router.post("/bonus-sites/{site_id}/unclaim/")
 def unclaim_bonus_site(site_id: UUID, claim_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    team = get_team_from_db(claim_request.team_id, db)
+    user = get_user_from_db(claim_request.user_id, db)
 
     site = get_site_from_db(site_id, db)
 
-    existing_claim = db.query(models.BonusSiteClaim).filter_by(site_id=site.id, team_id=team.id, is_active=True).first()
+    existing_claim = (
+        db.query(models.BonusSiteClaim).filter_by(site_id=site.id, team_id=user.team_id, is_active=True).first()
+    )
     if not existing_claim:
         raise HTTPException(status_code=400, detail="Route not claimed by that team")
 
     existing_claim.is_active = False
-    existing_claim.last_updated_user_id = claim_request.user_id
+    existing_claim.last_updated_user_id = user.id
     db.commit()
     return {"message": "Bonus site successfully unclaimed"}
