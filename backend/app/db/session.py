@@ -3,7 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.db.base_class import Base
+from app.models.base import Base
 
 
 def get_database_uri():

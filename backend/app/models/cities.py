@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, Float, String
 
-from app.db.base_class import Base
+from .base import Base
 
 
 class City(Base):
