@@ -12,7 +12,7 @@ import ShareLocationPage from './pages/forms/ShareLocationPage';
 import DrawScrewYouCardPage from './pages/drawScrewYou/DrawScrewYouCardPage';
 import Error from './pages/Error';
 import Login from './aws/Login';
-import SignUp from './aws/SignUp';
+// import SignUp from './aws/SignUp';
 import Home from './aws/Home';
 import store from './redux/store';
 import { Provider } from "react-redux";
@@ -27,7 +27,7 @@ function App() {
         {/* <HeaderComponent /> */}
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
+          {/* <Route path="/SignUp" element={<SignUp />} /> */}
           <Route path="/Home" element={<Home />} />
           {/* <Route path="/" element={<HomePage />} /> */}
           <Route path="/ClaimRoute" element={<ClaimRoutePage />} />
