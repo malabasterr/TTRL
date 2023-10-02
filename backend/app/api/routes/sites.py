@@ -21,7 +21,7 @@ def get_site_from_db(site_id: UUID, db: Session):
 
 @router.get("/bonus-sites/", response_model=list[schemas.BonusSite])
 def list_bonus_sites(db: Session = Depends(yield_db)):
-    bonus_sites = db.query(models.BonusSite).all()
+    bonus_sites = db.query(models.BonusSite).order_by(models.BonusSite.site_name).all()
     bonus_sites = [schemas.ClaimInfo.parse_claims(site) for site in bonus_sites]
     return bonus_sites
 

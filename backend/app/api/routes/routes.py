@@ -21,7 +21,7 @@ def get_route_from_db(route_id: UUID, db: Session):
 
 @router.get("/routes/", response_model=list[schemas.Route])
 def list_routes(db: Session = Depends(yield_db)):
-    routes = db.query(models.Route).all()
+    routes = db.query(models.Route).order_by(models.Route.name).all()
     routes = [schemas.ClaimInfo.parse_claims(route) for route in routes]
     return routes
 
