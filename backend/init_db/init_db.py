@@ -64,6 +64,10 @@ if __name__ == "__main__":
         del row["is_starter_city"]
         return row
 
+    def parse_screw_card_row(row):
+        row["is_active"] = row["is_active"] == "True"
+        return row
+
     try:
         # Seed teams
         team_data = read_csv_data(data_dir / "teams.csv")
@@ -79,7 +83,7 @@ if __name__ == "__main__":
             db,
             City,
             city_data,
-            parse_city_row,
+            row_parse_function=parse_city_row,
         )
 
         # Seed routes
@@ -97,12 +101,17 @@ if __name__ == "__main__":
             db,
             BonusSite,
             bonus_site_data,
-            parse_site_row,
+            row_parse_function=parse_site_row,
         )
 
         # Seed screw cards
         screw_card_data = read_csv_data(data_dir / "screw_cards.csv")
-        seed_data_generic(db, ScrewCard, screw_card_data)
+        seed_data_generic(
+            db,
+            ScrewCard,
+            screw_card_data,
+            row_parse_function=parse_screw_card_row,
+        )
 
         db.commit()
     except Exception as e:

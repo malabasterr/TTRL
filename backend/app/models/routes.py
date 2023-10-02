@@ -2,7 +2,7 @@ from sqlalchemy import Column, Float, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from models.base import Base
+from .base import Base
 
 
 class Route(Base):

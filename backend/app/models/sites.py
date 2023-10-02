@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Float, Integer, String
 from sqlalchemy.orm import relationship
 
-from models.base import Base
+from .base import Base
 
 
 class BonusSite(Base):

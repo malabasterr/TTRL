@@ -6,7 +6,7 @@ import uuid
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import UserLocation
+from models import User, UserLocation  # noqa
 
 
 def get_database_uri():
@@ -43,9 +43,11 @@ def prepare_response(message: str, status_code: int):
 
 
 def handler(event, context):
+    # Validate body
     if "body" not in event.keys():
         return prepare_response("A body must be passed to this API, containing location information", 200)
 
+    # Parse body and validate that the body is as expected
     location_event = json.loads(event["body"])
 
     if "_type" not in location_event.keys():
@@ -54,12 +56,19 @@ def handler(event, context):
     if location_event["_type"] != "location":
         return prepare_response("Not logging, not a location event", 200)
 
+    # Parse User UUID and get User from DB
     user_id_str = location_event["topic"].split("/")[-1]
     user_id = uuid.UUID(hex=user_id_str)
 
+    session = Session()
+    user = session.query(User).filter_by(id=user_id).first()
+    if not user:
+        return prepare_response("Not logging, no such user", 200)
+
+    # Prepare UserLocation object to be added to DB
     logged_time = datetime.datetime.fromtimestamp(location_event["tst"])
 
-    print(f"Logging location for user {user_id} at {logged_time}")
+    print(f"Logging location for user {user.id} at {logged_time}")
 
     location_log = UserLocation(
         latitude=location_event["lat"],
@@ -67,12 +76,11 @@ def handler(event, context):
         altitude=location_event["alt"],
         velocity=location_event["vel"],
         accuracy=location_event["acc"],
-        user_id=user_id,
+        user_id=user.id,
         logged_time=logged_time,
     )
 
     # Add the location_log to the database
-    session = Session()
     session.add(location_log)
     session.commit()
     session.close()

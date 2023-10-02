@@ -1,9 +1,9 @@
-from sqlalchemy import Column, DateTime, ForeignKey, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from models.base import Base
-from models.utils import get_utc_time
+from .base import Base
+from .utils import get_utc_time
 
 
 class ScrewCardDraw(Base):
@@ -24,3 +24,4 @@ class ScrewCard(Base):
     __tablename__ = "screw_cards"
     title = Column(String(100), nullable=False)
     description = Column(String(500), nullable=False)
+    is_active = Column(Boolean, nullable=False)
