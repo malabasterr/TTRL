@@ -32,35 +32,42 @@ class MapComponent extends Component {
                 marker.bindPopup(city.name);
               });
 
-              // Loop through each route in the connectionData
               connectionData.forEach((connection) => {
-                // Find the source city in the cityData using the start_city_id from the route
+
                 const sourceCity = this.state.cityData.find((city) => city.id === connection.start_city_id);
 
-                // Find the destination city in the cityData using the end_city_id from the route
                 const destinationCity = this.state.cityData.find((city) => city.id === connection.end_city_id);
 
-                // Check if both source and destination cities are found
                 if (sourceCity && destinationCity) {
-                  // Create an array of coordinates for the polyline between source and destination
+
                   const coordinates = [
-                    [sourceCity.latitude, sourceCity.longitude], // Source city coordinates
-                    [destinationCity.latitude, destinationCity.longitude], // Destination city coordinates
+                    [sourceCity.latitude, sourceCity.longitude],
+                    [destinationCity.latitude, destinationCity.longitude],
                   ];
 
-                  // Determine the color based on the route's claimed status
-                  const routeColor = connection.team_claims.length > 0 ? 'green' : 'grey'; // Green for claimed, grey for unclaimed
+                  let routeColor = '#7a7c7c';
 
-                  // Draw the polyline on the map with specified style and color
+                  if (connection.team_claims.length > 0) {
+
+                    const claimedTeamId = connection.team_claims[0].team_id;
+              
+                    if (claimedTeamId === '79cd421b-81d4-4b00-8b59-da9e7560dc4b') {
+                      routeColor = '#00cdcd';
+                    } else if (claimedTeamId === '1446e8a4-350c-4aa1-a997-c05fb87ef102') {
+                      routeColor = '#228900';
+                    } else if (claimedTeamId === '0076f246-bf3c-4900-aadd-87b9a9a37452') {
+                      routeColor = '#ff0000';
+                    }
+                  }
+
                   L.polyline(coordinates, { color: routeColor, weight: 2 }).addTo(map);
                 } else {
-                  // Log a warning if either source or destination city is not found
+
                   console.warn('Source or destination city not found for connection:', connection);
                 }
               });
             })
             .catch((error) => {
-              // Handle any errors that occur during the fetch operation
               console.error('Error fetching connection data:', error);
             });
         })
