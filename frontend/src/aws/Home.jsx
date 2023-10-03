@@ -53,10 +53,26 @@ const WelcomeScreen = () => {
   }
   
   useEffect(() => {
-    fetchClaimedDistances('1446e8a4-350c-4aa1-a997-c05fb87ef102', setTeamOneDistances);
-    fetchClaimedDistances('79cd421b-81d4-4b00-8b59-da9e7560dc4b', setTeamTwoDistances);
-    fetchClaimedDistances('0076f246-bf3c-4900-aadd-87b9a9a37452', setTeamThreeDistances);
-  }, []);  
+
+    const fetchAllTeamDistances = async () => {
+      try {
+        await Promise.all([
+          fetchClaimedDistances('1446e8a4-350c-4aa1-a997-c05fb87ef102', setTeamOneDistances),
+          fetchClaimedDistances('79cd421b-81d4-4b00-8b59-da9e7560dc4b', setTeamTwoDistances),
+          fetchClaimedDistances('0076f246-bf3c-4900-aadd-87b9a9a37452', setTeamThreeDistances),
+        ]);
+      } catch (error) {
+        console.error('Error fetching team distances:', error);
+      }
+    };
+  
+    fetchAllTeamDistances();
+  
+    const intervalId = setInterval(fetchAllTeamDistances, 60000);
+  
+    return () => clearInterval(intervalId);
+  }, []);
+    
 
   
   return (
