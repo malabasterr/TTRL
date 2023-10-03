@@ -12,3 +12,6 @@ terraform.tfstate.backup
 
 # Scratchpad
 scratchpad.txt
+
+# Archive files
+*.zip
