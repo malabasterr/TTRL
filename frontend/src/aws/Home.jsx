@@ -43,7 +43,6 @@ const WelcomeScreen = () => {
   
       const data = await response.json();
   
-      // Ensure that data is always an array (even if it's a single object)
       const dataArray = Array.isArray(data) ? data : [data];
   
       setDistances(dataArray);

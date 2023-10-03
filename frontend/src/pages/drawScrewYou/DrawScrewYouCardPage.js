@@ -12,13 +12,12 @@ function DrawScrewYouCardPage() {
     try {
       setIsLoading(true);
 
-      // Fetch a random screw card from the API and log it
       const response = await fetch('/screw-cards/draw', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ team_id: '1446e8a4-350c-4aa1-a997-c05fb87ef102', user_id: 'c682f244-9001-700c-084b-a077d902ad51' }), // Replace with actual team_id and user_id
+        body: JSON.stringify({ team_id: '1446e8a4-350c-4aa1-a997-c05fb87ef102', user_id: 'c682f244-9001-700c-084b-a077d902ad51' }),
       });
 
       if (!response.ok) {
@@ -27,7 +26,6 @@ function DrawScrewYouCardPage() {
 
       const data = await response.json();
 
-      // Fetch the details of the selected card
       const cardResponse = await fetch(`/screw-cards/${data.id}`);
 
       if (!cardResponse.ok) {

@@ -50,7 +50,6 @@ function UnclaimRoutePage() {
         throw new Error('Failed to route');
       }
 
-      // Handle success, e.g., show a success message
       console.log('Route un-claimed successfully');
     } catch (error) {
       console.error('Error un-claiming route:', selectedRoute.id, error);

@@ -1,4 +1,3 @@
-// claimedRoutesSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const claimedRoutesSlice = createSlice({

@@ -1,4 +1,3 @@
-// modules
 import React from "react";
 import {
   CognitoUserPool,
@@ -11,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateData } from "../redux/slices/authSlice";
 import HeaderComponentLogin from "../components/header/HeaderComponentLogin";
-
-// styling
 import "./styles/Login.scss";
 
 const userPool = new CognitoUserPool({

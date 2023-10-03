@@ -24,16 +24,15 @@ function MapComponent() {
           setConnectionData(connectionData);
 
           cityData.forEach((city) => {
-            // Create a custom marker icon for cities
+
             const customMarkerIcon = L.divIcon({
               className: 'custom-marker-icon',
-              iconSize: [25, 25], // Adjust the size as needed
-              html: '<div class="black-circle"></div>', // HTML content (black circle)
+              iconSize: [25, 25],
+              html: '<div class="black-circle"></div>', 
             });
 
-            // Add the custom marker with the city's name as a popup
             const marker = L.marker([city.latitude, city.longitude], {
-              icon: customMarkerIcon, // Use the custom marker icon
+              icon: customMarkerIcon,
             }).addTo(map);
             marker.bindPopup(city.name);
           });
@@ -74,10 +73,8 @@ function MapComponent() {
 
       fetchData();
 
-      // Set up an interval to fetch data every 60 seconds (60000 milliseconds)
       const intervalId = setInterval(fetchData, 60000);
 
-      // Clear the interval when the component unmounts
       return () => clearInterval(intervalId);
     }
   }, []);

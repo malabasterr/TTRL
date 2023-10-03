@@ -1,11 +1,10 @@
-// store.js
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './slices/authSlice';
-import claimedRoutesReducer from './slices/claimedRoutesSlice'; // Import the new reducer
+import claimedRoutesReducer from './slices/claimedRoutesSlice';
 
 export default configureStore({
   reducer: {
     auth: authSlice,
-    claimedRoutes: claimedRoutesReducer, // Add the new reducer
+    claimedRoutes: claimedRoutesReducer,
   },
 });
