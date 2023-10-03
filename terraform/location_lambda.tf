@@ -32,11 +32,11 @@ resource "aws_lambda_function" "location_lambda" {
 
   environment {
     variables = {
-      DB_HOST     = resource.aws_db_instance.rds_instance.address
-      DB_PORT     = resource.aws_db_instance.rds_instance.port
+      DB_HOST     = aws_db_instance.rds_instance.address
+      DB_PORT     = aws_db_instance.rds_instance.port
       DB_USER     = jsondecode(data.aws_secretsmanager_secret_version.rds_password.secret_string).username
       DB_PASSWORD = jsondecode(data.aws_secretsmanager_secret_version.rds_password.secret_string).password
-      DB_NAME     = resource.aws_db_instance.rds_instance.db_name
+      DB_NAME     = aws_db_instance.rds_instance.db_name
     }
   }
 

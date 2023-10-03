@@ -6,7 +6,7 @@ module "ecr" {
 
   registry_scan_type                 = "BASIC"
   repository_read_write_access_arns  = ["arn:aws:iam::${local.account_id}:root"]
-  repository_lambda_read_access_arns = [resource.aws_lambda_function.backend_lambda.arn]
+  repository_lambda_read_access_arns = [aws_lambda_function.backend_lambda.arn]
   repository_image_tag_mutability    = "MUTABLE"
 
   repository_lifecycle_policy = jsonencode({
