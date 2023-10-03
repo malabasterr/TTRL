@@ -70,12 +70,15 @@ def handler(event, context):
 
     print(f"Logging location for user {user.id} at {logged_time}")
 
+    velocity = location_event["vel"] if "vel" in location_event.keys() else -1
+    accuracy = location_event["acc"] if "acc" in location_event.keys() else -1
+
     location_log = UserLocation(
         latitude=location_event["lat"],
         longitude=location_event["lon"],
         altitude=location_event["alt"],
-        velocity=location_event["vel"],
-        accuracy=location_event["acc"],
+        velocity=velocity,
+        accuracy=accuracy,
         user_id=user.id,
         logged_time=logged_time,
     )
