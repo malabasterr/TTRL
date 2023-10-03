@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './FormPages.css';
 import { Link } from 'react-router-dom';
 import HeaderComponent from '../../components/header/HeaderComponent';
-import Dropdown from 'react-bootstrap/Dropdown';
+import Select from 'react-select';
 
 function ShareLocationPage() {
   const [teams, setTeams] = useState([]);
@@ -26,8 +26,8 @@ function ShareLocationPage() {
     fetchTeams();
   }, []);
 
-  const handleTeamSelect = (team) => {
-    setSelectedTeam(team);
+  const handleTeamSelect = (selectedOption) => {
+    setSelectedTeam(selectedOption.value);
   };
 
   return (
@@ -38,23 +38,17 @@ function ShareLocationPage() {
           <label className='formTitle'>Which team are you tracking?</label>
         </div>
 
-        <Dropdown>
-            <Dropdown.Toggle variant="success" className="dropdown-basic">
-              {selectedTeam ? selectedTeam.name : 'Select Team'}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="dropdown-menu">
-              {teams.map((team) => (
-                <Dropdown.Item
-                  key={team.id}
-                  onClick={() => handleTeamSelect(team)}
-                  className="dropdown-list"
-                >
-                  {team.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+        <Select
+            className='dropdown-basic'
+            options={teams.map((team) => ({
+              value: team,
+              label: team.name,
+            }))}
+            value={selectedTeam ? { value: selectedTeam, label: selectedTeam.name } : null}
+            onChange={(selectedOption) => handleTeamSelect(selectedOption)}
+            placeholder="Select Team"
+            isSearchable={true}
+          />
 
         <div className="mainButtonContainer">
           <Link className="link-button" to="/Home"><button className="mainButton">SHARE</button></Link>

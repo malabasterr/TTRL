@@ -1,4 +1,3 @@
-// authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 export const authSlice = createSlice({
@@ -15,7 +14,6 @@ export const authSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { updateData } = authSlice.actions;
 
 export default authSlice.reducer;
