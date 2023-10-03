@@ -72,9 +72,9 @@ return (
             className='dropdown-basic'
             options={bonusSites.map((bonusSite) => ({
               value: bonusSite,
-              label: bonusSite.name,
+              label: bonusSite.site_name,
             }))}
-            value={selectedBonusSite ? { value: selectedBonusSite, label: selectedBonusSite.name } : null}
+            value={selectedBonusSite ? { value: selectedBonusSite, label: selectedBonusSite.site_name } : null}
             onChange={(selectedOption) => handleBonusSiteSelect(selectedOption)}
             placeholder="Select Bonus Site"
             isSearchable={true}
