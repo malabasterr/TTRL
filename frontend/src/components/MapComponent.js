@@ -60,7 +60,7 @@ class MapComponent extends Component {
                     }
                   }
 
-                  L.polyline(coordinates, { color: routeColor, weight: 2 }).addTo(map);
+                  L.polyline(coordinates, { color: routeColor, weight: 2.5 }).addTo(map);
                 } else {
 
                   console.warn('Source or destination city not found for connection:', connection);

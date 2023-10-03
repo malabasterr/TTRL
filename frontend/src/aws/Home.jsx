@@ -61,18 +61,7 @@ const WelcomeScreen = () => {
   
   return (
     <>
-    <HeaderComponent />
-    <div className="Container">
-      <h1 className="Greeting">Hi {userData.name}!</h1>
-      <button
-        className="SignoutButton"
-        onClick={() => {
-          signOut();
-        } }
-      >
-        Logout
-      </button>
-    </div>
+    <HeaderComponent logout={signOut}/>
 
     <div className='backgroundHP'>
         <div>
