@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import './MapComponent.css'; // Import your custom CSS file
 
 class MapComponent extends Component {
   constructor(props) {
@@ -28,18 +29,25 @@ class MapComponent extends Component {
               this.setState({ connectionData });
 
               cityData.forEach((city) => {
-                const marker = L.marker([city.latitude, city.longitude]).addTo(map);
+                // Create a custom marker icon for cities
+                const customMarkerIcon = L.divIcon({
+                  className: 'custom-marker-icon',
+                  iconSize: [25, 25], // Adjust the size as needed
+                  html: '<div class="black-circle"></div>', // HTML content (black circle)
+                });
+
+                // Add the custom marker with the city's name as a popup
+                const marker = L.marker([city.latitude, city.longitude], {
+                  icon: customMarkerIcon, // Use the custom marker icon
+                }).addTo(map);
                 marker.bindPopup(city.name);
               });
 
               connectionData.forEach((connection) => {
-
                 const sourceCity = this.state.cityData.find((city) => city.id === connection.start_city_id);
-
                 const destinationCity = this.state.cityData.find((city) => city.id === connection.end_city_id);
 
                 if (sourceCity && destinationCity) {
-
                   const coordinates = [
                     [sourceCity.latitude, sourceCity.longitude],
                     [destinationCity.latitude, destinationCity.longitude],
@@ -48,9 +56,8 @@ class MapComponent extends Component {
                   let routeColor = '#7a7c7c';
 
                   if (connection.team_claims.length > 0) {
-
                     const claimedTeamId = connection.team_claims[0].team_id;
-              
+
                     if (claimedTeamId === '79cd421b-81d4-4b00-8b59-da9e7560dc4b') {
                       routeColor = '#00cdcd';
                     } else if (claimedTeamId === '1446e8a4-350c-4aa1-a997-c05fb87ef102') {
@@ -62,7 +69,6 @@ class MapComponent extends Component {
 
                   L.polyline(coordinates, { color: routeColor, weight: 2.5 }).addTo(map);
                 } else {
-
                   console.warn('Source or destination city not found for connection:', connection);
                 }
               });
@@ -70,9 +76,10 @@ class MapComponent extends Component {
             .catch((error) => {
               console.error('Error fetching connection data:', error);
             });
-        })
+        });
     }
   }
+
   render() {
     return <div id="map" style={{ height: '35vh' }}></div>;
   }

@@ -26,8 +26,8 @@ function ShareLocationPage() {
     fetchTeams();
   }, []);
 
-  const handleTeamSelect = (team) => {
-    setSelectedTeam(team);
+  const handleTeamSelect = (selectedOption) => {
+    setSelectedTeam(selectedOption.value);
   };
 
   return (
