@@ -61,3 +61,21 @@ def draw_screw_cards(draw_request: schemas.ClaimRequest, db: Session = Depends(y
     drawn_card_response = schemas.ScrewCardDraw.model_validate(drawn_card)
 
     return drawn_card_response
+
+
+@router.get("/screw-cards/draw-history/{user_id}", response_model=list[schemas.ScrewCardDraw])
+def get_drawn_screw_cards(user_id: UUID, db: Session = Depends(yield_db)):
+    user = get_user_from_db(user_id, db)
+    drawn_cards = db.query(models.ScrewCardDraw).filter_by(team_id=user.team_id).all()
+
+    drawn_card_response = [
+        schemas.ScrewCardDraw(
+            id=drawn_card.id,
+            title=drawn_card.screw_card.title,
+            description=drawn_card.screw_card.description,
+            draw_time=drawn_card.create_time,
+        )
+        for drawn_card in drawn_cards
+    ]
+
+    return drawn_card_response
