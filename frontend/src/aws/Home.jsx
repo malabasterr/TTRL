@@ -30,27 +30,33 @@ const WelcomeScreen = () => {
     navigate("/");
   };
 
-  const [claimedDistances, setClaimedDistances] = useState([]);
-
-  async function fetchClaimedDistances() {
+  const [teamOneDistances, setTeamOneDistances] = useState([]);
+  const [teamTwoDistances, setTeamTwoDistances] = useState([]);
+  const [teamThreeDistances, setTeamThreeDistances] = useState([]);
+  
+  async function fetchClaimedDistances(teamId, setDistances) {
     try {
-      const response = await fetch('/claimed-distance/');
+      const response = await fetch(`/claimed-distance/${teamId}/`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
-
+  
       const data = await response.json();
-      setClaimedDistances(data);
-
+  
+      // Ensure that data is always an array (even if it's a single object)
+      const dataArray = Array.isArray(data) ? data : [data];
+  
+      setDistances(dataArray);
     } catch (error) {
-      console.error('Error fetching distances:', error);
+      console.error(`Error fetching team's distances:`, error);
     }
   }
-
+  
   useEffect(() => {
-    fetchClaimedDistances();
-  }, []);
-
+    fetchClaimedDistances('1446e8a4-350c-4aa1-a997-c05fb87ef102', setTeamOneDistances);
+    fetchClaimedDistances('79cd421b-81d4-4b00-8b59-da9e7560dc4b', setTeamTwoDistances);
+    fetchClaimedDistances('0076f246-bf3c-4900-aadd-87b9a9a37452', setTeamThreeDistances);
+  }, []);  
 
   
   return (
@@ -66,35 +72,40 @@ const WelcomeScreen = () => {
       >
         Logout
       </button>
-    </div><div className='backgroundHP'>
+    </div>
+
+    <div className='backgroundHP'>
         <div>
           <h1 className='title'>
             TICKET TO RIDE: LIVE
           </h1>
         </div>
+
         <div className='mapContainer'>
           <MapComponent />
         </div>
+
         <div className='totalDistancesContainer'>
-          <div className='teamOneDistanceContainer'>
-            <h2 className='teamName'>WILL + MIKE</h2>
-            <h2 className='teamDistance'>1000km</h2>
-            {/* {claimedDistances.map((teamDistance) => (
-      <div key={teamDistance.team_id} className='teamOneDistanceContainer'>
-      <h2 className='teamName'>{teamDistance.team_name}</h2>
-      <h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2>
-    </div>
-    ))} */}
-          </div>
-          <div className='teamTwoDistanceContainer'>
-            <h2 className='teamName'>JAZ + HUGH</h2>
-            <h2 className='teamDistance'>1000km</h2>
-          </div>
-          <div className='teamThreeDistanceContainer'>
-            <h2 className='teamName'>MADDY + WILL</h2>
-            <h2 className='teamDistance'>1000km</h2>
-          </div>
+          {teamOneDistances.map((teamDistance) => (
+            <div key={teamDistance.team_id} className='teamOneDistanceContainer'>
+              <h2 className='teamName'>{teamDistance.team_name}</h2>
+              <h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2>
+            </div>
+          ))}
+          {teamTwoDistances.map((teamDistance) => (
+            <div key={teamDistance.team_id} className='teamTwoDistanceContainer'>
+              <h2 className='teamName'>{teamDistance.team_name}</h2>
+              <h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2>
+            </div>
+          ))}
+          {teamThreeDistances.map((teamDistance) => (
+            <div key={teamDistance.team_id} className='teamThreeDistanceContainer'>
+              <h2 className='teamName'>{teamDistance.team_name}</h2>
+              <h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2>
+            </div>
+          ))}
         </div>
+
         <div className='topLineButtons'>
           <div className='claimRouteButtonContainer'>
             <Link to="/ClaimRoute"><button className="claimRouteButton">CLAIM A ROUTE</button></Link>
@@ -114,7 +125,8 @@ const WelcomeScreen = () => {
             <Link to="/DrawScrewYouCard"><button className="drawScrewYouCardButton">DRAW SCREW YOU CARD</button></Link>
           </div>
         </div>
-      </div></>
+        </div>
+      </>
   );
 };
 

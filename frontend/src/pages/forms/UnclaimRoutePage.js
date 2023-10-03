@@ -37,8 +37,8 @@ function UnclaimRoutePage() {
     try {
 
       const requestData = {
-        team_id: "1446e8a4-350c-4aa1-a997-c05fb87ef102", // Replace with the actual team ID
-        user_id: "56f22214-60b1-7006-be77-2b4088482fa0",   // Replace with the actual user ID
+        team_id: "1446e8a4-350c-4aa1-a997-c05fb87ef102",
+        user_id: "c682f244-9001-700c-084b-a077d902ad51", 
       };
 
       const response = await fetch(`/routes/${selectedRoute.id}/claim/`, {

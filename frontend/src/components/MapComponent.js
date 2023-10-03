@@ -48,12 +48,11 @@ class MapComponent extends Component {
                     [destinationCity.latitude, destinationCity.longitude], // Destination city coordinates
                   ];
 
-                  // Log source and destination cities to check if they are correctly identified
-                  console.log('Source City:', sourceCity);
-                  console.log('Destination City:', destinationCity);
+                  // Determine the color based on the route's claimed status
+                  const routeColor = connection.team_claims.length > 0 ? 'green' : 'grey'; // Green for claimed, grey for unclaimed
 
-                  // Draw the polyline on the map with specified style
-                  L.polyline(coordinates, { color: 'blue', weight: 2 }).addTo(map);
+                  // Draw the polyline on the map with specified style and color
+                  L.polyline(coordinates, { color: routeColor, weight: 2 }).addTo(map);
                 } else {
                   // Log a warning if either source or destination city is not found
                   console.warn('Source or destination city not found for connection:', connection);
