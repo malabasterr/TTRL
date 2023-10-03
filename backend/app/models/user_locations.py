@@ -13,3 +13,13 @@ class UserLocation(Base):
     accuracy = Column(Float, nullable=False)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     logged_time = Column(DateTime, nullable=False)
+
+
+class LocationShareRequest(Base):
+    __tablename__ = "location_share_request"
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    request_team_id = Column(UUID(as_uuid=True), ForeignKey("teams.id"), nullable=False)
+    location_team_id = Column(UUID(as_uuid=True), ForeignKey("teams.id"), nullable=False)
+
+    request_start_time = Column(DateTime, nullable=False)
+    request_end_time = Column(DateTime, nullable=False)

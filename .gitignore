@@ -8,7 +8,7 @@ terraform.tfstate
 terraform.tfstate.backup
 
 # Environment Variables
-.env
+.env*
 
 # Scratchpad
 scratchpad.txt

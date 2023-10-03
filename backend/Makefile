@@ -9,8 +9,6 @@ IMAGE_VERSION ?= v0.0.0
 build_local:
 	docker build --tag ${LOCAL_IMAGE_NAME} -f Dockerfile .
 
-	
-
 build_lambda:
 	docker build --tag ${LAMBDA_IMAGE_NAME} -f Dockerfile.lambda .
 

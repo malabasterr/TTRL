@@ -158,3 +158,6 @@ init_db/data
 # Ignore any .sqlite from testing
 *.sqlite
 *.sqlite3
+
+# Ignore local test scripts
+local_scripts/*
