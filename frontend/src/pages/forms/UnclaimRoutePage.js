@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './FormPages.css';
 import { Link } from 'react-router-dom';
 import HeaderComponent from '../../components/header/HeaderComponent';
-import Dropdown from 'react-bootstrap/Dropdown';
+import Select from 'react-select';
 
 function UnclaimRoutePage() {
   const [routes, setRoutes] = useState([]);
@@ -26,22 +26,19 @@ function UnclaimRoutePage() {
     fetchRoutes();
   }, []);
 
-  // Function to handle bonus site selection
-  const handleRouteSelect = (route) => {
-    setSelectedRoute(route);
+  const handleRouteSelect = (selectedOption) => {
+    setSelectedRoute(selectedOption.value);
   };
 
- // Function to claim the selected bonus site
  const claimRoute = async () => {
   if (selectedRoute) {
     try {
-
       const requestData = {
         team_id: "1446e8a4-350c-4aa1-a997-c05fb87ef102",
         user_id: "c682f244-9001-700c-084b-a077d902ad51", 
       };
 
-      const response = await fetch(`/routes/${selectedRoute.id}/claim/`, {
+      const response = await fetch(`/routes/${selectedRoute.id}/unclaim/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,23 +68,17 @@ function UnclaimRoutePage() {
           <label className='formTitle'>Un-claim a Route</label>
         </div>
 
-        <Dropdown>
-            <Dropdown.Toggle variant="success" className="dropdown-basic">
-              {selectedRoute ? selectedRoute.name : 'Select Route'}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="dropdown-menu">
-              {routes.map((route) => (
-                <Dropdown.Item
-                  key={route.id}
-                  onClick={() => handleRouteSelect(route)}
-                  className="dropdown-list"
-                >
-                  {route.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+          <Select
+            className='dropdown-basic'
+            options={routes.map((route) => ({
+              value: route,
+              label: route.name,
+            }))}
+            value={selectedRoute ? { value: selectedRoute, label: selectedRoute.name } : null}
+            onChange={(selectedOption) => handleRouteSelect(selectedOption)}
+            placeholder="Select Route"
+            isSearchable={true}
+          />
 
         <div className="mainButtonContainer">
           <Link className="link-button" to="/Home"><button className="mainButton" onClick={claimRoute}>UNCLAIM</button></Link>

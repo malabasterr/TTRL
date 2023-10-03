@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './FormPages.css';
 import { Link } from 'react-router-dom';
 import HeaderComponent from '../../components/header/HeaderComponent';
-import Dropdown from 'react-bootstrap/Dropdown';
+import Select from 'react-select';
 
 function ClaimBonusSitePage() {
   const [bonusSites, setBonusSites] = useState([]);
-  const [selectedBonusSite, setSelectedBonusSite] = useState(null); // Track the selected bonus site
+  const [selectedBonusSite, setSelectedBonusSite] = useState(null);
 
   async function fetchBonusSites() {
     try {
@@ -26,16 +26,13 @@ function ClaimBonusSitePage() {
     fetchBonusSites();
   }, []);
 
-  // Function to handle bonus site selection
-  const handleBonusSiteSelect = (bonusSite) => {
-    setSelectedBonusSite(bonusSite);
+  const handleBonusSiteSelect = (selectedOption) => {
+    setSelectedBonusSite(selectedOption.value);
   };
 
- // Function to claim the selected bonus site
  const claimBonusSite = async () => {
   if (selectedBonusSite) {
     try {
-
       const requestData = {
         team_id: "1446e8a4-350c-4aa1-a997-c05fb87ef102",
         user_id: "c682f244-9001-700c-084b-a077d902ad51", 
@@ -53,7 +50,6 @@ function ClaimBonusSitePage() {
         throw new Error('Failed to claim bonus site');
       }
 
-      // Handle success, e.g., show a success message
       console.log('Bonus site claimed successfully');
     } catch (error) {
       console.error('Error claiming bonus site:', selectedBonusSite.id, error);
@@ -72,23 +68,17 @@ return (
             <label className='formTitle'>Claim a Bonus Site</label>
           </div>
 
-          <Dropdown>
-            <Dropdown.Toggle variant="success" className="dropdown-basic">
-              {selectedBonusSite ? selectedBonusSite.site_name : 'Select Bonus Site'}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="dropdown-menu">
-              {bonusSites.map((bonusSite) => (
-                <Dropdown.Item
-                  key={bonusSite.id}
-                  onClick={() => handleBonusSiteSelect(bonusSite)}
-                  className="dropdown-list"
-                >
-                  {bonusSite.site_name}, {bonusSite.country}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+          <Select
+            className='dropdown-basic'
+            options={bonusSites.map((bonusSite) => ({
+              value: bonusSite,
+              label: bonusSite.name,
+            }))}
+            value={selectedBonusSite ? { value: selectedBonusSite, label: selectedBonusSite.name } : null}
+            onChange={(selectedOption) => handleBonusSiteSelect(selectedOption)}
+            placeholder="Select Bonus Site"
+            isSearchable={true}
+          />
 
           <div className="mainButtonContainer">
             <Link className="link-button" to="/Home">

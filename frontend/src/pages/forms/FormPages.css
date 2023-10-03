@@ -81,7 +81,7 @@
     color: rgb(84, 84, 84);
 }
 
-.dropdown-basic:hover{
+/* .dropdown-basic:hover{
     background-color: #b7b7b7;
     border: 1px solid black;
     border-radius: 15px;
@@ -90,9 +90,9 @@
     margin-bottom: 10px;
     width: 100%;
     color: rgb(84, 84, 84);
-}
+} */
 
-.dropdown-basic:active{
+/* .dropdown-basic:active{
     background-color: #b7b7b7;
     border: 1px solid black;
     border-radius: 15px;
@@ -101,7 +101,7 @@
     margin-bottom: 10px;
     width: 100%;
     color: rgb(84, 84, 84);
-}
+} */
 
 .dropdown-menu{
     max-height: 30vh;
