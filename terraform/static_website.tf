@@ -22,6 +22,14 @@ module "static_web_app" {
 
   create_route53_hosted_zone = true
 
+  cloudfront_custom_error_responses = [
+    {
+      error_caching_min_ttl = "300"
+      error_code            = "403"
+      response_code         = "200"
+      response_page_path    = "/index.html"
+  }]
+
   website_server_side_encryption_configuration = {
     rule = {
       apply_server_side_encryption_by_default = {

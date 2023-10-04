@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 
 from app.api.routes.cities import router as cities_router
@@ -10,7 +11,23 @@ from app.api.routes.teams import router as teams_router
 from app.api.routes.user_locations import router as user_locations_router
 
 # Create the FastAPI application
-app = FastAPI()
+app = FastAPI(
+    title="TTRL",
+)
+
+origins = [
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "https://xxxx",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(teams_router, tags=["Teams"])
 app.include_router(routes_router, tags=["Routes"])
@@ -26,4 +43,4 @@ async def root():
     return {"message": "Hello World!"}
 
 
-handler = Mangum(app, lifespan="off")
+handler = Mangum(app, lifespan="off")  # , api_gateway_base_path="/api/")
