@@ -34,11 +34,15 @@ const Login = () => {
 
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
+
+        localStorage.setItem('jwtToken', result.getAccessToken().getJwtToken());
+
         cognitoUser.getUserAttributes(function (err, result) {
           if (err) {
             console.log("err", err);
             return;
           }
+
           dispatch(
             updateData({
               name: result[2].Value,
@@ -46,6 +50,7 @@ const Login = () => {
             })
           );
           navigate("/home");
+          console.log(result)
         });
       },
       onFailure: (err) => {

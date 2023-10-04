@@ -6,11 +6,11 @@ function HeaderComponent({ logout }) {
   return (
     <header className="backgroundHD">
       <div className="containerHD">
-        <a href="/Home">
+        <a href="/home">
           <img src={Logo} alt="Brand Logo" className="logo" />
         </a>
         <nav className="navbarRight">
-          <a href="/Home" className="navButton">HOME</a>
+          <a href="/home" className="navButton">HOME</a>
           <button className="specialnavButton" onClick={logout}>
           LOGOUT
         </button>

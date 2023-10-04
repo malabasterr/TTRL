@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import './MapComponent.css'; 
+import './MapComponent.css';
+import base_url from './config';
 
 function MapComponent() {
   const [cityData, setCityData] = useState([]);
   const [connectionData, setConnectionData] = useState([]);
+  const jwtToken = localStorage.getItem('jwtToken');
+
 
   useEffect(() => {
     const container = L.DomUtil.get('map');
@@ -15,11 +18,19 @@ function MapComponent() {
 
       const fetchData = async () => {
         try {
-          const cityResponse = await fetch('/cities/');
+          const cityResponse = await fetch(`${base_url}/cities/`, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`, // Include JWT token in the request headers
+            },
+          });
           const cityData = await cityResponse.json();
           setCityData(cityData);
 
-          const connectionResponse = await fetch('/routes/');
+          const connectionResponse = await fetch(`${base_url}/routes/`, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`, // Include JWT token in the request headers
+            },
+          });
           const connectionData = await connectionResponse.json();
           setConnectionData(connectionData);
 
@@ -77,7 +88,7 @@ function MapComponent() {
 
       return () => clearInterval(intervalId);
     }
-  }, []);
+  }, [jwtToken]);
 
   return <div id="map" style={{ height: '35vh' }}></div>;
 }

@@ -2,7 +2,7 @@
   "name": "ttrl-react",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
+  "proxy": "https://mdr06r5wfi.execute-api.eu-west-2.amazonaws.com",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.6",
     "@testing-library/jest-dom": "^5.17.0",
@@ -12,6 +12,7 @@
     "axios": "^1.5.0",
     "bootstrap": "^5.3.2",
     "formik": "^2.4.5",
+    "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",

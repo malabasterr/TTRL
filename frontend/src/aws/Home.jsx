@@ -8,6 +8,7 @@ import '../pages/homepage/HomePage.css';
 import MapComponent from '../components/MapComponent';
 import { Link } from 'react-router-dom';
 import HeaderComponent from "../components/header/HeaderComponent";
+import base_url from '../components/config';
 
 const userPool = new CognitoUserPool({
   UserPoolId: 'eu-west-2_tCIJ3cao1',
@@ -18,6 +19,7 @@ const WelcomeScreen = () => {
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  const jwtToken = localStorage.getItem('jwtToken');
 
   const signOut = () => {
 
@@ -36,7 +38,11 @@ const WelcomeScreen = () => {
   
   async function fetchClaimedDistances(teamId, setDistances) {
     try {
-      const response = await fetch(`/claimed-distance/${teamId}/`);
+      const response = await fetch(`${base_url}/claimed-distance/${teamId}/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`, // Include JWT token in the request headers
+        },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -70,7 +76,7 @@ const WelcomeScreen = () => {
     const intervalId = setInterval(fetchAllTeamDistances, 60000);
   
     return () => clearInterval(intervalId);
-  }, []);
+  }, [jwtToken]);
     
 
   
@@ -112,21 +118,21 @@ const WelcomeScreen = () => {
 
         <div className='topLineButtons'>
           <div className='claimRouteButtonContainer'>
-            <Link to="/ClaimRoute"><button className="claimRouteButton">CLAIM A ROUTE</button></Link>
+            <Link to="/claimroute"><button className="claimRouteButton">CLAIM A ROUTE</button></Link>
           </div>
           <div className='unclaimRouteButtonContainer'>
-            <Link to="/UnclaimRoute"><button className="unclaimRouteButton">UNCLAIM A ROUTE</button></Link>
+            <Link to="/unclaimroute"><button className="unclaimRouteButton">UNCLAIM A ROUTE</button></Link>
           </div>
         </div>
         <div className='bottomLineButtons'>
           <div className='claimBonusSiteButtonContainer'>
-            <Link to="/ClaimBonusSite"><button className="claimBonusSiteButton">CLAIM A BONUS SITE</button></Link>
+            <Link to="/claimbonussite"><button className="claimBonusSiteButton">CLAIM A BONUS SITE</button></Link>
           </div>
           <div className='shareLocationButtonContainer'>
-            <Link to="/ShareLocation"><button className="shareLocationButton">SHARE LOCATION</button></Link>
+            <Link to="/sharelocation"><button className="shareLocationButton">SHARE LOCATION</button></Link>
           </div>
           <div className='drawScrewYouCardButtonContainer'>
-            <Link to="/DrawScrewYouCard"><button className="drawScrewYouCardButton">DRAW SCREW YOU CARD</button></Link>
+            <Link to="/drawscrewyoucard"><button className="drawScrewYouCardButton">DRAW SCREW YOU CARD</button></Link>
           </div>
         </div>
         </div>

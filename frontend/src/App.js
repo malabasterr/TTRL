@@ -21,12 +21,12 @@ function App() {
       <div className="appContainer">
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/ClaimRoute" element={<ClaimRoutePage />} />
-          <Route path="/UnclaimRoute" element={<UnclaimRoutePage />} />
-          <Route path="/ClaimBonusSite" element={<ClaimBonusSitePage />} />
-          <Route path="/ShareLocation" element={<ShareLocationPage />} />
-          <Route path="/DrawScrewYouCard" element={<DrawScrewYouCardPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/claimroute" element={<ClaimRoutePage />} />
+          <Route path="/unclaimroute" element={<UnclaimRoutePage />} />
+          <Route path="/claimbonussite" element={<ClaimBonusSitePage />} />
+          <Route path="/sharelocation" element={<ShareLocationPage />} />
+          <Route path="/drawscrewyoucard" element={<DrawScrewYouCardPage />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <FooterComponent />

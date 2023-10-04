@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './DrawScrewYouCardPage.css';
 import { Link } from 'react-router-dom';
 import HeaderComponent from '../../components/header/HeaderComponent';
+import base_url from '../../components/config';
 
 function DrawScrewYouCardPage() {
   const [showCard, setShowCard] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const jwtToken = localStorage.getItem('jwtToken');
+
 
   const drawScrewCard = async () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch('/screw-cards/draw', {
+      const response = await fetch(`${base_url}/screw-cards/draw`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwtToken}`, // Include JWT token in the request headers
         },
         body: JSON.stringify({ team_id: '1446e8a4-350c-4aa1-a997-c05fb87ef102', user_id: 'c682f244-9001-700c-084b-a077d902ad51' }),
       });
@@ -26,7 +30,11 @@ function DrawScrewYouCardPage() {
 
       const data = await response.json();
 
-      const cardResponse = await fetch(`/screw-cards/${data.id}`);
+      const cardResponse = await fetch(`${base_url}/screw-cards/${data.id}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`, // Include JWT token in the request headers
+        },
+      });
 
       if (!cardResponse.ok) {
         throw new Error('Failed to fetch screw card details');
@@ -67,7 +75,7 @@ function DrawScrewYouCardPage() {
                     <p className='cardDescription'>{selectedCard?.description}</p>
                   </div>
                 </div>
-                <Link className="link-buttonSY" to="/Home"><button className="mainButtonSY">HOME</button></Link>
+                <Link className="link-buttonSY" to="/home"><button className="mainButtonSY">HOME</button></Link>
               </>
             )}
           </div>
@@ -78,3 +86,4 @@ function DrawScrewYouCardPage() {
 }
 
 export default DrawScrewYouCardPage;
+

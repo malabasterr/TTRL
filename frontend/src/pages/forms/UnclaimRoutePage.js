@@ -3,14 +3,20 @@ import './FormPages.css';
 import { Link } from 'react-router-dom';
 import HeaderComponent from '../../components/header/HeaderComponent';
 import Select from 'react-select';
+import base_url from '../../components/config';
 
 function UnclaimRoutePage() {
   const [routes, setRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
+  const jwtToken = localStorage.getItem('jwtToken');
 
   async function fetchRoutes() {
     try {
-      const response = await fetch('/routes/');
+      const response = await fetch(`${base_url}/routes/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch routes data');
       }
@@ -24,48 +30,51 @@ function UnclaimRoutePage() {
 
   useEffect(() => {
     fetchRoutes();
-  }, []);
+  }, [jwtToken]);
 
   const handleRouteSelect = (selectedOption) => {
     setSelectedRoute(selectedOption.value);
   };
 
- const claimRoute = async () => {
-  if (selectedRoute) {
-    try {
-      const requestData = {
-        team_id: "1446e8a4-350c-4aa1-a997-c05fb87ef102",
-        user_id: "c682f244-9001-700c-084b-a077d902ad51", 
-      };
+  const unclaimRoute = async () => {
+    if (selectedRoute) {
+      try {
+        
+        const userId = parseJwt(jwtToken);
+        const requestData = {
+          user_id: userId
+        };   
 
-      const response = await fetch(`/routes/${selectedRoute.id}/unclaim/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
+        const response = await fetch(`${base_url}/routes/${selectedRoute.id}/unclaim/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify(requestData),
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to route');
+        if (!response.ok) {
+          throw new Error('Failed to un-claim route');
+        }
+
+        console.log('Route un-claimed successfully');
+      } catch (error) {
+        console.error('Error un-claiming route:', selectedRoute.id, error);
       }
-
-      console.log('Route un-claimed successfully');
-    } catch (error) {
-      console.error('Error un-claiming route:', selectedRoute.id, error);
+    } else {
+      console.error('No route selected to un-claim');
     }
-  } else {
-    console.error('No route selected to un-claim');
-  }
-};
+  };
 
   return (
-    <><HeaderComponent />
-    <div className='formBackground'>
-      <div className="formContainer">
-        <div className="claimRouteTitleContainer">
-          <label className='formTitle'>Un-claim a Route</label>
-        </div>
+    <>
+      <HeaderComponent />
+      <div className='formBackground'>
+        <div className="formContainer">
+          <div className="claimRouteTitleContainer">
+            <label className='formTitle'>Un-claim a Route</label>
+          </div>
 
           <Select
             className='dropdown-basic'
@@ -79,13 +88,25 @@ function UnclaimRoutePage() {
             isSearchable={true}
           />
 
-        <div className="mainButtonContainer">
-          <Link className="link-button" to="/Home"><button className="mainButton" onClick={claimRoute}>UNCLAIM</button></Link>
+          <div className="mainButtonContainer">
+            <Link className="link-button" to="/home">
+              <button className="mainButton" onClick={unclaimRoute}>UNCLAIM</button>
+            </Link>
+          </div>
         </div>
-
       </div>
-    </div></>
+    </>
   );
 }
 
-export default UnclaimRoutePage
+export default UnclaimRoutePage;
+
+function parseJwt(token) {
+  try {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken.sub;
+  } catch (error) {
+    console.error('Error parsing JWT:', error);
+    return null;
+  }
+}

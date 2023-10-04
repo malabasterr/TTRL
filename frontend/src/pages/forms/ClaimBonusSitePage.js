@@ -3,14 +3,21 @@ import './FormPages.css';
 import { Link } from 'react-router-dom';
 import HeaderComponent from '../../components/header/HeaderComponent';
 import Select from 'react-select';
+import base_url from '../../components/config';
 
 function ClaimBonusSitePage() {
   const [bonusSites, setBonusSites] = useState([]);
   const [selectedBonusSite, setSelectedBonusSite] = useState(null);
+  const jwtToken = localStorage.getItem('jwtToken');
 
   async function fetchBonusSites() {
     try {
-      const response = await fetch('/bonus-sites/');
+      const response = await fetch(`${base_url}/bonus-sites/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
       if (!response.ok) {
         throw new Error('Failed to fetch bonus sites data');
       }
@@ -24,43 +31,45 @@ function ClaimBonusSitePage() {
 
   useEffect(() => {
     fetchBonusSites();
-  }, []);
+  }, [jwtToken]);
 
   const handleBonusSiteSelect = (selectedOption) => {
     setSelectedBonusSite(selectedOption.value);
   };
 
- const claimBonusSite = async () => {
-  if (selectedBonusSite) {
-    try {
-      const requestData = {
-        team_id: "1446e8a4-350c-4aa1-a997-c05fb87ef102",
-        user_id: "c682f244-9001-700c-084b-a077d902ad51", 
-      };
+  const claimBonusSite = async () => {
+    if (selectedBonusSite) {
+      try {
+        
+        const userId = parseJwt(jwtToken);
+        const requestData = {
+          user_id: userId
+        };   
 
-      const response = await fetch(`/bonus-sites/${selectedBonusSite.id}/claim/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
+        const response = await fetch(`${base_url}/bonus-sites/${selectedBonusSite.id}/claim/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify(requestData),
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to claim bonus site');
+        if (!response.ok) {
+          throw new Error('Failed to claim bonus site');
+        }
+
+        console.log('Bonus site claimed successfully');
+      } catch (error) {
+        console.error('Error claiming bonus site:', selectedBonusSite.id, error);
       }
-
-      console.log('Bonus site claimed successfully');
-    } catch (error) {
-      console.error('Error claiming bonus site:', selectedBonusSite.id, error);
+    } else {
+      console.error('No bonus site selected to claim');
     }
-  } else {
-    console.error('No bonus site selected to claim');
-  }
-};
+  };
 
-return (
-  <>
+  return (
+    <>
       <HeaderComponent />
       <div className='formBackground'>
         <div className="formContainer">
@@ -81,7 +90,7 @@ return (
           />
 
           <div className="mainButtonContainer">
-            <Link className="link-button" to="/Home">
+            <Link className="link-button" to="/home">
               <button className="mainButton" onClick={claimBonusSite}>CLAIM</button>
             </Link>
           </div>
@@ -92,3 +101,13 @@ return (
 }
 
 export default ClaimBonusSitePage;
+
+function parseJwt(token) {
+  try {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken.sub;
+  } catch (error) {
+    console.error('Error parsing JWT:', error);
+    return null;
+  }
+}
