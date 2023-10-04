@@ -1,7 +1,7 @@
 from typing import Union
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app import models
@@ -33,7 +33,7 @@ def parse_claims(claims: Union[models.BonusSiteClaim, models.RouteClaim], attr_n
 
 
 @router.get("/teams/", response_model=list[schemas.Team])
-def list_teams(request: Request, db: Session = Depends(yield_db)):
+def list_teams(db: Session = Depends(yield_db)):
     teams = db.query(models.Team).all()
 
     response_teams = []
@@ -46,8 +46,6 @@ def list_teams(request: Request, db: Session = Depends(yield_db)):
                 claimed_bonus_sites=parse_claims(team.claimed_bonus_sites, "site_id"),
             )
         )
-
-    print(request.headers)
     return response_teams
 
 

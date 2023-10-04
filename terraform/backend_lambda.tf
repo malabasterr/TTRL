@@ -24,6 +24,7 @@ resource "aws_lambda_function" "backend_lambda" {
   package_type = "Image"
   image_uri    = "${module.ecr.repository_url}:latest"
   memory_size  = 256
+  timeout      = 10
 
   role = aws_iam_role.backend_lambda.arn
 
@@ -35,8 +36,8 @@ resource "aws_lambda_function" "backend_lambda" {
       DB_PASSWORD = jsondecode(data.aws_secretsmanager_secret_version.rds_password.secret_string).password
       DB_NAME     = aws_db_instance.rds_instance.db_name
 
-      COGNITO_USER_POOL_ID  = aws_cognito_user_pool.this.id
-      COGNITO_APP_CLIENT_ID = aws_cognito_user_pool_client.this.id
+      STATIC_DATA_BUCKET_NAME = aws_s3_bucket.static_data_bucket.id
+      COGNITO_APP_CLIENT_ID   = aws_cognito_user_pool_client.this.id
     }
   }
 
@@ -51,6 +52,7 @@ resource "aws_iam_policy" "backend_lambda" {
   name = "${local.app_name}-lambda-policy"
   policy = templatefile("${path.module}/templates/lambda_policy.json", {
     cognito_user_pool_arn = aws_cognito_user_pool.this.arn
+    static_data_bucket    = aws_s3_bucket.static_data_bucket.arn
     }
   )
 }
