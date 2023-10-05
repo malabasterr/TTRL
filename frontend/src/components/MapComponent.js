@@ -7,20 +7,26 @@ import base_url from './config';
 function MapComponent() {
   const [cityData, setCityData] = useState([]);
   const [connectionData, setConnectionData] = useState([]);
-  const jwtToken = localStorage.getItem('jwtToken');
+  const [userMarkers, setUserMarkers] = useState([]);
+  const [map, setMap] = useState(null);
+  const [activeUserLocations, setActiveUserLocations] = useState([]);
+  const [userTeams, setUserTeams] = useState({});
 
+  const jwtToken = localStorage.getItem('jwtToken');
 
   useEffect(() => {
     const container = L.DomUtil.get('map');
     if (!container._leaflet_id) {
-      const map = L.map('map').setView([48.505, 10.09], 4.4);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      const newMap = L.map('map').setView([48.505, 10.09], 4.4); // Use newMap to create the map
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(newMap);
+
+      setMap(newMap); // Set the map in the state
 
       const fetchData = async () => {
         try {
           const cityResponse = await fetch(`${base_url}/cities/`, {
             headers: {
-              Authorization: `Bearer ${jwtToken}`, // Include JWT token in the request headers
+              Authorization: `Bearer ${jwtToken}`,
             },
           });
           const cityData = await cityResponse.json();
@@ -28,23 +34,22 @@ function MapComponent() {
 
           const connectionResponse = await fetch(`${base_url}/routes/`, {
             headers: {
-              Authorization: `Bearer ${jwtToken}`, // Include JWT token in the request headers
+              Authorization: `Bearer ${jwtToken}`,
             },
           });
           const connectionData = await connectionResponse.json();
           setConnectionData(connectionData);
 
           cityData.forEach((city) => {
-
             const customMarkerIcon = L.divIcon({
               className: 'custom-marker-icon',
               iconSize: [25, 25],
-              html: '<div class="black-circle"></div>', 
+              html: '<div class="black-circle"></div>',
             });
 
             const marker = L.marker([city.latitude, city.longitude], {
               icon: customMarkerIcon,
-            }).addTo(map);
+            }).addTo(newMap); // Use newMap here
             marker.bindPopup(city.name);
           });
 
@@ -72,11 +77,73 @@ function MapComponent() {
                 }
               }
 
-              L.polyline(coordinates, { color: routeColor, weight: 2.5 }).addTo(map);
+              L.polyline(coordinates, { color: routeColor, weight: 2.5 }).addTo(newMap); // Use newMap here
             } else {
               console.warn('Source or destination city not found for connection:', connection);
             }
           });
+
+          const usersAndTeams = [
+            {
+              userId: '362202b4-f0a1-704f-58f7-13eabb4b64cf',
+              teamName: 'Maddy & Will',
+            },
+            {
+              userId: 'd6022234-7081-70ff-e081-3bd53d1f5187',
+              teamName: 'Jaz & Hugh',
+            },
+            {
+              userId: '5642b254-1071-70d4-6b35-02af9eb01918',
+              teamName: 'Jaz & Hugh',
+            },
+            {
+              userId: '8692e234-a071-70a8-133f-a9ca6d7e20cb',
+              teamName: 'Maddy & Will',
+            },
+            {
+              userId: 'c682f244-9001-700c-084b-a077d902ad51',
+              teamName: 'Will & Michael',
+            },
+            {
+              userId: '86a25294-e0e1-70fd-db68-a0c4faf664a7',
+              teamName: 'Will & Michael',
+            },
+          ];
+
+          // Fetch and display user locations for each user ID
+          for (const userAndTeam of usersAndTeams) {
+            const { userId, teamName } = userAndTeam;
+
+            const userLocationsResponse = await fetch(`${base_url}/user-locations/${userId}`, {
+              headers: {
+                Authorization: `Bearer ${jwtToken}`,
+              },
+            });
+            const userLocationsData = await userLocationsResponse.json();
+
+            // Filter user locations where is_active is true
+            const activeLocations = userLocationsData.filter((location) => location.is_active);
+
+            // Create markers for active user locations with team name in the pop-up
+            activeLocations.forEach((location) => {
+              const userMarkerIcon = L.divIcon({
+                className: 'user-marker-icon',
+                iconSize: [5, 5],
+                html: '<div class="blue-circle"></div>',
+              });
+
+              const userMarker = L.marker([location.latitude, location.longitude], {
+                icon: userMarkerIcon,
+              }).addTo(newMap);
+              userMarker.bindPopup(`${teamName}`);
+            });
+
+            // Store the user's team in the state
+            setUserTeams((prevUserTeams) => ({
+              ...prevUserTeams,
+              [userId]: teamName,
+            }));
+          }
         } catch (error) {
           console.error('Error fetching data:', error);
         }
