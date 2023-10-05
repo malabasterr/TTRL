@@ -7,12 +7,20 @@ import base_url from './config';
 function MapComponent() {
   const [cityData, setCityData] = useState([]);
   const [connectionData, setConnectionData] = useState([]);
-  const [userMarkers, setUserMarkers] = useState([]);
   const [map, setMap] = useState(null);
-  const [activeUserLocations, setActiveUserLocations] = useState([]);
-  const [userTeams, setUserTeams] = useState({});
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   const jwtToken = localStorage.getItem('jwtToken');
+
+  const userNames = {
+    '362202b4-f0a1-704f-58f7-13eabb4b64cf': 'Maddy',
+    'd6022234-7081-70ff-e081-3bd53d1f5187': 'Jaz',
+    '5642b254-1071-70d4-6b35-02af9eb01918': 'Hugh',
+    '8692e234-a071-70a8-133f-a9ca6d7e20cb': 'Will H',
+    'c682f244-9001-700c-084b-a077d902ad51': 'Will P',
+    '86a25294-e0e1-70fd-db68-a0c4faf664a7': 'Michael',
+  };
+  
 
   useEffect(() => {
     const container = L.DomUtil.get('map');
@@ -83,66 +91,34 @@ function MapComponent() {
             }
           });
 
-          const usersAndTeams = [
-            {
-              userId: '362202b4-f0a1-704f-58f7-13eabb4b64cf',
-              teamName: 'Maddy & Will',
-            },
-            {
-              userId: 'd6022234-7081-70ff-e081-3bd53d1f5187',
-              teamName: 'Jaz & Hugh',
-            },
-            {
-              userId: '5642b254-1071-70d4-6b35-02af9eb01918',
-              teamName: 'Jaz & Hugh',
-            },
-            {
-              userId: '8692e234-a071-70a8-133f-a9ca6d7e20cb',
-              teamName: 'Maddy & Will',
-            },
-            {
-              userId: 'c682f244-9001-700c-084b-a077d902ad51',
-              teamName: 'Will & Michael',
-            },
-            {
-              userId: '86a25294-e0e1-70fd-db68-a0c4faf664a7',
-              teamName: 'Will & Michael',
-            },
-          ];
-
-          // Fetch and display user locations for each user ID
-          for (const userAndTeam of usersAndTeams) {
-            const { userId, teamName } = userAndTeam;
-
+          if (jwtToken) {
+            const userId = parseJwt(jwtToken);
+          
             const userLocationsResponse = await fetch(`${base_url}/user-locations/${userId}`, {
+              method: 'GET',
               headers: {
                 Authorization: `Bearer ${jwtToken}`,
               },
             });
             const userLocationsData = await userLocationsResponse.json();
-
+          
             // Filter user locations where is_active is true
             const activeLocations = userLocationsData.filter((location) => location.is_active);
-
-            // Create markers for active user locations with team name in the pop-up
-            activeLocations.forEach((location) => {
+          
+            // Create markers for active user locations
+            activeLocations.forEach((activeLocation) => {
               const userMarkerIcon = L.divIcon({
                 className: 'user-marker-icon',
                 iconSize: [5, 5],
                 html: '<div class="blue-circle"></div>',
               });
-
-              const userMarker = L.marker([location.latitude, location.longitude], {
+          
+              const userMarker = L.marker([activeLocation.latitude, activeLocation.longitude], {
                 icon: userMarkerIcon,
               }).addTo(newMap);
-              userMarker.bindPopup(`${teamName}`);
+              const userName = userNames[activeLocation.user_id];
+              userMarker.bindPopup(userName);
             });
-
-            // Store the user's team in the state
-            setUserTeams((prevUserTeams) => ({
-              ...prevUserTeams,
-              [userId]: teamName,
-            }));
           }
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -155,9 +131,19 @@ function MapComponent() {
 
       return () => clearInterval(intervalId);
     }
-  }, [jwtToken]);
+  }, [jwtToken, loggedInUserId]);
 
   return <div id="map" style={{ height: '35vh' }}></div>;
 }
 
 export default MapComponent;
+
+function parseJwt(token) {
+  try {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken.sub;
+  } catch (error) {
+    console.error('Error parsing JWT:', error);
+    return null;
+  }
+}
