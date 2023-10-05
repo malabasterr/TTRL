@@ -67,6 +67,12 @@ def get_team_routes(team_id: UUID, db: Session = Depends(yield_db)):
     return team.claimed_routes
 
 
+@router.get("/teams/{team_id}/bonus-sites/", response_model=list[schemas.BonusSite])
+def get_team_sites(team_id: UUID, db: Session = Depends(yield_db)):
+    team = get_team_from_db(team_id, db)
+    return team.claimed_bonus_sites
+
+
 @router.get("/teams/{team_id}/users/", response_model=list[schemas.User])
 def get_team_users(team_id: UUID, db: Session = Depends(yield_db)):
     team = get_team_from_db(team_id, db)

@@ -1,13 +1,15 @@
 import random
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
 from sqlalchemy.orm import Session
 
 from app import models
 from app.api import schemas
 from app.api.routes.teams import get_user_from_db
 from app.db.session import yield_db
+from app.utils import get_user_id_from_authorization
 
 router = APIRouter()
 
@@ -42,8 +44,9 @@ def get_screw_card(screw_card_id: UUID, db: Session = Depends(yield_db)):
 
 
 @router.post("/screw-cards/draw", response_model=schemas.ScrewCardDraw)
-def draw_screw_cards(draw_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    user = get_user_from_db(draw_request.user_id, db)
+def draw_screw_cards(authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
+    user = get_user_from_db(user_id, db)
 
     screw_cards = get_all_screw_cards_from_db(db)
 
@@ -52,7 +55,7 @@ def draw_screw_cards(draw_request: schemas.ClaimRequest, db: Session = Depends(y
     new_draw = models.ScrewCardDraw(
         screw_card_id=drawn_card.id,
         team_id=user.team_id,
-        last_updated_user_id=draw_request.user_id,
+        last_updated_user_id=user.id,
     )
     db.add(new_draw)
     db.commit()
@@ -63,8 +66,9 @@ def draw_screw_cards(draw_request: schemas.ClaimRequest, db: Session = Depends(y
     return drawn_card_response
 
 
-@router.get("/screw-cards/draw-history/{user_id}", response_model=list[schemas.ScrewCardDraw])
-def get_drawn_screw_cards(user_id: UUID, db: Session = Depends(yield_db)):
+@router.get("/screw-cards/draw-history/", response_model=list[schemas.ScrewCardDraw])
+def get_drawn_screw_cards(authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
     user = get_user_from_db(user_id, db)
     drawn_cards = db.query(models.ScrewCardDraw).filter_by(team_id=user.team_id).all()
 

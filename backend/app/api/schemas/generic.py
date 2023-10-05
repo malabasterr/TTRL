@@ -7,10 +7,6 @@ from pydantic import BaseModel
 from app.models.teams import BonusSiteClaim, RouteClaim
 
 
-class ClaimRequest(BaseModel):
-    user_id: UUID
-
-
 class ClaimInfo(BaseModel):
     team_id: UUID
     user_id: UUID

@@ -1,12 +1,14 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
 from sqlalchemy.orm import Session
 
 from app import models
 from app.api import schemas
 from app.api.routes.teams import get_user_from_db
 from app.db.session import yield_db
+from app.utils import get_user_id_from_authorization
 
 router = APIRouter()
 
@@ -26,6 +28,20 @@ def list_routes(db: Session = Depends(yield_db)):
     return routes
 
 
+@router.get("/routes/claimed/", response_model=list[schemas.Route])
+def list_claimed_routes(db: Session = Depends(yield_db)):
+    routes = db.query(models.Route).filter(models.Route.claimed_by_teams.any()).order_by(models.Route.name).all()
+    routes = [schemas.ClaimInfo.parse_claims(route) for route in routes]
+    return routes
+
+
+@router.get("/routes/unclaimed/", response_model=list[schemas.Route])
+def list_unclaimed_routes(db: Session = Depends(yield_db)):
+    routes = db.query(models.Route).filter(~models.Route.claimed_by_teams.any()).order_by(models.Route.name).all()
+    routes = [schemas.ClaimInfo.parse_claims(route) for route in routes]
+    return routes
+
+
 @router.get("/routes/{route_id}", response_model=schemas.Route)
 def get_route(route_id: UUID, db: Session = Depends(yield_db)):
     route = get_route_from_db(route_id, db)
@@ -34,8 +50,9 @@ def get_route(route_id: UUID, db: Session = Depends(yield_db)):
 
 
 @router.post("/routes/{route_id}/claim/")
-def claim_route(route_id: UUID, claim_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    user = get_user_from_db(claim_request.user_id, db)
+def claim_route(route_id: UUID, authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
+    user = get_user_from_db(user_id, db)
     route = get_route_from_db(route_id, db)
 
     existing_claims = db.query(models.RouteClaim).filter_by(route_id=route.id).all()
@@ -65,8 +82,9 @@ def claim_route(route_id: UUID, claim_request: schemas.ClaimRequest, db: Session
 
 
 @router.post("/routes/{route_id}/unclaim/")
-def unclaim_route(route_id: UUID, claim_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    user = get_user_from_db(claim_request.user_id, db)
+def unclaim_route(route_id: UUID, authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
+    user = get_user_from_db(user_id, db)
     route = get_route_from_db(route_id, db)
 
     existing_claim = (
