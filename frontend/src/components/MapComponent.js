@@ -13,7 +13,7 @@ function MapComponent() {
   useEffect(() => {
     const container = L.DomUtil.get('map');
     if (!container._leaflet_id) {
-      const map = L.map('map').setView([48.505, 13.09], 4);
+      const map = L.map('map').setView([48.505, 10.09], 4.4);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
       const fetchData = async () => {

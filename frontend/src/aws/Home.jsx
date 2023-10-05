@@ -129,7 +129,7 @@ const WelcomeScreen = () => {
             <Link to="/claimbonussite"><button className="claimBonusSiteButton">CLAIM A BONUS SITE</button></Link>
           </div>
           <div className='shareLocationButtonContainer'>
-            <Link to="/sharelocation"><button className="shareLocationButton">SHARE LOCATION</button></Link>
+            <Link to="/sharelocation"><button className="shareLocationButton">TRACK LOCATION</button></Link>
           </div>
           <div className='drawScrewYouCardButtonContainer'>
             <Link to="/drawscrewyoucard"><button className="drawScrewYouCardButton">DRAW SCREW YOU CARD</button></Link>
