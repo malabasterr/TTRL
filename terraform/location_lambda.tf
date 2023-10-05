@@ -24,9 +24,10 @@ resource "aws_lambda_function" "location_lambda" {
   filename         = data.archive_file.zip_location_lambda.output_path
   source_code_hash = data.archive_file.zip_location_lambda.output_base64sha256
 
-  handler = "location_lambda.handler"
-  runtime = "python3.10"
-  timeout = 10
+  handler       = "location_lambda.handler"
+  runtime       = "python3.10"
+  timeout       = 10
+  architectures = ["arm64"]
 
   role = aws_iam_role.location_lambda.arn
 

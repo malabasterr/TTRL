@@ -21,10 +21,11 @@ data "aws_secretsmanager_secret_version" "rds_password" {
 resource "aws_lambda_function" "backend_lambda" {
   function_name = "${local.app_name}-lambda"
 
-  package_type = "Image"
-  image_uri    = "${module.ecr.repository_url}:latest"
-  memory_size  = 256
-  timeout      = 10
+  package_type  = "Image"
+  image_uri     = "${module.ecr.repository_url}:latest"
+  memory_size   = 256
+  timeout       = 10
+  architectures = ["arm64"]
 
   role = aws_iam_role.backend_lambda.arn
 

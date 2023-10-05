@@ -1,11 +1,3 @@
-# resource "aws_acm_certificate" "this" {
-#   domain_name = var.domain_name
-#   validation_method = "DNS"
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-# }
-
 module "api_gateway" {
   source  = "terraform-aws-modules/apigateway-v2/aws"
   version = "2.2.2"
@@ -21,8 +13,6 @@ module "api_gateway" {
   }
 
   create_api_domain_name = false
-  # domain_name = var.domain_name
-  # domain_name_certificate_arn = aws_acm_certificate.this.arn
 
   # Access logs
   default_stage_access_log_destination_arn = aws_cloudwatch_log_group.logs.arn
