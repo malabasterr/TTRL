@@ -1,3 +1,3 @@
-const base_url = 'https://mdr06r5wfi.execute-api.eu-west-2.amazonaws.com';
+const base_url = '';
 
 export default base_url;

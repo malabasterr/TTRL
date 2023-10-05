@@ -107,3 +107,52 @@
 .link-buttonSY {
     text-decoration: none;
   }
+
+.drawHistoryTitle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.8vh;
+    color: black;
+    margin-right: 6%;
+    text-decoration: none;
+    padding-top: 15%;
+}
+
+.drawHistoryContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+}
+
+  .cardContainerH{
+    width: 70%;
+    min-height: 35vh;
+    background-color: white ;
+    border-radius: 15px;
+    border: 2px solid black;
+    box-shadow: 0px 6px 0px black;
+    padding: 3.5%;
+    margin: 5%;
+    margin-bottom: 7%;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cardTitleH{
+    color: #CB9D45;
+    -webkit-text-stroke: 1.5px black;
+    font-weight: 800;
+    font-size: 3vh;
+    margin: 2%;
+}
+
+.cardDescriptionH{
+    font-weight: 100;
+    font-size: 2vh;
+    margin: 2%;
+}

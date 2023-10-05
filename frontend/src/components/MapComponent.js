@@ -58,15 +58,15 @@ function MapComponent() {
                 [destinationCity.latitude, destinationCity.longitude],
               ];
 
-              let routeColor = '#7a7c7c';
+              let routeColor = '#494949';
 
               if (connection.team_claims.length > 0) {
                 const claimedTeamId = connection.team_claims[0].team_id;
 
                 if (claimedTeamId === '79cd421b-81d4-4b00-8b59-da9e7560dc4b') {
-                  routeColor = '#00cdcd';
+                  routeColor = '#00ddff';
                 } else if (claimedTeamId === '1446e8a4-350c-4aa1-a997-c05fb87ef102') {
-                  routeColor = '#228900';
+                  routeColor = '#59a200';
                 } else if (claimedTeamId === '0076f246-bf3c-4900-aadd-87b9a9a37452') {
                   routeColor = '#ff0000';
                 }
