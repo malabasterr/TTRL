@@ -64,8 +64,10 @@ function UnclaimRoutePage() {
   }
 
   useEffect(() => {
-    fetchRoutes();
-  }, [jwtToken]);
+    if (loggedInUserTeamId !== null) {
+      fetchRoutes();
+    }
+  }, [jwtToken, loggedInUserTeamId]);
 
   const handleRouteSelect = (selectedOption) => {
     setSelectedRoute(selectedOption.value);
@@ -138,8 +140,10 @@ function UnclaimRoutePage() {
   }
 
   useEffect(() => {
-    fetchBonusSites();
-  }, [jwtToken]);
+    if (loggedInUserTeamId !== null) {
+      fetchBonusSites();
+    }
+  }, [jwtToken, loggedInUserTeamId]);
 
   const handleBonusSiteSelect = (selectedOption) => {
     setSelectedBonusSite(selectedOption.value);

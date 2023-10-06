@@ -102,8 +102,10 @@ function DrawScrewYouCardPage() {
   }
 
   useEffect(() => {
-    fetchDrawHistory();
-  }, [jwtToken]);
+    if (loggedInUserId !== null) {
+      fetchDrawHistory();
+    }
+  }, [jwtToken, loggedInUserId]);
 
   return (
     <>
