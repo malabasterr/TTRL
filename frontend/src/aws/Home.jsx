@@ -87,7 +87,7 @@ const WelcomeScreen = () => {
     <div className='backgroundHP'>
         <div>
           <h1 className='title'>
-            TICKET TO RIDE: LIVE
+            ALL CHANGE: THE GAME
           </h1>
         </div>
 

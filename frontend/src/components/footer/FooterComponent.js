@@ -7,7 +7,7 @@ const FooterComponent = () => {
     <footer className="footer">
       <div className="footerContainer">
         <img src={Logo} alt="Brand Logo" className="logoFT"/>
-        <span className="textMuted">Ticket to Ride: Live 2023</span>
+        <span className="textMuted">All Change: The Game 2023</span>
       </div>
     </footer>
   );
