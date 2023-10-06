@@ -8,7 +8,7 @@ function RulesPage() {
   return (
     <><HeaderComponentAll /><div className='rulesPage'>
       <h2 className='titleR'>Useful Information</h2>
-        <p className='subtitleR'>The game runs from 6am Tuesday 10th October until 10pm Thursday 12th October (CET). The winning team is the one with the longest, continuous claimed routes at the end of this time.</p>
+        <p className='subtitleR'>The game runs from 6am Tuesday 10th October until 10pm Thursday 12th October (CEST). The winning team is the one with the longest, continuous claimed routes at the end of this time.</p>
       <Tabs>
     <TabList>
       <Tab>More rules</Tab>

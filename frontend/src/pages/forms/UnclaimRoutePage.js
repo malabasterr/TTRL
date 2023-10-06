@@ -42,6 +42,11 @@ function UnclaimRoutePage() {
   async function fetchRoutes() {
     try {
 
+      const requestData = {
+        user_id: loggedInUserId,
+        team_id: loggedInUserTeamId
+      }; 
+
       const routesResponse = await fetch(`${base_url}/teams/${loggedInUserTeamId}/routes/`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
@@ -101,6 +106,11 @@ function UnclaimRoutePage() {
 
   async function fetchBonusSites() {
     try {
+
+      const requestData = {
+        user_id: loggedInUserId,
+        team_id: loggedInUserTeamId
+      }; 
 
       const userResponse = await fetch(`${base_url}/users/${loggedInUserId}`, {
         headers: {

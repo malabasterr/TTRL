@@ -12,50 +12,6 @@ function DrawScrewYouCardPage() {
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const jwtToken = localStorage.getItem('jwtToken');
 
-  const drawScrewCard = async () => {
-    try {
-      setIsLoading(true);
-
-      const requestData = {
-        user_id: loggedInUserId,
-      }; 
-
-      const response = await fetch(`${base_url}/screw-cards/draw`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to draw a screw card');
-      }
-
-      const data = await response.json();
-
-      const cardResponse = await fetch(`${base_url}/screw-cards/${data.id}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-
-      if (!cardResponse.ok) {
-        throw new Error('Failed to fetch screw card details');
-      }
-
-      const cardData = await cardResponse.json();
-
-      setSelectedCard(cardData);
-      setShowCard(true);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error drawing a screw card:', error);
-      setIsLoading(false);
-    }
-  };
-
   async function fetchLoggedInUser() {
     try {
       const response = await fetch(`${base_url}/users/me/`, {
@@ -78,6 +34,48 @@ function DrawScrewYouCardPage() {
   useEffect(() => {
     fetchLoggedInUser();
   }, [jwtToken]);
+
+  const drawScrewCard = async () => {
+    try {
+      setIsLoading(true);
+
+      const requestData = {
+        user_id: loggedInUserId,
+      }; 
+
+      const response = await fetch(`${base_url}/screw-cards/draw`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to draw a screw card');
+      }
+
+      const cardResponse = await fetch(`${base_url}/screw-cards/${loggedInUserId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (!cardResponse.ok) {
+        throw new Error('Failed to fetch screw card details');
+      }
+
+      const cardData = await cardResponse.json();
+
+      setSelectedCard(cardData);
+      setShowCard(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error drawing a screw card:', error);
+      setIsLoading(false);
+    }
+  };
 
   async function fetchDrawHistory() {
     
