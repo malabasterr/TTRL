@@ -9,9 +9,21 @@ function WMDistanceSummary() {
     const [bonusSites, setBonusSites] = useState([]);
     const jwtToken = localStorage.getItem('jwtToken');
   
+    function formatDateTime(apiDateTime) {
+      const date = new Date(apiDateTime);
+    
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear().toString().slice(-2);
+    
+      return `${hours}:${minutes} ${day}-${month}-${year}`;
+    }
+
     async function fetchRoutesSummary() {
       try {
-        const response = await fetch(`${base_url}/teams/1446e8a4-350c-4aa1-a997-c05fb87ef102/routes/`, { //banana
+        const response = await fetch(`${base_url}/teams/1446e8a4-350c-4aa1-a997-c05fb87ef102/routes/`, { 
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -30,7 +42,7 @@ function WMDistanceSummary() {
 
     async function fetchBonusSitesSummary() {
         try {
-          const response = await fetch(`${base_url}/teams/1446e8a4-350c-4aa1-a997-c05fb87ef102/bonus-sites/`, { //banana
+          const response = await fetch(`${base_url}/teams/1446e8a4-350c-4aa1-a997-c05fb87ef102/bonus-sites/`, { 
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
@@ -74,7 +86,7 @@ function WMDistanceSummary() {
                             <tr key={route.id}>
                                 <td>{route.name}</td>
                                 <td>{route.distance}</td>
-                                <td>{route.claim_time}</td>
+                                <td>{formatDateTime(route.claim_time)}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -94,7 +106,7 @@ function WMDistanceSummary() {
                             <tr key={bonusSite.id}>
                                 <td>{bonusSite.site_name}</td>
                                 <td>{bonusSite.site_value}</td>
-                                <td>{bonusSite.claim_time}</td>
+                                <td>{formatDateTime(bonusSite.claim_time)}</td>
                             </tr>
                         ))}
                     </tbody>

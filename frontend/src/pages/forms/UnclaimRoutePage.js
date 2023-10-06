@@ -12,56 +12,37 @@ function UnclaimRoutePage() {
   const [bonusSites, setBonusSites] = useState([]);
   const [selectedBonusSite, setSelectedBonusSite] = useState(null);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [loggedInUserTeamId, setLoggedInUserTeamId] = useState(null);
   const jwtToken = localStorage.getItem('jwtToken');
 
-  async function fetchUsers() {
+  async function fetchLoggedInUser() {
     try {
-      const response = await fetch(`${base_url}/users/`, {
+      const response = await fetch(`${base_url}/users/me/`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch users');
+        throw new Error('Failed to fetch logged in user data');
       }
 
       const data = await response.json();
-      setUsers(data);
+      setLoggedInUserId(data.id);
+      setLoggedInUserTeamId(data.team_id)
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching logged in user data:', error);
     }
   }
 
   useEffect(() => {
-    fetchUsers();
+    fetchLoggedInUser();
   }, [jwtToken]);
 
   async function fetchRoutes() {
     try {
-      // Get the user ID from the JWT token
-      const requestData = {
-        user_id: loggedInUserId,
-      }; 
 
-      // Fetch the user's information
-      const userResponse = await fetch(`${base_url}/users/${loggedInUserId}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-
-      if (!userResponse.ok) {
-        throw new Error('Failed to fetch user data');
-      }
-
-      const userData = await userResponse.json();
-
-      // Extract the team ID from the user's information
-      const teamId = userData.team_id;
-
-      // Fetch routes based on the user's team ID
-      const routesResponse = await fetch(`${base_url}/teams/${teamId}/routes/`, { //banana
+      const routesResponse = await fetch(`${base_url}/teams/${loggedInUserTeamId}/routes/`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -85,29 +66,6 @@ function UnclaimRoutePage() {
   const handleRouteSelect = (selectedOption) => {
     setSelectedRoute(selectedOption.value);
   };
-
-  async function fetchLoggedInUser() {
-    try {
-      const response = await fetch(`${base_url}/users/me/`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch logged in user data');
-      }
-
-      const data = await response.json();
-      setLoggedInUserId(data.id);
-    } catch (error) {
-      console.error('Error fetching logged in user data:', error);
-    }
-  }
-
-  useEffect(() => {
-    fetchLoggedInUser();
-  }, [jwtToken]);
 
   const unclaimRoute = async () => {
     if (selectedRoute) {
@@ -143,9 +101,6 @@ function UnclaimRoutePage() {
 
   async function fetchBonusSites() {
     try {
-      const requestData = {
-        user_id: loggedInUserId,
-      }; 
 
       const userResponse = await fetch(`${base_url}/users/${loggedInUserId}`, {
         headers: {
@@ -157,11 +112,7 @@ function UnclaimRoutePage() {
         throw new Error('Failed to fetch user data');
       }
 
-      const userData = await userResponse.json();
-
-      const teamId = userData.team_id;
-
-      const response = await fetch(`${base_url}/teams/${teamId}/bonus-sites/`, {
+      const response = await fetch(`${base_url}/teams/${loggedInUserTeamId}/bonus-sites/`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
