@@ -106,6 +106,7 @@ function UnclaimRoutePage() {
         }
 
         console.log('Route un-claimed successfully');
+        alert("Route un-claim successful")
       } catch (error) {
         console.error('Error un-claiming route:', selectedRoute.id, error);
       }
@@ -180,6 +181,7 @@ function UnclaimRoutePage() {
         }
 
         console.log('Bonus site un-claimed successfully');
+        alert("Bonus Site un-claim successful")
       } catch (error) {
         console.error('Error un-claiming bonus site:', selectedBonusSite.id, error);
       }
@@ -192,14 +194,14 @@ function UnclaimRoutePage() {
   return (
     <>
       <HeaderComponentAll />
-      <div className='formBackground'>
-        <div className="formContainer">
-          <div className="claimRouteTitleContainer">
-            <label className='formTitle'>Un-claim a Route</label>
+      <div className='formBackgroundUC'>
+        <div className="formContainerUC">
+          <div className="claimRouteTitleContainerUC">
+            <label className='formTitleUC'>Un-claim a Route</label>
           </div>
 
           <Select
-            className='dropdown-basic'
+            className='dropdown-basicUC'
             options={routes.map((route) => ({
               value: route,
               label: route.name,
@@ -210,19 +212,19 @@ function UnclaimRoutePage() {
             isSearchable={true}
           />
 
-          <div className="mainButtonContainer">
-            <Link className="link-button" to="/home">
-              <button className="mainButton" onClick={unclaimRoute}>UNCLAIM</button>
+          <div className="mainButtonContainerUC">
+            <Link className="link-buttonUC" to="/home">
+              <button className="mainButtonUC" onClick={unclaimRoute}>UNCLAIM</button>
             </Link>
           </div>
         </div>
-        <div className="formContainer">
-          <div className="claimRouteTitleContainer">
-            <label className='formTitle'>Un-claim a Bonus Site</label>
+        <div className="formContainerUC">
+          <div className="claimRouteTitleContainerUC">
+            <label className='formTitleUC'>Un-claim a Bonus Site</label>
           </div>
 
           <Select
-            className='dropdown-basic'
+            className='dropdown-basicUC'
             options={bonusSites.map((bonusSite) => ({
               value: bonusSite,
               label: bonusSite.site_name,
@@ -233,9 +235,9 @@ function UnclaimRoutePage() {
             isSearchable={true}
           />
 
-          <div className="mainButtonContainer">
-            <Link className="link-button" to="/home">
-              <button className="mainButton" onClick={unclaimBonusSite}>UNCLAIM</button>
+          <div className="mainButtonContainerUC">
+            <Link className="link-buttonUC" to="/home">
+              <button className="mainButtonUC" onClick={unclaimBonusSite}>UNCLAIM</button>
             </Link>
           </div>
         </div>

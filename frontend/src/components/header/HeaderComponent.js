@@ -11,6 +11,7 @@ function HeaderComponent({ logout }) {
         </a>
         <nav className="navbarRight">
           <a href="/home" className="navButton">HOME</a>
+          <a href="/rules" className="navButton">INFO</a>
           <button className="specialnavButton" onClick={logout}>
           LOGOUT
         </button>

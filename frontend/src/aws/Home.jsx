@@ -78,8 +78,6 @@ const WelcomeScreen = () => {
     return () => clearInterval(intervalId);
   }, [jwtToken]);
     
-
-  
   return (
     <>
     <HeaderComponent logout={signOut}/>

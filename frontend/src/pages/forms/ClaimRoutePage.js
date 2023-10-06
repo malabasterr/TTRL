@@ -60,6 +60,7 @@ function ClaimRoutePage() {
         }
 
         console.log('Route claimed successfully');
+        alert("Route claimed successfully")
       } catch (error) {
         console.error('Error claiming route:', selectedRoute.id, error);
       }

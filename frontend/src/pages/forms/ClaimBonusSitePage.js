@@ -60,6 +60,7 @@ function ClaimBonusSitePage() {
         }
 
         console.log('Bonus site claimed successfully');
+        alert("Bonus Site claimed successfully")
       } catch (error) {
         console.error('Error claiming bonus site:', selectedBonusSite.id, error);
       }

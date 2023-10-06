@@ -11,6 +11,7 @@ function HeaderComponentAll() {
         </a>
         <nav className="navbarRight">
           <a href="/home" className="navButton">HOME</a>
+          <a href="/rules" className="navButton">INFO</a>
         </nav>
       </div>
     </header>

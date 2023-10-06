@@ -61,6 +61,7 @@ function ShareLocationPage() {
         }
 
         console.log('Location requested successfully');
+        alert("Location tracked successfully");
       }
     } catch (error) {
       console.error('Error requesting location', error);

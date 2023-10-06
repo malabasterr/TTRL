@@ -16,6 +16,7 @@ import { Provider } from "react-redux";
 import MWDistanceSummary from './components/summaries/MWDistanceSummary';
 import JHDistanceSummary from './components/summaries/JHDistanceSummary';
 import WMDistanceSummary from './components/summaries/WMDistanceSummary';
+import RulesPage from './components/RulesPage';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/MWSummary" element={<MWDistanceSummary />} />
           <Route path="/JHSummary" element={<JHDistanceSummary />} />
           <Route path="/WMSummary" element={<WMDistanceSummary />} />
+          <Route path="/rules" element={<RulesPage />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <FooterComponent />

@@ -72,7 +72,7 @@ function MapComponent() {
           bonusSitesData.forEach((bonusSite) => {
             const bonusSitesMarkerIcon = L.divIcon({
               className: 'bonusSites-marker-icon',
-              iconSize: [25, 25],
+              iconSize: [12, 12],
               html: '<div class="black-circle"></div>',
             });
 
