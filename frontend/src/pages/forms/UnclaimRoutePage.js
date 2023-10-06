@@ -6,7 +6,6 @@ import Select from 'react-select';
 import base_url from '../../components/config';
 
 function UnclaimRoutePage() {
-  const [users, setUsers] = useState([]);
   const [routes, setRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [bonusSites, setBonusSites] = useState([]);
