@@ -13,6 +13,9 @@ import Login from './aws/Login';
 import Home from './aws/Home';
 import store from './redux/store';
 import { Provider } from "react-redux";
+import MWDistanceSummary from './components/summaries/MWDistanceSummary';
+import JHDistanceSummary from './components/summaries/JHDistanceSummary';
+import WMDistanceSummary from './components/summaries/WMDistanceSummary';
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
           <Route path="/claimbonussite" element={<ClaimBonusSitePage />} />
           <Route path="/sharelocation" element={<ShareLocationPage />} />
           <Route path="/drawscrewyoucard" element={<DrawScrewYouCardPage />} />
+          <Route path="/MWSummary" element={<MWDistanceSummary />} />
+          <Route path="/JHSummary" element={<JHDistanceSummary />} />
+          <Route path="/WMSummary" element={<WMDistanceSummary />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <FooterComponent />

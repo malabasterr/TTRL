@@ -1,17 +1,49 @@
-.formBackground{
+.formBackgroundD {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #AAD3DF;
     height: 90vh;
 }
 
-.formContainer{
+.formContainerD {
     width:90%;
     margin: 2%;
+    max-height: 60vh; /* Adjust the height as needed */
+    overflow-y: auto; /* Add vertical scrollbar when content exceeds the height */
+  }
+  
+  /* Style for the tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+.mainButtonContainerD{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+
 }
 
-.mainButton {
+  .mainButtonD {
     background-color: #ffcd00 ;
     border-radius: 15px;
     border: 2px solid black;
@@ -21,20 +53,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 45vw;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 4vh;
+    font-size: 3vh;
     transition: background-color 0.3s ease;
     text-decoration: none;
 }
 
-.mainButton:hover {
+.mainButtonD:hover {
     background-color: #CB9D45;
     text-decoration: none;
   }
   
-  .mainButton:active {
+  .mainButtonD:active {
     background-color: #CB9D45;
     border: 2px solid black;
     box-shadow: none;
@@ -43,7 +75,7 @@
     text-decoration: none;
   }
 
-.formTitle {
+  .formTitleD {
     font-family: 'Open Sans', sans-serif;
     padding-bottom: 4%;
     display: flex;
@@ -53,44 +85,4 @@
     -webkit-text-stroke: 2px black;
     font-weight: 800;
     font-size: 6vh;
-}
-
-.formBox {
-    background-color: #F8F5FF;
-    border: 1px solid black;
-    border-radius: 15px;
-    padding: 10px;
-    font-size: 4vh;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.link-button {
-    text-decoration: none;
-  }
-
-.dropdown-basic{
-    background-color: #F8F5FF;
-    border: 1px solid black;
-    border-radius: 15px;
-    padding: 10px;
-    font-size: 4vh;
-    margin-bottom: 10px;
-    width: 100%;
-    color: rgb(84, 84, 84);
-}
-
-.dropdown-menu{
-    max-height: 30vh;
-    overflow-y: auto;
-}
-
-.dropdown-list{
-    background-color: #F8F5FF;
-    border-radius: 15px;
-    padding: 5px;
-    font-size: 2vh;
-    margin-bottom: 10px;
-    width: 100%;
-    color: rgb(0, 0, 0);
 }

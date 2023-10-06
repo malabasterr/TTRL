@@ -99,19 +99,19 @@ const WelcomeScreen = () => {
           {teamOneDistances.map((teamDistance) => (
             <div key={teamDistance.team_id} className='teamOneDistanceContainer'>
               <h2 className='teamName'>{teamDistance.team_name}</h2>
-              <h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2>
+              <Link to="/WMSummary"><h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2></Link>
             </div>
           ))}
           {teamTwoDistances.map((teamDistance) => (
             <div key={teamDistance.team_id} className='teamTwoDistanceContainer'>
               <h2 className='teamName'>{teamDistance.team_name}</h2>
-              <h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2>
+              <Link to="/JHSummary"><h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2></Link>
             </div>
           ))}
           {teamThreeDistances.map((teamDistance) => (
             <div key={teamDistance.team_id} className='teamThreeDistanceContainer'>
               <h2 className='teamName'>{teamDistance.team_name}</h2>
-              <h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2>
+              <Link to="/MWSummary"><h2 className='teamDistance'>{teamDistance.claimed_distance} km</h2></Link>
             </div>
           ))}
         </div>

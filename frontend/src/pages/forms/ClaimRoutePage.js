@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './FormPages.css';
 import { Link } from 'react-router-dom';
-import HeaderComponent from '../../components/header/HeaderComponent';
+import HeaderComponentAll from '../../components/header/HeaderComponentAll';
 import Select from 'react-select';
 import base_url from '../../components/config';
 
@@ -71,7 +71,7 @@ function ClaimRoutePage() {
 
   return (
     <>
-      <HeaderComponent />
+      <HeaderComponentAll />
       <div className='formBackground'>
         <div className="formContainer">
           <div className="claimRouteTitleContainer">

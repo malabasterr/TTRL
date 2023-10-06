@@ -122,9 +122,7 @@ function MapComponent() {
           });
 
           if (jwtToken) {
-            const userId = parseJwt(jwtToken);
-          
-            const userLocationsResponse = await fetch(`${base_url}/user-locations/${userId}`, {
+            const userLocationsResponse = await fetch(`${base_url}/user-locations/`, {
               method: 'GET',
               headers: {
                 Authorization: `Bearer ${jwtToken}`,
@@ -167,13 +165,3 @@ function MapComponent() {
 }
 
 export default MapComponent;
-
-function parseJwt(token) {
-  try {
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    return decodedToken.sub;
-  } catch (error) {
-    console.error('Error parsing JWT:', error);
-    return null;
-  }
-}
