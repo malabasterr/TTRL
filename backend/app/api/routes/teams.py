@@ -1,12 +1,13 @@
-from typing import Union
+from typing import Annotated, Union
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
 from sqlalchemy.orm import Session
 
 from app import models
 from app.api import schemas
 from app.db.session import yield_db
+from app.utils.decode_verify_jwt import get_user_id_from_authorization
 
 router = APIRouter()
 
@@ -56,6 +57,13 @@ def list_users(db: Session = Depends(yield_db)):
     return users
 
 
+@router.get("/users/me/", response_model=schemas.User)
+def get_current_user(authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
+    user = get_user_from_db(user_id, db)
+    return user
+
+
 @router.get("/teams/{team_id}/", response_model=schemas.Team)
 def get_team(team_id: UUID, db: Session = Depends(yield_db)):
     return get_team_from_db(team_id, db)
@@ -67,7 +75,11 @@ def get_team_routes(team_id: UUID, db: Session = Depends(yield_db)):
 
     claimed_routes = (
         db.query(models.Route)
-        .filter(models.Route.id == models.RouteClaim.route_id, models.RouteClaim.team_id == team.id)
+        .filter(
+            models.Route.id == models.RouteClaim.route_id,
+            models.RouteClaim.team_id == team.id,
+            models.RouteClaim.is_active,
+        )
         .all()
     )
 
@@ -93,7 +105,11 @@ def get_team_sites(team_id: UUID, db: Session = Depends(yield_db)):
     team = get_team_from_db(team_id, db)
     claimed_bonus_sites = (
         db.query(models.BonusSite)
-        .filter(models.BonusSite.id == models.BonusSiteClaim.site_id, models.BonusSiteClaim.team_id == team.id)
+        .filter(
+            models.BonusSite.id == models.BonusSiteClaim.site_id,
+            models.BonusSiteClaim.team_id == team.id,
+            models.BonusSiteClaim.is_active,
+        )
         .all()
     )
 

@@ -2,6 +2,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Header, HTTPException
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session
 
 from app import models
@@ -32,7 +33,8 @@ def list_bonus_sites(db: Session = Depends(yield_db)):
 def list_claimed_sites(db: Session = Depends(yield_db)):
     bonus_sites = (
         db.query(models.BonusSite)
-        .filter(models.BonusSite.claimed_by_teams.any())
+        # Active claims only
+        .filter(models.BonusSite.claimed_by_teams.any(), models.BonusSiteClaim.is_active)
         .order_by(models.BonusSite.site_name)
         .all()
     )
@@ -44,7 +46,15 @@ def list_claimed_sites(db: Session = Depends(yield_db)):
 def list_unclaimed_sites(db: Session = Depends(yield_db)):
     bonus_sites = (
         db.query(models.BonusSite)
-        .filter(~models.BonusSite.claimed_by_teams.any())
+        .join(models.BonusSiteClaim, isouter=True)
+        .filter(
+            or_(
+                # No claims
+                ~models.BonusSite.claimed_by_teams.any(),
+                # No active claims
+                and_(models.BonusSite.claimed_by_teams.any(), ~models.BonusSiteClaim.is_active),
+            )
+        )
         .order_by(models.BonusSite.site_name)
         .all()
     )
