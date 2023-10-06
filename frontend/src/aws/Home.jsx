@@ -121,7 +121,7 @@ const WelcomeScreen = () => {
             <Link to="/claimroute"><button className="claimRouteButton">CLAIM A ROUTE</button></Link>
           </div>
           <div className='unclaimRouteButtonContainer'>
-            <Link to="/unclaimroute"><button className="unclaimRouteButton">UNCLAIM A ROUTE</button></Link>
+            <Link to="/unclaimroute"><button className="unclaimRouteButton">UNCLAIM</button></Link>
           </div>
         </div>
         <div className='bottomLineButtons'>

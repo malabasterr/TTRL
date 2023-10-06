@@ -12,7 +12,7 @@ function ClaimRoutePage() {
 
   async function fetchRoutes() {
     try {
-      const response = await fetch(`${base_url}/routes/`, {
+      const response = await fetch(`${base_url}/routes/unclaimed/`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },

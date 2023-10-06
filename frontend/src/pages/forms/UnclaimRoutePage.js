@@ -6,25 +6,70 @@ import Select from 'react-select';
 import base_url from '../../components/config';
 
 function UnclaimRoutePage() {
+  const [users, setUsers] = useState([]);
   const [routes, setRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [bonusSites, setBonusSites] = useState([]);
   const [selectedBonusSite, setSelectedBonusSite] = useState(null);
   const jwtToken = localStorage.getItem('jwtToken');
 
-  async function fetchRoutes() {
+  async function fetchUsers() {
     try {
-      const response = await fetch(`${base_url}/routes/`, {
+      const response = await fetch(`${base_url}/users/`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       });
+
       if (!response.ok) {
-        throw new Error('Failed to fetch routes data');
+        throw new Error('Failed to fetch users');
       }
 
       const data = await response.json();
-      setRoutes(data);
+      setUsers(data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  }, [jwtToken]);
+
+  async function fetchRoutes() {
+    try {
+      // Get the user ID from the JWT token
+      const userId = parseJwt(jwtToken);
+
+      // Fetch the user's information
+      const userResponse = await fetch(`${base_url}/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (!userResponse.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+
+      const userData = await userResponse.json();
+
+      // Extract the team ID from the user's information
+      const teamId = userData.team_id;
+
+      // Fetch routes based on the user's team ID
+      const routesResponse = await fetch(`${base_url}/teams/${teamId}/routes/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (!routesResponse.ok) {
+        throw new Error('Failed to fetch routes data');
+      }
+
+      const routesData = await routesResponse.json();
+      setRoutes(routesData);
     } catch (error) {
       console.error('Error fetching routes:', error);
     }
@@ -71,7 +116,23 @@ function UnclaimRoutePage() {
 
   async function fetchBonusSites() {
     try {
-      const response = await fetch(`${base_url}/bonus-sites/`, {
+      const userId = parseJwt(jwtToken);
+
+      const userResponse = await fetch(`${base_url}/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (!userResponse.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+
+      const userData = await userResponse.json();
+
+      const teamId = userData.team_id;
+
+      const response = await fetch(`${base_url}/teams/${teamId}/bonus-sites/`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
