@@ -61,16 +61,60 @@ def get_team(team_id: UUID, db: Session = Depends(yield_db)):
     return get_team_from_db(team_id, db)
 
 
-@router.get("/teams/{team_id}/routes/", response_model=list[schemas.Route])
+@router.get("/teams/{team_id}/routes/", response_model=list[schemas.ClaimedRoute])
 def get_team_routes(team_id: UUID, db: Session = Depends(yield_db)):
     team = get_team_from_db(team_id, db)
-    return team.claimed_routes
+
+    claimed_routes = (
+        db.query(models.Route)
+        .filter(models.Route.id == models.RouteClaim.route_id, models.RouteClaim.team_id == team.id)
+        .all()
+    )
+
+    claimed_routes_response = []
+    for route in claimed_routes:
+        [relevant_team_claim] = [claim for claim in route.claimed_by_teams if claim.team_id == team.id]
+        claimed_routes_response.append(
+            schemas.ClaimedRoute(
+                id=route.id,
+                name=route.name,
+                distance=route.distance,
+                start_city_id=route.start_city_id,
+                end_city_id=route.end_city_id,
+                claimed_by_user=relevant_team_claim.last_updated_user_id,
+                claim_time=relevant_team_claim.last_updated_time,
+            )
+        )
+    return claimed_routes_response
 
 
-@router.get("/teams/{team_id}/bonus-sites/", response_model=list[schemas.BonusSite])
+@router.get("/teams/{team_id}/bonus-sites/", response_model=list[schemas.ClaimedBonusSite])
 def get_team_sites(team_id: UUID, db: Session = Depends(yield_db)):
     team = get_team_from_db(team_id, db)
-    return team.claimed_bonus_sites
+    claimed_bonus_sites = (
+        db.query(models.BonusSite)
+        .filter(models.BonusSite.id == models.BonusSiteClaim.site_id, models.BonusSiteClaim.team_id == team.id)
+        .all()
+    )
+
+    claimed_bonus_sites_response = []
+    for site in claimed_bonus_sites:
+        [relevant_team_claim] = [claim for claim in site.claimed_by_teams if claim.team_id == team.id]
+        claimed_bonus_sites_response.append(
+            schemas.ClaimedBonusSite(
+                id=site.id,
+                site_name=site.site_name,
+                city=site.city,
+                country=site.country,
+                latitude=site.latitude,
+                longitude=site.longitude,
+                site_value=site.site_value,
+                claimed_by_user=relevant_team_claim.last_updated_user_id,
+                claim_time=relevant_team_claim.last_updated_time,
+            )
+        )
+
+    return claimed_bonus_sites_response
 
 
 @router.get("/teams/{team_id}/users/", response_model=list[schemas.User])
