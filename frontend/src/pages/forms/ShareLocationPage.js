@@ -47,8 +47,6 @@ function ShareLocationPage() {
           request_team_id: selectedTeam.id,
         };
 
-        console.log(requestData)
-
         const response = await fetch(`${base_url}/user-locations/request/`, {
           method: 'POST',
           headers: {

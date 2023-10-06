@@ -111,6 +111,7 @@ function UnclaimRoutePage() {
       }
     } else {
       console.error('No route selected to un-claim');
+      alert("No route selected to un-claim")
     }
   };
 
@@ -184,6 +185,7 @@ function UnclaimRoutePage() {
       }
     } else {
       console.error('No bonus site selected to un-claim');
+      alert("No Bonus Site selected to un-claim")
     }
   };
 

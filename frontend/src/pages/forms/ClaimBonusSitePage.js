@@ -65,6 +65,7 @@ function ClaimBonusSitePage() {
       }
     } else {
       console.error('No bonus site selected to claim');
+      alert("No Bonus Site selected to claim")
     }
   };
 

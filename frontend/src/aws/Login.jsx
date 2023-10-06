@@ -50,11 +50,11 @@ const Login = () => {
             })
           );
           navigate("/home");
-          console.log(result)
         });
       },
       onFailure: (err) => {
         console.log("login failed", err);
+        alert("Login failed. Please check your email and password.");
       },
     });
   };

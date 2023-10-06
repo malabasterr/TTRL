@@ -65,6 +65,7 @@ function ClaimRoutePage() {
       }
     } else {
       console.error('No route selected to claim');
+      alert("No route selected to claim")
     }
   };
 
