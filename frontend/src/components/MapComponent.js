@@ -48,6 +48,14 @@ function MapComponent() {
           const connectionData = await connectionResponse.json();
           setConnectionData(connectionData);
 
+          const bonusSitesResponse = await fetch(`${base_url}/bonus-sites/`, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          });
+          const bonusSitesData = await bonusSitesResponse.json();
+          setCityData(bonusSitesData);
+
           cityData.forEach((city) => {
             const customMarkerIcon = L.divIcon({
               className: 'custom-marker-icon',
@@ -57,8 +65,21 @@ function MapComponent() {
 
             const marker = L.marker([city.latitude, city.longitude], {
               icon: customMarkerIcon,
-            }).addTo(newMap); // Use newMap here
+            }).addTo(newMap);
             marker.bindPopup(city.name);
+          });
+
+          bonusSitesData.forEach((bonusSite) => {
+            const bonusSitesMarkerIcon = L.divIcon({
+              className: 'bonusSites-marker-icon',
+              iconSize: [25, 25],
+              html: '<div class="black-circle"></div>',
+            });
+
+            const marker = L.marker([bonusSite.latitude, bonusSite.longitude], {
+              icon: bonusSitesMarkerIcon,
+            }).addTo(newMap);
+            marker.bindPopup(bonusSite.site_name);
           });
 
           connectionData.forEach((connection) => {
@@ -85,7 +106,16 @@ function MapComponent() {
                 }
               }
 
-              L.polyline(coordinates, { color: routeColor, weight: 2.5 }).addTo(newMap); // Use newMap here
+              const routeDistance = connection.distance;
+
+              const polyline = L.polyline(coordinates, {
+                color: routeColor,
+                weight: 2,
+                popupContent: `Distance: ${routeDistance} km`,
+              }).addTo(newMap);
+
+              polyline.bindPopup(polyline.options.popupContent);
+
             } else {
               console.warn('Source or destination city not found for connection:', connection);
             }
