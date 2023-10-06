@@ -9,16 +9,16 @@ function DrawScrewYouCardPage() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [drawHistory, setDrawHistory] = useState([]);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
   const jwtToken = localStorage.getItem('jwtToken');
 
   const drawScrewCard = async () => {
     try {
       setIsLoading(true);
 
-      const userId = parseJwt(jwtToken);
       const requestData = {
-        user_id: userId
-      };  
+        user_id: loggedInUserId,
+      }; 
 
       const response = await fetch(`${base_url}/screw-cards/draw`, {
         method: 'POST',
@@ -56,14 +56,37 @@ function DrawScrewYouCardPage() {
     }
   };
 
+  async function fetchLoggedInUser() {
+    try {
+      const response = await fetch(`${base_url}/users/me/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch logged in user data');
+      }
+
+      const data = await response.json();
+      setLoggedInUserId(data.id);
+    } catch (error) {
+      console.error('Error fetching logged in user data:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, [jwtToken]);
+
   async function fetchDrawHistory() {
-    const userId = parseJwt(jwtToken);
+    
     const requestData = {
-      user_id: userId
-    };  
+      user_id: loggedInUserId,
+    }; 
 
     try {
-      const response = await fetch(`${base_url}/screw-cards/draw-history/${userId}`, {
+      const response = await fetch(`${base_url}/screw-cards/draw-history/${loggedInUserId}`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -132,13 +155,3 @@ function DrawScrewYouCardPage() {
 }
 
 export default DrawScrewYouCardPage;
-
-function parseJwt(token) {
-  try {
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    return decodedToken.sub;
-  } catch (error) {
-    console.error('Error parsing JWT:', error);
-    return null;
-  }
-}

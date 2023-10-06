@@ -11,7 +11,7 @@ function MWDistanceSummary() {
   
     async function fetchRoutesSummary() {
       try {
-        const response = await fetch(`${base_url}/teams/0076f246-bf3c-4900-aadd-87b9a9a37452/routes/`, {
+        const response = await fetch(`${base_url}/teams/0076f246-bf3c-4900-aadd-87b9a9a37452/routes/`, { //banana
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
@@ -30,7 +30,7 @@ function MWDistanceSummary() {
   
       async function fetchBonusSitesSummary() {
           try {
-            const response = await fetch(`${base_url}/teams/0076f246-bf3c-4900-aadd-87b9a9a37452/bonus-sites/`, { 
+            const response = await fetch(`${base_url}/teams/0076f246-bf3c-4900-aadd-87b9a9a37452/bonus-sites/`, { //banana
               headers: {
                 Authorization: `Bearer ${jwtToken}`,
             },

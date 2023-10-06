@@ -2,6 +2,7 @@ import React from 'react';
 import HeaderComponentAll from './header/HeaderComponentAll';
 
 function RulesPage() {
+  //banana
   return (
     <><HeaderComponentAll /><div>
       <h2>THIS PAGE WILL CONTAIN:</h2>

@@ -11,6 +11,7 @@ function UnclaimRoutePage() {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [bonusSites, setBonusSites] = useState([]);
   const [selectedBonusSite, setSelectedBonusSite] = useState(null);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
   const jwtToken = localStorage.getItem('jwtToken');
 
   async function fetchUsers() {
@@ -39,10 +40,12 @@ function UnclaimRoutePage() {
   async function fetchRoutes() {
     try {
       // Get the user ID from the JWT token
-      const userId = parseJwt(jwtToken);
+      const requestData = {
+        user_id: loggedInUserId,
+      }; 
 
       // Fetch the user's information
-      const userResponse = await fetch(`${base_url}/users/${userId}`, {
+      const userResponse = await fetch(`${base_url}/users/${loggedInUserId}`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -58,7 +61,7 @@ function UnclaimRoutePage() {
       const teamId = userData.team_id;
 
       // Fetch routes based on the user's team ID
-      const routesResponse = await fetch(`${base_url}/teams/${teamId}/routes/`, {
+      const routesResponse = await fetch(`${base_url}/teams/${teamId}/routes/`, { //banana
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -83,14 +86,36 @@ function UnclaimRoutePage() {
     setSelectedRoute(selectedOption.value);
   };
 
+  async function fetchLoggedInUser() {
+    try {
+      const response = await fetch(`${base_url}/users/me/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch logged in user data');
+      }
+
+      const data = await response.json();
+      setLoggedInUserId(data.id);
+    } catch (error) {
+      console.error('Error fetching logged in user data:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, [jwtToken]);
+
   const unclaimRoute = async () => {
     if (selectedRoute) {
       try {
         
-        const userId = parseJwt(jwtToken);
         const requestData = {
-          user_id: userId
-        };   
+          user_id: loggedInUserId,
+        }; 
 
         const response = await fetch(`${base_url}/routes/${selectedRoute.id}/unclaim/`, {
           method: 'POST',
@@ -118,9 +143,11 @@ function UnclaimRoutePage() {
 
   async function fetchBonusSites() {
     try {
-      const userId = parseJwt(jwtToken);
+      const requestData = {
+        user_id: loggedInUserId,
+      }; 
 
-      const userResponse = await fetch(`${base_url}/users/${userId}`, {
+      const userResponse = await fetch(`${base_url}/users/${loggedInUserId}`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -162,10 +189,9 @@ function UnclaimRoutePage() {
     if (selectedBonusSite) {
       try {
         
-        const userId = parseJwt(jwtToken);
         const requestData = {
-          user_id: userId
-        };   
+          user_id: loggedInUserId,
+        }; 
 
         const response = await fetch(`${base_url}/bonus-sites/${selectedBonusSite.id}/unclaim/`, {
           method: 'POST',
@@ -247,13 +273,3 @@ function UnclaimRoutePage() {
 }
 
 export default UnclaimRoutePage;
-
-function parseJwt(token) {
-  try {
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    return decodedToken.sub;
-  } catch (error) {
-    console.error('Error parsing JWT:', error);
-    return null;
-  }
-}

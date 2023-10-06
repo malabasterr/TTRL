@@ -11,7 +11,7 @@ function JHDistanceSummary() {
   
     async function fetchRoutesSummary() {
       try {
-        const response = await fetch(`${base_url}/teams/79cd421b-81d4-4b00-8b59-da9e7560dc4b/routes/`, {
+        const response = await fetch(`${base_url}/teams/79cd421b-81d4-4b00-8b59-da9e7560dc4b/routes/`, { //banana
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
@@ -30,7 +30,7 @@ function JHDistanceSummary() {
   
       async function fetchBonusSitesSummary() {
           try {
-            const response = await fetch(`${base_url}/teams/79cd421b-81d4-4b00-8b59-da9e7560dc4b/bonus-sites/`, { 
+            const response = await fetch(`${base_url}/teams/79cd421b-81d4-4b00-8b59-da9e7560dc4b/bonus-sites/`, { //banana
               headers: {
                 Authorization: `Bearer ${jwtToken}`,
             },

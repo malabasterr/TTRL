@@ -7,6 +7,7 @@ import base_url from '../../components/config';
 
 function ClaimBonusSitePage() {
   const [bonusSites, setBonusSites] = useState([]);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [selectedBonusSite, setSelectedBonusSite] = useState(null);
   const jwtToken = localStorage.getItem('jwtToken');
 
@@ -37,14 +38,36 @@ function ClaimBonusSitePage() {
     setSelectedBonusSite(selectedOption.value);
   };
 
+  async function fetchLoggedInUser() {
+    try {
+      const response = await fetch(`${base_url}/users/me/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch logged in user data');
+      }
+
+      const data = await response.json();
+      setLoggedInUserId(data.id);
+    } catch (error) {
+      console.error('Error fetching logged in user data:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, [jwtToken]);
+
   const claimBonusSite = async () => {
     if (selectedBonusSite) {
       try {
         
-        const userId = parseJwt(jwtToken);
         const requestData = {
-          user_id: userId
-        };   
+          user_id: loggedInUserId,
+        }; 
 
         const response = await fetch(`${base_url}/bonus-sites/${selectedBonusSite.id}/claim/`, {
           method: 'POST',
@@ -103,13 +126,3 @@ function ClaimBonusSitePage() {
 }
 
 export default ClaimBonusSitePage;
-
-function parseJwt(token) {
-  try {
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    return decodedToken.sub;
-  } catch (error) {
-    console.error('Error parsing JWT:', error);
-    return null;
-  }
-}

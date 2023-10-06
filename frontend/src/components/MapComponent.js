@@ -107,11 +107,12 @@ function MapComponent() {
               }
 
               const routeDistance = connection.distance;
+              const routeName = connection.name;
 
               const polyline = L.polyline(coordinates, {
                 color: routeColor,
                 weight: 2,
-                popupContent: `Distance: ${routeDistance} km`,
+                popupContent: `${routeName} Distance: ${routeDistance} km`,
               }).addTo(newMap);
 
               polyline.bindPopup(polyline.options.popupContent);
