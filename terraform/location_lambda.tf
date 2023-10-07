@@ -8,7 +8,15 @@ resource "null_resource" "pip_install" {
   }
 
   provisioner "local-exec" {
-    command = "python3 -m pip install -r ${local.location_lambda_path}/requirements.txt -t ${local.location_lambda_path}"
+    command = <<EOT
+python3 -m pip install \
+--platform manylinux2014_x86_64 \
+--implementation cp \
+--python-version 3.10 \
+--only-binary=:all: \
+-r ${local.location_lambda_path}/requirements.txt \
+-t ${local.location_lambda_path}
+EOT
   }
 }
 
@@ -27,7 +35,7 @@ resource "aws_lambda_function" "location_lambda" {
   handler       = "location_lambda.handler"
   runtime       = "python3.10"
   timeout       = 10
-  architectures = ["arm64"]
+  architectures = ["x86_64"]
 
   role = aws_iam_role.location_lambda.arn
 
