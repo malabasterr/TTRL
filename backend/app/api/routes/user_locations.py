@@ -1,24 +1,24 @@
 from datetime import datetime, timedelta, timezone
-from uuid import UUID
+from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Header
 from sqlalchemy.orm import Session
 
 from app import models
 from app.api import schemas
 from app.api.routes.teams import get_team_from_db, get_user_from_db
 from app.db.session import yield_db
+from app.utils import get_user_id_from_authorization
 
 router = APIRouter()
 
 
-# TODO: Use the header to get the user_id instead!
-@router.get("/user-locations/{user_id}", response_model=list[schemas.UserLocation])
-def get_user_locations(user_id: UUID, db: Session = Depends(yield_db)):
+@router.get("/user-locations/", response_model=list[schemas.UserLocation])
+def get_user_locations(authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
     current_user = get_user_from_db(user_id, db)
 
     current_time = datetime.now(timezone.utc)
-    print(current_time)
     valid_share_requests = (
         db.query(models.LocationShareRequest)
         .filter(
@@ -29,14 +29,10 @@ def get_user_locations(user_id: UUID, db: Session = Depends(yield_db)):
         .all()
     )
 
-    print(valid_share_requests)
-
     valid_location_team_ids = [share_request.location_team_id for share_request in valid_share_requests]
-    valid_location_team_ids.append(current_user.team_id)
-    print(valid_location_team_ids)
 
+    valid_location_team_ids.append(current_user.team_id)
     valid_location_user_ids = db.query(models.User).filter(models.User.team_id.in_(valid_location_team_ids)).all()
-    print(valid_location_user_ids)
 
     locations = [
         db.query(models.UserLocation)
@@ -53,8 +49,13 @@ def get_user_locations(user_id: UUID, db: Session = Depends(yield_db)):
 
 
 @router.post("/user-locations/request/")
-def request_location_sharing(location_share_request: schemas.LocationShareRequest, db: Session = Depends(yield_db)):
-    requesting_user = get_user_from_db(location_share_request.user_id, db)
+def request_location_sharing(
+    authorization: Annotated[str | None, Header()],
+    location_share_request: schemas.LocationShareRequest,
+    db: Session = Depends(yield_db),
+):
+    user_id = get_user_id_from_authorization(authorization)
+    requesting_user = get_user_from_db(user_id, db)
     requested_team = get_team_from_db(location_share_request.request_team_id, db)
 
     if requesting_user.team_id == requested_team.id:

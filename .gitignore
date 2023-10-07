@@ -15,3 +15,6 @@ scratchpad.txt
 
 # Archive files
 *.zip
+
+# Mac...
+.DS_Store

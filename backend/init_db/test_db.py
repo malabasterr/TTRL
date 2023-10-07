@@ -8,24 +8,24 @@ from uuid import UUID
 from app import models
 from app.db.session import get_db
 
-session = get_db()
+db = get_db()
 
 # Query all teams from the database
-all_teams = session.query(models.Team).all()
+all_teams = db.query(models.Team).all()
 
 # Loop through the teams and print their names (or perform any other desired operations)
 for team in all_teams:
     print(team.name)
 
 
-all_routes = session.query(models.Route).all()
+all_routes = db.query(models.Route).all()
 
 # Don't forget to close the session when you're done using it
 # session.close()
 
 route_id = UUID("afcc9191-8499-4db8-be05-fb1466bb29f8")
 
-users = session.query(models.User).all()
+users = db.query(models.User).all()
 
 for this_user in users:
     loc_log = models.UserLocation(
@@ -37,16 +37,16 @@ for this_user in users:
         user_id=this_user.id,
         logged_time=datetime.now(),
     )
-    session.add(loc_log)
+    db.add(loc_log)
 
-session.commit()
+db.commit()
 
-loc_log = session.query(models.UserLocation).all()
+loc_log = db.query(models.UserLocation).all()
 
 current_time = datetime.now(timezone.utc)
 print(current_time)
 valid_share_requests = (
-    session.query(models.LocationShareRequest)
+    db.query(models.LocationShareRequest)
     .filter(
         models.LocationShareRequest.request_team_id == UUID("1446e8a4-350c-4aa1-a997-c05fb87ef102"),
         models.LocationShareRequest.request_start_time < current_time,

@@ -17,5 +17,4 @@ class UserLocation(TTRLBase):
 
 
 class LocationShareRequest(BaseModel):
-    user_id: UUID
     request_team_id: UUID

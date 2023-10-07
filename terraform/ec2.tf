@@ -14,8 +14,8 @@ resource "aws_iam_policy" "ec2_policy" {
         "s3:ListBucket",
       ]
       Resource = [
-        resource.aws_s3_bucket.static_data_bucket.arn,
-        "${resource.aws_s3_bucket.static_data_bucket.arn}/*"
+        aws_s3_bucket.static_data_bucket.arn,
+        "${aws_s3_bucket.static_data_bucket.arn}/*"
       ]
       },
       {
@@ -45,7 +45,7 @@ resource "aws_iam_role" "ec2_role" {
       },
     ]
   })
-  managed_policy_arns = [resource.aws_iam_policy.ec2_policy.arn, "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+  managed_policy_arns = [aws_iam_policy.ec2_policy.arn, "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
 }
 
 resource "aws_security_group" "maintainer" {

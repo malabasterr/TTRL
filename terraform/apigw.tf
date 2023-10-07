@@ -21,7 +21,7 @@ module "api_gateway" {
   # Routes and integrations
   integrations = {
     "ANY /{proxy+}" = {
-      lambda_arn             = resource.aws_lambda_function.backend_lambda.arn
+      lambda_arn             = aws_lambda_function.backend_lambda.arn
       integration_type       = "AWS_PROXY"
       timeout_milliseconds   = 10000
       payload_format_version = "2.0"
@@ -35,8 +35,8 @@ module "api_gateway" {
       authorizer_type  = "JWT"
       identity_sources = "$request.header.Authorization"
       name             = "cognito"
-      audience         = [resource.aws_cognito_user_pool_client.this.id]
-      issuer           = "https://${resource.aws_cognito_user_pool.this.endpoint}"
+      audience         = [aws_cognito_user_pool_client.this.id]
+      issuer           = "https://${aws_cognito_user_pool.this.endpoint}"
     }
   }
 }

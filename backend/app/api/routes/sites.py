@@ -1,12 +1,15 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session
 
 from app import models
 from app.api import schemas
 from app.api.routes.teams import get_user_from_db
 from app.db.session import yield_db
+from app.utils import get_user_id_from_authorization
 
 router = APIRouter()
 
@@ -26,6 +29,39 @@ def list_bonus_sites(db: Session = Depends(yield_db)):
     return bonus_sites
 
 
+@router.get("/bonus-sites/claimed/", response_model=list[schemas.BonusSite])
+def list_claimed_sites(db: Session = Depends(yield_db)):
+    bonus_sites = (
+        db.query(models.BonusSite)
+        # Active claims only
+        .filter(models.BonusSite.claimed_by_teams.any(), models.BonusSiteClaim.is_active)
+        .order_by(models.BonusSite.site_name)
+        .all()
+    )
+    bonus_sites = [schemas.ClaimInfo.parse_claims(site) for site in bonus_sites]
+    return bonus_sites
+
+
+@router.get("/bonus-sites/unclaimed/", response_model=list[schemas.BonusSite])
+def list_unclaimed_sites(db: Session = Depends(yield_db)):
+    bonus_sites = (
+        db.query(models.BonusSite)
+        .join(models.BonusSiteClaim, isouter=True)
+        .filter(
+            or_(
+                # No claims
+                ~models.BonusSite.claimed_by_teams.any(),
+                # No active claims
+                and_(models.BonusSite.claimed_by_teams.any(), ~models.BonusSiteClaim.is_active),
+            )
+        )
+        .order_by(models.BonusSite.site_name)
+        .all()
+    )
+    bonus_sites = [schemas.ClaimInfo.parse_claims(site) for site in bonus_sites]
+    return bonus_sites
+
+
 @router.get("/bonus-sites/{site_id}", response_model=schemas.BonusSite)
 def get_bonus_site(site_id: UUID, db: Session = Depends(yield_db)):
     site = get_site_from_db(site_id, db)
@@ -36,8 +72,9 @@ def get_bonus_site(site_id: UUID, db: Session = Depends(yield_db)):
 
 
 @router.post("/bonus-sites/{site_id}/claim/")
-def claim_bonus_site(site_id: UUID, claim_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    user = get_user_from_db(claim_request.user_id, db)
+def claim_bonus_site(site_id: UUID, authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
+    user = get_user_from_db(user_id, db)
 
     site = get_site_from_db(site_id, db)
 
@@ -57,8 +94,9 @@ def claim_bonus_site(site_id: UUID, claim_request: schemas.ClaimRequest, db: Ses
 
 
 @router.post("/bonus-sites/{site_id}/unclaim/")
-def unclaim_bonus_site(site_id: UUID, claim_request: schemas.ClaimRequest, db: Session = Depends(yield_db)):
-    user = get_user_from_db(claim_request.user_id, db)
+def unclaim_bonus_site(site_id: UUID, authorization: Annotated[str | None, Header()], db: Session = Depends(yield_db)):
+    user_id = get_user_id_from_authorization(authorization)
+    user = get_user_from_db(user_id, db)
 
     site = get_site_from_db(site_id, db)
 
