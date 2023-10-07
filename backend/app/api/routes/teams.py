@@ -97,6 +97,8 @@ def get_team_routes(team_id: UUID, db: Session = Depends(yield_db)):
                 claim_time=relevant_team_claim.last_updated_time,
             )
         )
+
+    claimed_routes_response.sort(key=lambda claim: claim.claim_time)
     return claimed_routes_response
 
 
@@ -130,6 +132,7 @@ def get_team_sites(team_id: UUID, db: Session = Depends(yield_db)):
             )
         )
 
+    claimed_bonus_sites_response.sort(key=lambda claim: claim.claim_time)
     return claimed_bonus_sites_response
 
 
