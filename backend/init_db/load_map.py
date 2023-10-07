@@ -24,7 +24,7 @@ else:
 
 routes_df["distance"] = routes_df.apply(
     lambda row: round(
-        distance((row["start_longitude"], row["start_latitude"]), (row["end_longitude"], row["end_latitude"])).km
+        distance((row["start_latitude"], row["start_longitude"]), (row["end_latitude"], row["end_longitude"])).km
     ),
     axis=1,
 )

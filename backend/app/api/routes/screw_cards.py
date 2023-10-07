@@ -81,5 +81,5 @@ def get_drawn_screw_cards(authorization: Annotated[str | None, Header()], db: Se
         )
         for drawn_card in drawn_cards
     ]
-
+    drawn_card_response.sort(key=lambda card: card.draw_time, reverse=True)
     return drawn_card_response

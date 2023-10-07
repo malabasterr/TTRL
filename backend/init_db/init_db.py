@@ -39,7 +39,7 @@ def read_csv_data(csv_file):
 
 
 if __name__ == "__main__":
-    db = get_db(drop_existing=True)
+    db = get_db(drop_existing=False)
 
     data_dir = Path(__file__).parent / "data"
 
