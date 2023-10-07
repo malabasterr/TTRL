@@ -1,21 +1,20 @@
-  .custom-marker-icon .black-circle {
-    width: 6px;
-    height: 6px;
-    background-color: none;
-    border-radius: 50%;
-  }
+.custom-marker-icon .black-circle {
+  width: 6px;
+  height: 6px;
+  background-color: none;
+  border-radius: 50%;
+}
 
-  .user-marker-icon {
-    width: 5%;
-    height: 5%;
-    background-color: #CB9D45;
-    border-radius: 50%;
-  }
+.user-marker-icon {
+  width: 5%;
+  height: 5%;
+  background-color: #cb9d45;
+  border-radius: 50%;
+}
 
-  .bonusSites-marker-icon {
-    width: 2%;
-    height: 2%;
-    background-color: #ffcd00;
-    border-radius: 50%;
-  }
-  
+.bonusSites-marker-icon {
+  width: 2%;
+  height: 2%;
+  background-color: #ffcd00;
+  border-radius: 50%;
+}

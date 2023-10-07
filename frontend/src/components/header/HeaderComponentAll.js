@@ -1,6 +1,6 @@
-import React from 'react';
-import '../header/HeaderComponent.css';
-import Logo from '../images/Logo.png';
+import React from "react";
+import "../header/HeaderComponent.css";
+import Logo from "../images/Logo.png";
 
 function HeaderComponentAll() {
   return (
@@ -10,8 +10,12 @@ function HeaderComponentAll() {
           <img src={Logo} alt="Brand Logo" className="logo" />
         </a>
         <nav className="navbarRight">
-          <a href="/home" className="navButton">HOME</a>
-          <a href="/rules" className="navButton">INFO</a>
+          <a href="/home" className="navButton">
+            HOME
+          </a>
+          <a href="/rules" className="navButton">
+            INFO
+          </a>
         </nav>
       </div>
     </header>

@@ -1,31 +1,30 @@
-.backgroundHP{
-  background-color: #AAD3DF;
+.backgroundHP {
+  background-color: #aad3df;
 }
 
-.title{
-  color: #CB9D45;
+.title {
+  color: #cb9d45;
   -webkit-text-stroke: 2px black;
   text-shadow: 0px 2px 0px black;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 800;
   text-align: center;
   font-size: 5vh;
   padding: 2%;
 }
 
-.mapContainer{
-
+.mapContainer {
 }
 
-.totalDistancesContainer{
+.totalDistancesContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 2%;
 }
 
-.teamOneDistanceContainer{
-  background-color: #d5e7cf ;
+.teamOneDistanceContainer {
+  background-color: #d5e7cf;
   border-radius: 12px;
   padding: 2%;
   margin: 2%;
@@ -38,8 +37,8 @@
   align-items: center;
 }
 
-.teamTwoDistanceContainer{
-  background-color: #c5eeee ;
+.teamTwoDistanceContainer {
+  background-color: #c5eeee;
   border-radius: 12px;
   padding: 2%;
   margin: 2%;
@@ -52,8 +51,8 @@
   align-items: center;
 }
 
-.teamThreeDistanceContainer{
-  background-color: #efd1d1 ;
+.teamThreeDistanceContainer {
+  background-color: #efd1d1;
   border-radius: 12px;
   padding: 2%;
   margin: 2%;
@@ -67,8 +66,8 @@
   text-decoration: none;
 }
 
-.teamName{
-  font-family: 'Open Sans', sans-serif;
+.teamName {
+  font-family: "Open Sans", sans-serif;
   display: flex;
   flex: center;
   align-items: center;
@@ -76,8 +75,8 @@
   font-size: 2.3vh;
 }
 
-.teamDistance{
-  font-family: 'Open Sans', sans-serif;
+.teamDistance {
+  font-family: "Open Sans", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,13 +85,13 @@
   color: black;
 }
 
-.topLineButtons{
+.topLineButtons {
   display: flex;
   margin: 2%;
   margin-bottom: 3%;
 }
 
-.bottomLineButtons{
+.bottomLineButtons {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,122 +100,122 @@
   margin-top: 2%;
 }
 
-.claimRouteButtonContainer{
+.claimRouteButtonContainer {
   width: 65%;
   margin-left: 1.25%;
   margin-right: 1.25%;
 }
 
 .claimRouteButton {
-  background-color: #FFCD00 ;
+  background-color: #ffcd00;
   border-radius: 15px;
   border: 2px solid black;
   box-shadow: 0px 4px 0px black;
   padding: 3%;
   width: 100%;
   height: 9vh;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 2.3vh;
   transition: background-color 0.3s ease;
 }
 
 .claimRouteButton:hover {
-    background-color: #CB9D45;
-  }
+  background-color: #cb9d45;
+}
 
-.unclaimRouteButtonContainer{
+.unclaimRouteButtonContainer {
   width: 30%;
   margin-left: 1.25%;
   margin-right: 1.25%;
 }
 
-  .unclaimRouteButton {
-    background-color: #FFCD00 ;
-    border-radius: 15px;
-    border: 2px solid black;
-    box-shadow: 0px 4px 0px black;
-    padding: 3%;
-    width: 100%;
-    height: 9vh;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 1.7vh;
-    transition: background-color 0.3s ease;
+.unclaimRouteButton {
+  background-color: #ffcd00;
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0px 4px 0px black;
+  padding: 3%;
+  width: 100%;
+  height: 9vh;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 1.7vh;
+  transition: background-color 0.3s ease;
 }
 
 .unclaimRouteButton:hover {
-    background-color: #CB9D45;
-  }
+  background-color: #cb9d45;
+}
 
-.claimBonusSiteButtonContainer{
+.claimBonusSiteButtonContainer {
   margin-left: 1.17%;
   margin-right: 1.17%;
   width: 31%;
 }
 
-  .claimBonusSiteButton {
-    background-color: #FFCD00 ;
-    border-radius: 15px;
-    border: 2px solid black;
-    box-shadow: 0px 4px 0px black;
-    padding: 3%;
-    width: 100%;
-    height: 9vh;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 1.7vh;
-    transition: background-color 0.3s ease;
+.claimBonusSiteButton {
+  background-color: #ffcd00;
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0px 4px 0px black;
+  padding: 3%;
+  width: 100%;
+  height: 9vh;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 1.7vh;
+  transition: background-color 0.3s ease;
 }
 
 .claimBonusSiteButton:hover {
-    background-color: #CB9D45;
-  }
+  background-color: #cb9d45;
+}
 
-  .shareLocationButtonContainer{
-    margin-left: 1.17%;
-    margin-right: 1.17%;
-    width: 31%;
-  }
+.shareLocationButtonContainer {
+  margin-left: 1.17%;
+  margin-right: 1.17%;
+  width: 31%;
+}
 
-  .shareLocationButton {
-    background-color: #FFCD00 ;
-    border-radius: 15px;
-    border: 2px solid black;
-    box-shadow: 0px 4px 0px black;
-    padding: 3%;
-    width: 100%;
-    height: 9vh;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 1.7vh;
-    transition: background-color 0.3s ease;
+.shareLocationButton {
+  background-color: #ffcd00;
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0px 4px 0px black;
+  padding: 3%;
+  width: 100%;
+  height: 9vh;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 1.7vh;
+  transition: background-color 0.3s ease;
 }
 
 .shareLocationButton:hover {
-    background-color: #CB9D45;
-  }
+  background-color: #cb9d45;
+}
 
-  .drawScrewYouCardButtonContainer{
-    margin-left: 1.17%;
-    margin-right: 1.17%;
-    width: 31%;
-  }
+.drawScrewYouCardButtonContainer {
+  margin-left: 1.17%;
+  margin-right: 1.17%;
+  width: 31%;
+}
 
-  .drawScrewYouCardButton {
-    background-color: #FFCD00 ;
-    border-radius: 15px;
-    border: 2px solid black;
-    box-shadow: 0px 4px 0px black;
-    padding: 3%;
-    width: 100%;
-    height: 9vh;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 1.7vh;
-    transition: background-color 0.3s ease;
+.drawScrewYouCardButton {
+  background-color: #ffcd00;
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0px 4px 0px black;
+  padding: 3%;
+  width: 100%;
+  height: 9vh;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 1.7vh;
+  transition: background-color 0.3s ease;
 }
 
 .drawScrewYouCardButton:hover {
-    background-color: #CB9D45;
-  }
+  background-color: #cb9d45;
+}

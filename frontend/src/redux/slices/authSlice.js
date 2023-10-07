@@ -6,11 +6,9 @@ export const authSlice = createSlice({
     userData: { name: "", email: "" },
   },
   reducers: {
-
     updateData: (state, action) => {
       state.userData = action.payload;
     },
-
   },
 });
 
