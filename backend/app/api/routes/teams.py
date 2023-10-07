@@ -1,3 +1,4 @@
+import functools
 from typing import Annotated, Union
 from uuid import UUID
 
@@ -20,6 +21,7 @@ def get_team_from_db(team_id: UUID, db: Session):
     return team
 
 
+@functools.cache
 def get_user_from_db(user_id: UUID, db: Session):
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
