@@ -3,6 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./MapComponent.css";
 import base_url from "./config";
+import formatDateTime from "./utils";
 
 function MapComponent() {
   const [cityData, setCityData] = useState([]);
@@ -171,7 +172,15 @@ function MapComponent() {
                 },
               ).addTo(newMap);
               const userName = userNames[activeLocation.user_id];
-              userMarker.bindPopup(userName);
+              userMarker.bindPopup(`
+              <div>
+                <p>${userName}</p>
+                <p>Latitude: ${activeLocation.latitude}</p>
+                <p>Longitude: ${activeLocation.longitude}</p>
+                <p>Last Updated: ${formatDateTime(
+                  activeLocation.logged_time,
+                )}</p>
+              </div>`);
             });
           }
         } catch (error) {
