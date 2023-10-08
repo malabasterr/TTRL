@@ -54,7 +54,7 @@ resource "aws_cognito_user_pool_client" "this" {
 
   user_pool_id = aws_cognito_user_pool.this.id
 
-  callback_urls = ["http://localhost"]
+  callback_urls = ["https://${var.domain_name}/home"]
 
   explicit_auth_flows = [
     "ALLOW_CUSTOM_AUTH",
