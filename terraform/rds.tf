@@ -29,3 +29,11 @@ resource "aws_db_instance" "rds_instance" {
   parameter_group_name = aws_db_parameter_group.this.name
   apply_immediately    = true
 }
+
+resource "aws_secretsmanager_secret_rotation" "rds_instance" {
+  secret_id = aws_db_instance.rds_instance.master_user_secret[0].secret_arn
+
+  rotation_rules {
+    automatically_after_days = 999
+  }
+}
