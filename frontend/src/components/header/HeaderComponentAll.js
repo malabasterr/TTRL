@@ -2,7 +2,7 @@ import React from "react";
 import "../header/HeaderComponent.css";
 import Logo from "../images/Logo.png";
 
-function HeaderComponent({ logout }) {
+function HeaderComponentAll() {
   return (
     <header className="backgroundHD">
       <div className="containerHD">
@@ -16,13 +16,10 @@ function HeaderComponent({ logout }) {
           <a href="/rules" className="navButton">
             INFO
           </a>
-          <button className="specialnavButton" onClick={logout}>
-            LOGOUT
-          </button>
         </nav>
       </div>
     </header>
   );
 }
 
-export default HeaderComponent;
+export default HeaderComponentAll;

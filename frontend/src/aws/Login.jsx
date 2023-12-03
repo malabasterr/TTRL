@@ -13,8 +13,8 @@ import HeaderComponentLogin from "../components/header/HeaderComponentLogin";
 import "./styles/Login.scss";
 
 const userPool = new CognitoUserPool({
-  UserPoolId: 'eu-west-2_tCIJ3cao1',
-  ClientId: '7k34uusaan17621r0tkud0ojt6',
+  UserPoolId: "eu-west-2_tCIJ3cao1",
+  ClientId: "7k34uusaan17621r0tkud0ojt6",
 });
 
 const Login = () => {
@@ -34,22 +34,26 @@ const Login = () => {
 
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
+        localStorage.setItem("jwtToken", result.getAccessToken().getJwtToken());
+
         cognitoUser.getUserAttributes(function (err, result) {
           if (err) {
             console.log("err", err);
             return;
           }
+
           dispatch(
             updateData({
               name: result[2].Value,
               email: values.email,
-            })
+            }),
           );
           navigate("/home");
         });
       },
       onFailure: (err) => {
         console.log("login failed", err);
+        alert("Login failed. Please check your email and password.");
       },
     });
   };
@@ -69,7 +73,7 @@ const Login = () => {
 
   return (
     <>
-    <HeaderComponentLogin />
+      <HeaderComponentLogin />
       <div className="login__container">
         <div className="login__form" onSubmit={formik.handleSubmit}>
           <h1 className="signIn">Sign In</h1>

@@ -1,109 +1,159 @@
-.formBackgroundSY{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #AAD3DF;
+.formBackgroundSY {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #aad3df;
 }
 
-.formContainerSY{
-    width:90%;
-    margin: 2%;
-    min-height: 90vh;
+.formContainerSY {
+  width: 90%;
+  margin: 2%;
+  min-height: 90vh;
 }
 
 .mainButtonSY {
-    background-color: #ffcd00 ;
-    border-radius: 15px;
-    border: 2px solid black;
-    box-shadow: 0px 5px 0px black;
-    padding: 1.5%;
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 4vh;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-
+  background-color: #ffcd00;
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0px 5px 0px black;
+  padding: 1.5%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 4vh;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
 }
 
 .mainButtonSY:hover {
-    background-color: #CB9D45;
-    text-decoration: none;
-  }
-  
-  .mainButtonSY:active {
-    background-color: #CB9D45;
-    border: 2px solid black;
-    box-shadow: none;
-    transform: translateY(3px);
-    transition: transform 0.4s ease-in-out, box-shadow 0.2s ease-in-out;
-    text-decoration: none;
-  }
+  background-color: #cb9d45;
+  text-decoration: none;
+}
+
+.mainButtonSY:active {
+  background-color: #cb9d45;
+  border: 2px solid black;
+  box-shadow: none;
+  transform: translateY(3px);
+  transition:
+    transform 0.4s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+  text-decoration: none;
+}
 
 .formTitleSY {
-    font-family: 'Open Sans', sans-serif;
-    padding-bottom: 4%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ffcd00;
-    -webkit-text-stroke: 2px black;
-    font-weight: 800;
-    font-size: 6vh;
+  font-family: "Open Sans", sans-serif;
+  padding-bottom: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffcd00;
+  -webkit-text-stroke: 2px black;
+  font-weight: 800;
+  font-size: 6vh;
 }
 
 .formBoxSY {
-    background-color: #F8F5FF;
-    border: 1px solid black;
-    border-radius: 15px;
-    padding: 10px;
-    font-size: 4vh;
-    margin-bottom: 10px;
-    width: 100%;
+  background-color: #f8f5ff;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 4vh;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-.card{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    background-color: #AAD3DF;
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #aad3df;
 }
 
-.cardContainer{
-    width: 80%;
-    min-height: 53vh;
-    background-color: white ;
-    border-radius: 15px;
-    border: 4px solid black;
-    box-shadow: 0px 8px 0px black;
-    padding: 5%;
-    margin: 5%;
-    margin-bottom: 7%;
-    font-family: 'Open Sans', sans-serif;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+.cardContainer {
+  width: 80%;
+  min-height: 53vh;
+  background-color: white;
+  border-radius: 15px;
+  border: 4px solid black;
+  box-shadow: 0px 8px 0px black;
+  padding: 5%;
+  margin: 5%;
+  margin-bottom: 7%;
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-.cardTitle{
-    color: #CB9D45;
-    -webkit-text-stroke: 1.5px black;
-    font-weight: 800;
-    font-size: 5vh;
-    margin: 2%;
+.cardTitle {
+  color: #cb9d45;
+  -webkit-text-stroke: 1.5px black;
+  font-weight: 800;
+  font-size: 5vh;
+  margin: 2%;
 }
 
-.cardDescription{
-    font-weight: 100;
-    font-size: 3vh;
-    margin: 2%;
+.cardDescription {
+  font-weight: 100;
+  font-size: 3vh;
+  margin: 2%;
 }
 
 .link-buttonSY {
-    text-decoration: none;
-  }
+  text-decoration: none;
+}
+
+.drawHistoryTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 2.8vh;
+  color: black;
+  margin-right: 6%;
+  text-decoration: none;
+  padding-top: 15%;
+}
+
+.drawHistoryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+}
+
+.cardContainerH {
+  width: 70%;
+  min-height: 35vh;
+  background-color: white;
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0px 6px 0px black;
+  padding: 3.5%;
+  margin: 5%;
+  margin-bottom: 7%;
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cardTitleH {
+  color: #cb9d45;
+  -webkit-text-stroke: 1.5px black;
+  font-weight: 800;
+  font-size: 3vh;
+  margin: 2%;
+}
+
+.cardDescriptionH {
+  font-weight: 100;
+  font-size: 2vh;
+  margin: 2%;
+}

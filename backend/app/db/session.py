@@ -30,6 +30,12 @@ def get_database_uri():
     return db_uri
 
 
+database_uri = get_database_uri()
+engine = create_engine(database_uri)
+Base.metadata.create_all(bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
 def get_db(drop_existing=False):
     database_uri = get_database_uri()
     engine = create_engine(database_uri)
@@ -42,13 +48,7 @@ def get_db(drop_existing=False):
 
 
 def yield_db():
-    database_uri = get_database_uri()
-    engine = create_engine(database_uri)
-    Base.metadata.create_all(bind=engine)
-
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     db_session = SessionLocal()
-
     try:
         yield db_session
     finally:

@@ -1,88 +1,137 @@
-import React, { useState, useEffect } from 'react';
-import './FormPages.css';
-import { Link } from 'react-router-dom';
-import HeaderComponent from '../../components/header/HeaderComponent';
-import Select from 'react-select';
+import React, { useState, useEffect } from "react";
+import "./FormPages.css";
+import { Link } from "react-router-dom";
+import HeaderComponentAll from "../../components/header/HeaderComponentAll";
+import Select from "react-select";
+import base_url from "../../components/config";
 
 function ClaimBonusSitePage() {
   const [bonusSites, setBonusSites] = useState([]);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [selectedBonusSite, setSelectedBonusSite] = useState(null);
+  const jwtToken = localStorage.getItem("jwtToken");
 
   async function fetchBonusSites() {
     try {
-      const response = await fetch('/bonus-sites/');
+      const response = await fetch(`${base_url}/bonus-sites/`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
       if (!response.ok) {
-        throw new Error('Failed to fetch bonus sites data');
+        throw new Error("Failed to fetch bonus sites data");
       }
 
       const data = await response.json();
       setBonusSites(data);
     } catch (error) {
-      console.error('Error fetching bonus sites:', error);
+      console.error("Error fetching bonus sites:", error);
     }
   }
 
   useEffect(() => {
     fetchBonusSites();
-  }, []);
+  }, [jwtToken]);
 
   const handleBonusSiteSelect = (selectedOption) => {
     setSelectedBonusSite(selectedOption.value);
   };
 
- const claimBonusSite = async () => {
-  if (selectedBonusSite) {
+  async function fetchLoggedInUser() {
     try {
-      const requestData = {
-        team_id: "1446e8a4-350c-4aa1-a997-c05fb87ef102",
-        user_id: "c682f244-9001-700c-084b-a077d902ad51", 
-      };
-
-      const response = await fetch(`/bonus-sites/${selectedBonusSite.id}/claim/`, {
-        method: 'POST',
+      const response = await fetch(`${base_url}/users/me/`, {
         headers: {
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
         },
-        body: JSON.stringify(requestData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to claim bonus site');
+        throw new Error("Failed to fetch logged in user data");
       }
 
-      console.log('Bonus site claimed successfully');
+      const data = await response.json();
+      setLoggedInUserId(data.id);
     } catch (error) {
-      console.error('Error claiming bonus site:', selectedBonusSite.id, error);
+      console.error("Error fetching logged in user data:", error);
     }
-  } else {
-    console.error('No bonus site selected to claim');
   }
-};
 
-return (
-  <>
-      <HeaderComponent />
-      <div className='formBackground'>
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, [jwtToken]);
+
+  const claimBonusSite = async () => {
+    if (selectedBonusSite) {
+      try {
+        const requestData = {
+          user_id: loggedInUserId,
+        };
+
+        const response = await fetch(
+          `${base_url}/bonus-sites/${selectedBonusSite.id}/claim/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+            body: JSON.stringify(requestData),
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to claim bonus site");
+        }
+
+        console.log("Bonus site claimed successfully");
+        alert("Bonus Site claimed successfully");
+      } catch (error) {
+        console.error(
+          "Error claiming bonus site:",
+          selectedBonusSite.id,
+          error,
+        );
+      }
+    } else {
+      console.error("No bonus site selected to claim");
+      alert("No Bonus Site selected to claim");
+    }
+  };
+
+  return (
+    <>
+      <HeaderComponentAll />
+      <div className="formBackground">
         <div className="formContainer">
           <div className="claimRouteTitleContainer">
-            <label className='formTitle'>Claim a Bonus Site</label>
+            <label className="formTitle">Claim a Bonus Site</label>
           </div>
 
           <Select
-            className='dropdown-basic'
+            className="dropdown-basic"
             options={bonusSites.map((bonusSite) => ({
               value: bonusSite,
               label: bonusSite.site_name,
             }))}
-            value={selectedBonusSite ? { value: selectedBonusSite, label: selectedBonusSite.site_name } : null}
+            value={
+              selectedBonusSite
+                ? {
+                    value: selectedBonusSite,
+                    label: selectedBonusSite.site_name,
+                  }
+                : null
+            }
             onChange={(selectedOption) => handleBonusSiteSelect(selectedOption)}
             placeholder="Select Bonus Site"
             isSearchable={true}
           />
 
           <div className="mainButtonContainer">
-            <Link className="link-button" to="/Home">
-              <button className="mainButton" onClick={claimBonusSite}>CLAIM</button>
+            <Link className="link-button" to="/home">
+              <button className="mainButton" onClick={claimBonusSite}>
+                CLAIM
+              </button>
             </Link>
           </div>
         </div>

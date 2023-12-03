@@ -1,11 +1,13 @@
-import React from 'react';
-import HeaderComponent from "../components/header/HeaderComponent";
+import React from "react";
+import HeaderComponentAll from "../components/header/HeaderComponentAll";
 
 function Error() {
   return (
-    <><HeaderComponent />
-    <div>Error - PAGE NOT FOUND</div></>
-  )
+    <>
+      <HeaderComponentAll />
+      <div>Error - PAGE NOT FOUND</div>
+    </>
+  );
 }
 
-export default Error
+export default Error;

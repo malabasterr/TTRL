@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const claimedRoutesSlice = createSlice({
-  name: 'claimedRoutes',
+  name: "claimedRoutes",
   initialState: {},
   reducers: {
     updateClaimedRoute: (state, action) => {
