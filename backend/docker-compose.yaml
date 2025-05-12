@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   backend:
-    image: ttrl-app-backend
+    image: actg-app-backend
     ports:
       - 8000:8000
     environment:
@@ -15,7 +15,7 @@ services:
       COGNITO_USER_POOL_ID: ${COGNITO_USER_POOL_ID}
 
   db:
-    image: postgres
+    image: postgres:17.4
     restart: always
     environment:
       - POSTGRES_USER=${DB_USER}
@@ -24,7 +24,7 @@ services:
       - 5432:5432
 
   adminer:
-    image: adminer
+    image: adminer:5.2.1
     restart: always
     depends_on:
       - db

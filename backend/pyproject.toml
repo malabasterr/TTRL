@@ -3,7 +3,7 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ttrl_api"
+name = "actg_api"
 authors = [
     {name = "Will Parr", email = ""},
 ]

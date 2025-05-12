@@ -2,12 +2,12 @@
 <html>
 <body>
 <p>Hi!</p>
-<p>This is your account information for the TTRL Live App.</p>
+<p>This is your account information for the ACTG Live App.</p>
 <p>Your username is: {username}
 <br>
 and temporary password is: {####}</p>
 <p>You will be asked to change your password at first login.</p>
 <p>Cheers, <br>
-The TTRL App Team</p>
+The ACTG App Team</p>
 </body>
 </html>
