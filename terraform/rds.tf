@@ -1,6 +1,6 @@
 resource "aws_db_parameter_group" "this" {
   name_prefix = "pg-max-connections"
-  family      = "postgres15"
+  family      = "postgres17"
 
   parameter {
     name         = "max_connections"
@@ -18,7 +18,7 @@ resource "aws_db_instance" "rds_instance" {
   instance_class              = "db.t4g.micro"
   allocated_storage           = 20
   engine                      = "postgres"
-  engine_version              = "15.4"
+  engine_version              = "17.4"
   username                    = "postgres"
   db_name                     = "postgres"
   manage_master_user_password = true

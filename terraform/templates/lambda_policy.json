@@ -3,11 +3,6 @@
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": "cognito-idp:GetUser",
-      "Resource": "${cognito_user_pool_arn}"
-    },
-    {
-      "Effect": "Allow",
       "Action": [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
@@ -29,7 +24,7 @@
     {
       "Effect": "Allow",
       "Action": ["s3:GetObject"],
-      "Resource": "${static_data_bucket}/jwks.json"
+      "Resource": "${static_data_bucket}/firebase/*"
     }
   ]
 }

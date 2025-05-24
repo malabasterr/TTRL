@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app import models
 from app.api import schemas
 from app.db.session import yield_db
-from app.utils.decode_verify_jwt import get_user_id_from_authorization
+from app.utils import get_user_id_from_authorization
 
 router = APIRouter()
 

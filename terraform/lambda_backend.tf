@@ -18,16 +18,16 @@ data "aws_secretsmanager_secret_version" "rds_password" {
   secret_id = data.aws_secretsmanager_secret.rds_password.id
 }
 
-resource "aws_lambda_function" "backend_lambda" {
+resource "aws_lambda_function" "lambda_backend" {
   function_name = "${local.app_name}-lambda"
 
   package_type  = "Image"
   image_uri     = "${module.ecr.repository_url}:latest"
   memory_size   = 256
   timeout       = 10
-  architectures = ["arm64"]
+  architectures = ["x86_64"]
 
-  role = aws_iam_role.backend_lambda.arn
+  role = aws_iam_role.lambda_backend.arn
 
   environment {
     variables = {
@@ -38,7 +38,7 @@ resource "aws_lambda_function" "backend_lambda" {
       DB_NAME     = aws_db_instance.rds_instance.db_name
 
       STATIC_DATA_BUCKET_NAME = aws_s3_bucket.static_data_bucket.id
-      COGNITO_APP_CLIENT_ID   = aws_cognito_user_pool_client.this.id
+      FIREBASE_PROJECT_ID     = var.firebase_project_id
     }
   }
 
@@ -49,26 +49,28 @@ resource "aws_lambda_function" "backend_lambda" {
 }
 
 
-resource "aws_iam_policy" "backend_lambda" {
+resource "aws_iam_policy" "lambda_backend" {
   name = "${local.app_name}-lambda-policy"
   policy = templatefile("${path.module}/templates/lambda_policy.json", {
-    cognito_user_pool_arn = aws_cognito_user_pool.this.arn
-    static_data_bucket    = aws_s3_bucket.static_data_bucket.arn
+    static_data_bucket = aws_s3_bucket.static_data_bucket.arn
     }
   )
 }
 
-resource "aws_iam_role" "backend_lambda" {
-  name = "${local.app_name}-lambda-role"
+resource "aws_iam_role" "lambda_backend" {
+  name               = "${local.app_name}-lambda-role"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume_policy.json
+}
 
-  assume_role_policy  = data.aws_iam_policy_document.lambda_assume_policy.json
-  managed_policy_arns = [aws_iam_policy.backend_lambda.arn]
+resource "aws_iam_role_policy_attachment" "lambda_backend" {
+  role       = aws_iam_role.lambda_backend.name
+  policy_arn = resource.aws_iam_policy.lambda_backend.arn
 }
 
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.backend_lambda.function_name
+  function_name = aws_lambda_function.lambda_backend.function_name
   principal     = "apigateway.amazonaws.com"
 
   # The /*/*/* part allows invocation from any stage, method and resource path

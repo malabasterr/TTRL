@@ -1,9 +1,9 @@
 import datetime
 
-from app.api.schemas.base import TTRLBase
+from app.api.schemas.base import ModelBase
 
 
-class ScrewCard(TTRLBase):
+class ScrewCard(ModelBase):
     title: str
     description: str
 

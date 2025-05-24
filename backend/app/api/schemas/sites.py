@@ -1,11 +1,11 @@
 from datetime import datetime
 from uuid import UUID
 
-from app.api.schemas.base import TTRLBase
+from app.api.schemas.base import ModelBase
 from app.api.schemas.generic import ClaimInfo
 
 
-class BonusSiteBase(TTRLBase):
+class BonusSiteBase(ModelBase):
     site_name: str
     city: str
     country: str

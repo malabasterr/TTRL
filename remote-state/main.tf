@@ -14,7 +14,7 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraform-state-bucket-nzzxabsgro"
+  bucket = "terraform-state-bucket-actg"
 
   lifecycle {
     prevent_destroy = true
@@ -30,10 +30,9 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
 }
 
 resource "aws_dynamodb_table" "terraform_state_lock" {
-  name           = "terraform-state"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "LockID"
+  name         = "terraform-state-actg"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
 
   attribute {
     name = "LockID"

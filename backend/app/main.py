@@ -28,6 +28,7 @@ async def root():
     return {"message": "Hello /"}
 
 
+# Debugging purposes only.
 @app.api_route("/{full_path:path}", methods=["GET"])
 async def capture_routes(request: Request, full_path: str):
     url = request.url

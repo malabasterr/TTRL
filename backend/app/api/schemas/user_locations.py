@@ -3,10 +3,10 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from app.api.schemas.base import TTRLBase
+from app.api.schemas.base import ModelBase
 
 
-class UserLocation(TTRLBase):
+class UserLocation(ModelBase):
     user_id: UUID
     latitude: float
     longitude: float

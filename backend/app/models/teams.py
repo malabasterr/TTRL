@@ -53,4 +53,5 @@ class User(Base):
     team_id = Column(UUID(as_uuid=True), ForeignKey("teams.id"))
     given_name = Column(String(100), nullable=False)
     family_name = Column(String(100), nullable=False)
+    firebase_uid = Column(String(100), nullable=False)
     team = relationship("Team", back_populates="users")

@@ -1,7 +1,7 @@
-variable "cognito_email_address" {
+variable "firebase_project_id" {
   type = string
 }
 
-variable "domain_name" {
-  type = string
-}
+# variable "domain_name" {
+#   type = string
+# }

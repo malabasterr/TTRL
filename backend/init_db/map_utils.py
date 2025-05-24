@@ -54,7 +54,7 @@ class Route:
 
 
 def load_kml_map(kml_file: Path):
-    geolocator = Nominatim(user_agent="ttrl")
+    geolocator = Nominatim(user_agent="actg")
 
     with open(kml_file, "rt", encoding="utf-8") as myfile:
         doc = myfile.read()

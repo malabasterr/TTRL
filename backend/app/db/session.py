@@ -9,7 +9,7 @@ from app.models.base import Base
 def get_database_uri():
     DB_DATA_KEYS = ["DB_USER", "DB_PASSWORD", "DB_HOST", "DB_PORT", "DB_NAME"]
 
-    template_string = "postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    template_string = "postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=require"
 
     db_conn_data = {}
     missing_keys = []

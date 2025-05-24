@@ -3,103 +3,80 @@ import os
 import urllib.request
 from datetime import datetime, timezone
 from typing import Optional
-from uuid import UUID
+from uuid import NAMESPACE_URL, UUID, uuid5
 
-from jose import jwk, jwt
-from jose.utils import base64url_decode
+from cryptography.hazmat.backends import default_backend
+from cryptography.x509 import load_pem_x509_certificate
+from jose import jwt
 
 IN_LAMBDA = os.getenv("AWS_LAMBDA_FUNCTION_NAME") is not None
-APP_CLIENT_ID = os.getenv("COGNITO_APP_CLIENT_ID")
-if APP_CLIENT_ID is None:
-    raise ValueError("'APP_CLIENT_ID' environment variable not set")
+FIREBASE_PROJECT_ID = os.getenv("FIREBASE_PROJECT_ID")
+if FIREBASE_PROJECT_ID is None:
+    raise ValueError("'FIREBASE_PROJECT_ID' environment variable not set")
 
 
-def get_cognito_public_key():
-    REGION = os.getenv("AWS_REGION")
-    USERPOOL_ID = os.getenv("COGNITO_USER_POOL_ID")
-
-    if USERPOOL_ID is None or REGION is None:
-        raise ValueError("'USERPOOL_ID' and 'REGION' environment variables not set")
-    PUB_KEYS_URL = f"https://cognito-idp.{REGION}.amazonaws.com/{USERPOOL_ID}/.well-known/jwks.json"
-
-    with urllib.request.urlopen(PUB_KEYS_URL) as f:
-        response = f.read()
-    keys = json.loads(response.decode("utf-8"))["keys"]
-
-    return keys
+def get_firebase_cert_map():
+    CERTS_URL = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    with urllib.request.urlopen(CERTS_URL) as f:
+        certs = json.loads(f.read().decode("utf-8"))
+    return certs  # dict {kid: x509 cert PEM string}
 
 
-def get_user_id_from_authorization(authorization: str) -> Optional[UUID]:
+def firebase_uid_to_uuid(firebase_uid: str) -> UUID:
+    return uuid5(NAMESPACE_URL, f"https://firebase.google.com/uid/{firebase_uid}")
+
+
+def get_user_id_from_authorization(authorization: str) -> Optional[str]:
     token = authorization.split(" ")[1]
-    # If in lambda, don't verify token as it's already verified via APIGW
-    # We're also in VPC and unable to access jwks.json.
+    # Skip verification if in Lambda behind APIGW
     if IN_LAMBDA:
         verify_jwt = False
     else:
         verify_jwt = True
-    username = _verify_token_and_get_username(token, verify_jwt)
-    if username is None:
-        return None
 
-    return UUID(username)
+    firebase_uid = _verify_token_and_get_uid(token, verify_jwt)
+    return firebase_uid_to_uuid(firebase_uid)
 
 
-def _verify_token_and_get_username(token: str, verify_jwt=True) -> Optional[str]:
+def _verify_token_and_get_uid(token: str, verify_jwt=True) -> Optional[str]:
     if verify_jwt:
-        keys = get_cognito_public_key()
-        # get the kid from the headers prior to verification
+        certs = get_firebase_cert_map()
         headers = jwt.get_unverified_headers(token)
-
-        kid = headers["kid"]
-        # search for the kid in the downloaded public keys
-        key_index = -1
-        for i in range(len(keys)):
-            if kid == keys[i]["kid"]:
-                key_index = i
-                break
-        if key_index == -1:
-            print("Public key not found in jwks.json")
+        kid = headers.get("kid")
+        if not kid or kid not in certs:
+            print("Public cert not found for given kid")
             return None
 
-        # construct the public key
-        public_key = jwk.construct(keys[key_index])
+        cert_pem = certs[kid]
+        cert = load_pem_x509_certificate(cert_pem.encode("utf-8"), default_backend())
+        public_key = cert.public_key()
 
-        # get the last two sections of the token,
-        # message and signature (encoded in base64)
-        message, encoded_signature = str(token).rsplit(".", 1)
-
-        # decode the signature
-        decoded_signature = base64url_decode(encoded_signature.encode("utf-8"))
-
-        # verify the signature
-        if not public_key.verify(message.encode("utf8"), decoded_signature):
-            print("Signature verification failed")
+        try:
+            claims = jwt.decode(
+                token,
+                public_key,
+                algorithms=["RS256"],
+                audience=FIREBASE_PROJECT_ID,
+                issuer=f"https://securetoken.google.com/{FIREBASE_PROJECT_ID}",
+            )
+        except Exception as e:
+            print(f"JWT decode/verify failed: {e}")
             return None
+    else:
+        claims = jwt.get_unverified_claims(token)
 
-    # since we passed the verification, we can now safely use the unverified claims
-    # In the case of verify_jwt=False, we assume the token is already validated (e.g. via APIGW)
-    claims = jwt.get_unverified_claims(token)
-
-    # Validate App Client ID
-    if claims["client_id"] != APP_CLIENT_ID:
-        print("Client IDs do not match")
-        return None
-
-    # Verify Expiry
-    expiry = datetime.fromtimestamp(claims["exp"]).replace(tzinfo=timezone.utc)
+    # Verify expiry manually (just in case)
+    expiry = datetime.fromtimestamp(claims["exp"], tz=timezone.utc)
     if expiry < datetime.now(timezone.utc):
-        print(f"Token has expired at {expiry.isoformat()}")
+        print(f"Token expired at {expiry.isoformat()}")
         return None
 
-    # Get Username
-    username = claims["username"]
-    return username
+    return claims.get("user_id")
 
 
 if __name__ == "__main__":
-    # for testing locally
     from getpass import getpass
 
-    token = getpass()
-    username = _verify_token_and_get_username(token)
-    print(username)
+    token = getpass("Paste Firebase token: ")
+    uid = _verify_token_and_get_uid(token)
+    print(f"UID: {uid}")

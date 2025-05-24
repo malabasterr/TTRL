@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.models import BonusSite, City, Route, ScrewCard, Team, User
+from app.utils.decode_verify_jwt import firebase_uid_to_uuid
 
 
 def seed_data_generic(db: Session, model_cls, data_list, row_parse_function=None, model_cls_kwargs={}):
@@ -57,6 +58,11 @@ if __name__ == "__main__":
         row["is_starter_city"] = row["is_starter_city"] == "True"
         return row
 
+    def parse_user_row(row):
+        row["firebase_uid"] = row["id"]
+        row["id"] = firebase_uid_to_uuid(row["id"])
+        return row
+
     def parse_site_row(row):
         row["site_name"] = row.pop("location_name")
         row["city"] = row.pop("name")
@@ -75,7 +81,7 @@ if __name__ == "__main__":
 
         # Seed users
         user_data = read_csv_data(data_dir / "users.csv")
-        seed_data_generic(db, User, user_data)
+        seed_data_generic(db, User, user_data, row_parse_function=parse_user_row)
 
         # Seed cities
         city_data = read_csv_data(data_dir / "cities.csv")

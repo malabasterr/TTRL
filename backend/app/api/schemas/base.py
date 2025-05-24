@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict
 
 
-class TTRLBase(BaseModel):
+class ModelBase(BaseModel):
     id: UUID
 
     model_config = ConfigDict(from_attributes=True)

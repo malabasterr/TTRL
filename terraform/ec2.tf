@@ -45,7 +45,16 @@ resource "aws_iam_role" "ec2_role" {
       },
     ]
   })
-  managed_policy_arns = [aws_iam_policy.ec2_policy.arn, "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_role_ssm_managed" {
+  role       = aws_iam_role.lambda_backend.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_role_ec2_policy" {
+  role       = aws_iam_role.lambda_backend.name
+  policy_arn = aws_iam_policy.ec2_policy.arn
 }
 
 resource "aws_security_group" "maintainer" {
@@ -60,6 +69,13 @@ resource "aws_security_group" "maintainer" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # ingress {
+  #   description = "SSH - Temp"
+  #   from_port   = 22
+  #   to_port     = 22
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["86.178.251.224/32"]
+  # }
 
   egress {
     description = "All traffic"
@@ -78,8 +94,9 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
 }
 
 resource "aws_instance" "maintainer" {
-  ami                    = "ami-062e2126de74d709f"
+  ami                    = "ami-0f427628f04bdeff0"
   instance_type          = "t4g.micro"
   iam_instance_profile   = aws_iam_instance_profile.ec2_instance_profile.name
   vpc_security_group_ids = [aws_security_group.maintainer.id, data.aws_security_group.default.id]
+  key_name               = "actg-maintainer"
 }

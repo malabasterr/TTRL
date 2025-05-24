@@ -1,7 +1,7 @@
-from app.api.schemas.base import TTRLBase
+from app.api.schemas.base import ModelBase
 
 
-class City(TTRLBase):
+class City(ModelBase):
     location_name: str
     name: str
     country: str
